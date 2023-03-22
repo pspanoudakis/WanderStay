@@ -31,21 +31,21 @@ services:
 #     networks:
 #       - local-net
   
-#   api:
-#     build: 
-#       context: ./back-end/api
-#     container_name: api-container
-#     depends_on:
-#       - database
-#     environment:
-#       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/activitiesDB
-#       - SPRING_DATASOURCE_USERNAME=postgres
-#       - SPRING_DATASOURCE_PASSWORD=Loukas438
-#       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#     ports:
-#       - '8070:8070'
-#     networks:
-#       - local-net
+  server-app:
+    build: 
+      context: ./server-app
+    container_name: server-app-container
+    # depends_on:
+    #   - database
+    # environment:
+    #   - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/activitiesDB
+    #   - SPRING_DATASOURCE_USERNAME=postgres
+    #   - SPRING_DATASOURCE_PASSWORD=Loukas438
+    #   - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - '8080:8080'
+    networks:
+      - local-net
 
 # volumes:
 #   db:
