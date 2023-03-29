@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.backend.server.config.jwt.JwtAuthFilter;
 
@@ -22,9 +25,23 @@ public class SecurityConfiguration {
     private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry
+                    .addMapping("/**")
+                    .exposedHeaders(CorsConfiguration.ALL, "Authentication")
+                    .allowedOriginPatterns(CorsConfiguration.ALL)
+                    .allowedMethods(CorsConfiguration.ALL);
+            }
+        };
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            // Disabling CORS and CSRF
+            // Enable CORS and Disable CSRF
             .cors()
             .and()
             .csrf()
