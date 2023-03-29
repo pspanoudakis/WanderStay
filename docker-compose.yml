@@ -2,54 +2,54 @@ version: "3"
 
 services:
 
-  client-app:
-    build:
-      context: ./client-app
-    container_name: client-app-container
-    stdin_open: true
-    volumes:
-      - ./client-app:/app/client-app
-      - /app/client-app/node_modules
-    ports:
-      - '3000:3000'
-    # env_file:
-    #   - ./google-project-key.env
+  # client-app:
+  #   build:
+  #     context: ./client-app
+  #   container_name: client-app-container
+  #   stdin_open: true
+  #   volumes:
+  #     - ./client-app:/app/client-app
+  #     - /app/client-app/node_modules
+  #   ports:
+  #     - '3000:3000'
+  #   # env_file:
+  #   #   - ./google-project-key.env
 
-#   database:
-#     image: postgres:14-alpine
-#     restart: always
-#     container_name: database-container
-#     environment:
-#       - POSTGRES_USER=postgres
-#       - POSTGRES_PASSWORD=Loukas438
-#       - POSTGRES_DB=activitiesDB
-#     ports:
-#       - '5432:5432'
-#     volumes:
-#       - db:/var/lib/postgresql/data
-#       - ./db/db_data.sql:/docker-entrypoint-initdb.d/crate_tables.sql
-#     networks:
-#       - local-net
+  database:
+    image: postgres:15-alpine
+    restart: always
+    container_name: db-container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=appbase
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./db/db_data.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - local-net
   
   server-app:
     build: 
       context: ./server-app
     container_name: server-app-container
-    # depends_on:
-    #   - database
-    # environment:
-    #   - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/activitiesDB
-    #   - SPRING_DATASOURCE_USERNAME=postgres
-    #   - SPRING_DATASOURCE_PASSWORD=Loukas438
-    #   - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/appbase
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - '8080:8080'
     networks:
       - local-net
 
-# volumes:
-#   db:
-#     driver: local
+volumes:
+  db:
+    driver: local
 
 networks:
   local-net:
