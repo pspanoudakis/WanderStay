@@ -49,9 +49,13 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: color 0.25s;
+  transition: border-color 0.25s, color 0.25s;
 }
-button:hover {
+button:disabled {
+  color: #545454;
+}
+button:enabled:hover {
   border-color: #168ca7;
 }
 button:focus,
