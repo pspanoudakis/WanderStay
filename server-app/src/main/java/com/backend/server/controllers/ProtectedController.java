@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/demo")
+@RequestMapping("/protected")
 @RequiredArgsConstructor
-public class DemoController {
-    
+public class ProtectedController {
+
     @GetMapping("/hello")
     public ResponseEntity<String> helloNum(@RequestParam(value = "num", defaultValue = "0") String num) {
         return ResponseEntity.ok("*Hello " + num + "*");
     }
-    
+
 }
