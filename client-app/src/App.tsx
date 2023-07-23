@@ -4,7 +4,7 @@ import './App.css';
 // const sampleRequestText = JSON.stringify({"username":"pavlos", "password":"pavlos"}, null, "\t");
 
 export function App() {
-	const DOMAIN_URL = 'http://localhost:8080/';
+	const DOMAIN_URL = 'https://localhost:8080/';
 	enum HTTP_METHOD {
 		GET = "GET",
 		POST = "POST"

@@ -49,11 +49,11 @@ public class JwtAuthFilter extends OncePerRequestFilter{
             
             if (jwtService.isJwtValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken token = 
-                new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-                );
+                    new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                    );
                 token.setDetails(
                     new WebAuthenticationDetailsSource()
                         .buildDetails(request)
