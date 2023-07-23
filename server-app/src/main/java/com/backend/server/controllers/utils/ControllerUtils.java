@@ -9,15 +9,14 @@ public final class ControllerUtils {
     public static <T extends ApiResponse> ResponseEntity<T> responseFactory(T res) {
         if (res.isOk()) {
             return ResponseEntity.ok(res);
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
         }
     }
 
     public static <T extends ApiResponse> ResponseEntity<T> responseFactory(ThrowingSupplier<T> fn) {
         try {
-            T res = fn.get();            
+            T res = fn.get();
             return ControllerUtils.responseFactory(res);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

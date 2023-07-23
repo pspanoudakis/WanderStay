@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/protected")
 @RequiredArgsConstructor
 public class ProtectedController {
-    
+
     @GetMapping("/hello")
     public ResponseEntity<String> helloNum(@RequestParam(value = "num", defaultValue = "0") String num) {
         return ResponseEntity.ok("*Hello " + num + "*");
     }
-    
+
 }

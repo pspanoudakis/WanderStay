@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/public")
 @RequiredArgsConstructor
 public class PublicController {
-    
+
     @GetMapping("/hello")
     public ResponseEntity<String> helloNum(@RequestParam(value = "num", defaultValue = "0") String num) {
         return ResponseEntity.ok("*Hello " + num + "*");

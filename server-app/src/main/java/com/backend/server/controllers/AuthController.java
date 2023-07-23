@@ -29,5 +29,5 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) {
         return ControllerUtils.responseFactory(() -> authService.login(request));
-    }    
+    }
 }
