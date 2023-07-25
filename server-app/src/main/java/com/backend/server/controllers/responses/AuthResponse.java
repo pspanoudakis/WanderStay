@@ -1,7 +1,7 @@
 package com.backend.server.controllers.responses;
 
 import com.backend.server.controllers.utils.ApiResponse;
-import com.backend.server.entities.user.User;
+import com.backend.server.entities.users.User;
 
 import lombok.Builder;
 import lombok.Getter;
