@@ -41,24 +41,29 @@ export function SearchBar() {
     return (
         <div className='
             bg-white text-main-petrol border-2 
-            border-main-petrol w-1/2 flex items-center 
+            border-main-petrol w-2/3 flex items-center 
             justify-between rounded-full
         '>
             <div className='flex justify-start items-center gap-1 p-2'>
                 <FontAwesomeIcon icon={faLocationDot} size='lg' />
                 <Autocomplete
-                    placeholder="Combo box"
+                    placeholder="Χώρα"
+                    options={countryOptions}
+                    sx={{ width: 150 }}
+                />
+                <Autocomplete
+                    placeholder="Πόλη"
                     options={countryOptions}
                     sx={{ width: 150 }}
                 />
             </div>
-            <div className='flex justify-start items-center gap-1 p-2 border-l-2 border-l-main-petrol'>
+            <div className='flex justify-start items-center gap-1 p-2 border-l-2 border-r-2 border-l-main-petrol border-r-main-petrol'>
                 <FontAwesomeIcon icon={faCalendarDays} size='lg' />
                 <LocalizationProvider dateAdapter={AdapterDayjs} >
                     <DateRangePicker value={[dayjs(dateRange.from), dayjs(dateRange.to)]} onChange={(v) => dateRangeOnChange(v)} localeText={{ start: 'Check-in', end: 'Check-out' }} />
                 </LocalizationProvider>
             </div>
-            <div className='flex justify-start items-center gap-1 p-2 border-l-2 border-l-main-petrol'>
+            <div className='flex justify-start items-center gap-1 p-2'>
                 <FontAwesomeIcon icon={faUserGroup} size='lg' />
                 <button className='bg-white rounded-full h-fit p-1' onClick={() => setPeopleCounter(peopleCounter - 1)} disabled={peopleCounter <= 1 ? true : false}><FontAwesomeIcon icon={faCaretDown} /></button>
                 <p>{peopleCounter}</p>
