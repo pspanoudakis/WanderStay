@@ -49,7 +49,10 @@ public class SecurityConfiguration {
             
             // *Whitelist* these requests
             .authorizeHttpRequests()
-            .requestMatchers("/test/**")
+            .requestMatchers(
+                "/auth/**",
+                "/public/**"
+            )
             .permitAll()
 
             // Authenticate all the other requests
