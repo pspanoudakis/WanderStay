@@ -315,6 +315,17 @@ ALTER SEQUENCE public._reservations_id_seq OWNED BY public._reservations.id;
 
 
 --
+-- Name: _roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._roles (
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public._roles OWNER TO postgres;
+
+--
 -- Name: _users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -322,12 +333,23 @@ CREATE TABLE public._users (
     username character varying(255) NOT NULL,
     email character varying(255),
     password character varying(255) NOT NULL,
-    role character varying(255),
     image_id bigint
 );
 
 
 ALTER TABLE public._users OWNER TO postgres;
+
+--
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_roles (
+    user_username character varying(255) NOT NULL,
+    roles_name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.user_roles OWNER TO postgres;
 
 --
 -- Name: _available_time_slots id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -475,10 +497,26 @@ COPY public._reservations (id, guest_username, property_id) FROM stdin;
 
 
 --
+-- Data for Name: _roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._roles (name) FROM stdin;
+\.
+
+
+--
 -- Data for Name: _users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._users (username, email, password, role, image_id) FROM stdin;
+COPY public._users (username, email, password, image_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_roles (user_username, roles_name) FROM stdin;
 \.
 
 
@@ -612,6 +650,14 @@ ALTER TABLE ONLY public._reservations
 
 
 --
+-- Name: _roles _roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._roles
+    ADD CONSTRAINT _roles_pkey PRIMARY KEY (name);
+
+
+--
 -- Name: _users _users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -697,6 +743,22 @@ ALTER TABLE ONLY public._users
 
 ALTER TABLE ONLY public._guests
     ADD CONSTRAINT fkdhfrjgtl3j0vs0w4are28mmi3 FOREIGN KEY (username) REFERENCES public._users(username);
+
+
+--
+-- Name: user_roles fkedqcddqvagfj3fkcg9e51ss57; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT fkedqcddqvagfj3fkcg9e51ss57 FOREIGN KEY (roles_name) REFERENCES public._roles(name);
+
+
+--
+-- Name: user_roles fkeof4gobyro4ev2u5pwv7q0b9x; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT fkeof4gobyro4ev2u5pwv7q0b9x FOREIGN KEY (user_username) REFERENCES public._users(username);
 
 
 --

@@ -1,10 +1,10 @@
 package com.backend.server.entities.users;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.backend.server.entities.images.Image;
@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -42,12 +42,16 @@ public class User implements UserDetails {
     @OneToOne(optional = true)
     private Image image;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany
+    @Builder.Default
+    @JoinTable(
+        name = "user_roles"
+    )
+    private List<Role> roles = new ArrayList<Role>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return this.roles;
     }
 
     @Override
