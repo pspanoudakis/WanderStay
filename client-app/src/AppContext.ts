@@ -19,7 +19,7 @@ type ModalContext = {
     modalProps: ModalProps
 }
 
-type AppContextState = {
+export type AppContextState = {
     userContext?: UserContext,
     modalContext: ModalContext
 }
@@ -48,21 +48,21 @@ type AppContextState = {
 
 export type AppContextType = {
     state: AppContextState,
-    setState: ((newState: AppContextState) => void) | undefined
+    setState?: ((newState: AppContextState) => void)
 }
 
-export const AppContextInitValue: AppContextType = {
-    state: {
-        userContext: undefined,
-        modalContext: {
-            showModal: false,
-            modalProps: {}
-        }
-    },
+export const appContextInitState: AppContextState = {
+    userContext: undefined,
+    modalContext: {
+        showModal: false,
+        modalProps: {}
+    }
+}
+
+export const AppContext = createContext<AppContextType>({
+    state: appContextInitState,
     setState: undefined
-}
-
-export const AppContext = createContext<AppContextType>(AppContextInitValue);
+});
 
 export function setUserContext(currentCtx: AppContextType, newUserCtx: UserContext) {
     currentCtx.setState?.({

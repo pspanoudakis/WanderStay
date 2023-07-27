@@ -3,14 +3,19 @@ import './App.css';
 import { NavBar } from './components/NavBar';
 import { Outlet } from 'react-router-dom';
 import { Footer } from './components/Footer';
-import { AppContext, AppContextInitValue, AppContextType } from './AppContext';
+import { AppContext, appContextInitState, AppContextState, AppContextType } from './AppContext';
 
 export function App() {
 
-	const [appContext, setAppContext] = useState<AppContextType>(AppContextInitValue)
+	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState)
 
 	return (
-		<AppContext.Provider value={appContext}>
+		<AppContext.Provider 
+			value={{
+				state: appContext,
+				setState: setAppContext
+			}}
+		>
 			<div className="
 				min-h-screen w-full
 				flex justify-between items-center flex-col gap-4
