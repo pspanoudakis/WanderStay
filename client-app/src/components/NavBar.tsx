@@ -4,22 +4,17 @@ import { faRightToBracket, faCircleUser, faBars } from '@fortawesome/free-solid-
 
 import { Link } from "react-router-dom";
 import { PopOverMenu } from "./PopOverMenu";
+import { SearchBar } from "./SearchBar";
 
 export function NavBar() {
-    return (<nav className="bg-white w-full border-b-2 border-light-petrol flex-col text-main-petrol">
-        <div className="flex justify-between p-2 items-center px-8">
+    return (<nav className="bg-white w-full flex-col text-main-petrol">
+        <div className="flex justify-between p-2 items-center px-8  border-b-2 border-light-petrol">
             <Link to="/" className="text-main-petrol font-bold text-2xl hover:text-main-petrol">WanderStay</Link>
-            {/* <button className="rounded-full bg-white border-2 border-main-petrol hover:bg-main-petrol hover:text-white hover:border-2">
-                <div className="flex gap-2">
-                    <FontAwesomeIcon icon={faBars} />
-                    <FontAwesomeIcon icon={faCircleUser} />
-                </div>
-            </button> */}
             <PopOverMenu/>
 
         </div>
-        <div>
-            searchbar
+        <div className="flex justify-center p-2 items-baseline px-8 rounded-full">
+            <SearchBar/>
         </div>
     </nav>);
 }
