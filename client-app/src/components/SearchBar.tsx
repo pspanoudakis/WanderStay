@@ -1,13 +1,13 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faLocationDot, faCalendarDays, faUserGroup, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
-import { format } from 'date-fns';
 import 'react-day-picker/dist/style.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import Autocomplete from '@mui/joy/Autocomplete';
 import dayjs, { Dayjs } from 'dayjs';
+
 const countryOptions = ["Naxos", "Paros", "Mykonos"]
 
 type PickerDateRange = [Dayjs | null, Dayjs | null]
@@ -17,19 +17,19 @@ type SearchDateRange = {
 }
 
 export function SearchBar() {
-    const [selected, setSelected] = React.useState<Date>();
+    // const [selected, setSelected] = React.useState<Date>();
 
-    const [peopleCounter, setPeopleCounter] = React.useState(1)
+    const [peopleCounter, setPeopleCounter] = useState(1)
 
-    const [dateRange, setDateRange] = React.useState<SearchDateRange>({
+    const [dateRange, setDateRange] = useState<SearchDateRange>({
         from: new Date(),
         to: undefined
     })
 
-    let footer = <p>Please pick a day.</p>;
-    if (selected) {
-        footer = <p>You picked {format(selected, 'PP')}.</p>;
-    }
+    // let footer = <p>Please pick a day.</p>;
+    // if (selected) {
+    //     footer = <p>You picked {format(selected, 'PP')}.</p>;
+    // }
 
     const dateRangeOnChange = ([from, to]: PickerDateRange) => {
         setDateRange({
