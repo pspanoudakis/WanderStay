@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name= "_admins")
+@Table(name= "_admin")
 public class Admin {
 
     @EmbeddedId

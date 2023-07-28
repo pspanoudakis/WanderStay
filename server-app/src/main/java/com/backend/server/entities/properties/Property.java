@@ -13,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -26,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "_properties")
+@Table(name = "_property")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,14 +37,19 @@ public class Property {
     @ManyToOne(optional = false)
     private Host host;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "property", cascade = {CascadeType.ALL})
     @Builder.Default
     private List<AvailableTimeSlot> availableSlots = new LinkedList<AvailableTimeSlot>();
 
     @ManyToOne(optional = false)
     private City city;
-
-    @OneToMany(cascade = {CascadeType.ALL})
+    
+    @OneToMany
+    @JoinTable(
+        name = "_property_image",
+        joinColumns = @JoinColumn(name = "property_id"),
+        inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
     @Builder.Default
     private List<Image> images = new ArrayList<Image>();
 }

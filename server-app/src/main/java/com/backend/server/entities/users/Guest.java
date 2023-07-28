@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name= "_guests")
+@Table(name= "_guest")
 public class Guest {
 
     @EmbeddedId

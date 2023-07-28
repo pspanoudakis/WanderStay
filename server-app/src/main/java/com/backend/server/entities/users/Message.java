@@ -1,5 +1,7 @@
 package com.backend.server.entities.users;
 
+import com.backend.server.entities.properties.Property;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,16 +18,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-
-@Table(name = "_messages")
+@Table(name = "_message")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false)
-    private User userFrom;
+    private Guest guestUser;
 
     @ManyToOne(optional = false)
-    private User userTo;
+    private Host hostUser;
+
+    @ManyToOne(optional = false)
+    private Property property;
+
+    private boolean sentByGuest;
+
+    private boolean deletedByHost;
 }

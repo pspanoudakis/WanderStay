@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "_roles")
+@Table(name = "_role")
 
 public class Role implements GrantedAuthority{
     @Id

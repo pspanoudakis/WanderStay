@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "_available_time_slots")
+@Table(name = "_available_time_slot")
 public class AvailableTimeSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +31,8 @@ public class AvailableTimeSlot {
 
     @Column(nullable = false)
     private Date endDate;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "property_id")
+    private Property property;
 }

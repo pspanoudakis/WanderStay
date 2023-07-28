@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name= "_hosts")
+@Table(name= "_host")
 public class Host {
 
     @EmbeddedId
