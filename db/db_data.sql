@@ -37,8 +37,8 @@ ALTER TABLE public._admin OWNER TO postgres;
 
 CREATE TABLE public._available_time_slot (
     id bigint NOT NULL,
-    end_date timestamp(6) without time zone NOT NULL,
-    start_date timestamp(6) without time zone NOT NULL,
+    end_date date NOT NULL,
+    start_date date NOT NULL,
     property_id bigint NOT NULL
 );
 
@@ -197,6 +197,7 @@ CREATE TABLE public._message (
     id bigint NOT NULL,
     deleted_by_host boolean NOT NULL,
     sent_by_guest boolean NOT NULL,
+    text oid,
     guest_user_username character varying(255) NOT NULL,
     host_user_username character varying(255) NOT NULL,
     property_id bigint NOT NULL
@@ -232,12 +233,38 @@ ALTER SEQUENCE public._message_id_seq OWNED BY public._message.id;
 
 CREATE TABLE public._property (
     id bigint NOT NULL,
+    address character varying(255),
+    avg_review_stars real NOT NULL,
+    description oid,
+    latitude double precision,
+    longitude double precision,
+    num_reviews integer NOT NULL,
+    type character varying(255),
     city_id bigint NOT NULL,
     host_username character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public._property OWNER TO postgres;
+
+--
+-- Name: _property_amenities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._property_amenities (
+    property_id bigint NOT NULL,
+    has_elevator boolean NOT NULL,
+    has_heating boolean NOT NULL,
+    has_kitchen boolean NOT NULL,
+    has_lounge boolean NOT NULL,
+    has_parking boolean NOT NULL,
+    has_refrigerator boolean NOT NULL,
+    has_tv boolean NOT NULL,
+    has_wifi boolean NOT NULL
+);
+
+
+ALTER TABLE public._property_amenities OWNER TO postgres;
 
 --
 -- Name: _property_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -273,13 +300,31 @@ CREATE TABLE public._property_image (
 ALTER TABLE public._property_image OWNER TO postgres;
 
 --
+-- Name: _property_rules; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._property_rules (
+    property_id bigint NOT NULL,
+    events_allowed boolean NOT NULL,
+    pets_allowed boolean NOT NULL,
+    smoking_allowed boolean NOT NULL
+);
+
+
+ALTER TABLE public._property_rules OWNER TO postgres;
+
+--
 -- Name: _reservation; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public._reservation (
     id bigint NOT NULL,
+    end_date date NOT NULL,
+    num_persons smallint NOT NULL,
+    start_date date NOT NULL,
     guest_username character varying(255) NOT NULL,
-    property_id bigint NOT NULL
+    property_id bigint NOT NULL,
+    CONSTRAINT _reservation_num_persons_check CHECK (((num_persons <= 100) AND (num_persons >= 1)))
 );
 
 
@@ -307,6 +352,44 @@ ALTER SEQUENCE public._reservation_id_seq OWNED BY public._reservation.id;
 
 
 --
+-- Name: _review; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._review (
+    id bigint NOT NULL,
+    created_on date,
+    stars smallint NOT NULL,
+    text oid,
+    guest_username character varying(255) NOT NULL,
+    property_id bigint NOT NULL,
+    CONSTRAINT _review_stars_check CHECK (((stars <= 5) AND (stars >= 1)))
+);
+
+
+ALTER TABLE public._review OWNER TO postgres;
+
+--
+-- Name: _review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public._review_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public._review_id_seq OWNER TO postgres;
+
+--
+-- Name: _review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public._review_id_seq OWNED BY public._review.id;
+
+
+--
 -- Name: _role; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -324,6 +407,9 @@ ALTER TABLE public._role OWNER TO postgres;
 CREATE TABLE public._user (
     username character varying(255) NOT NULL,
     email character varying(255),
+    first_name character varying(255),
+    last_name character varying(255),
+    mobile_number character varying(255),
     password character varying(255) NOT NULL,
     image_id bigint
 );
@@ -393,6 +479,13 @@ ALTER TABLE ONLY public._reservation ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: _review id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._review ALTER COLUMN id SET DEFAULT nextval('public._review_id_seq'::regclass);
+
+
+--
 -- Data for Name: _admin; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -452,7 +545,7 @@ COPY public._image (id, data, path) FROM stdin;
 -- Data for Name: _message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._message (id, deleted_by_host, sent_by_guest, guest_user_username, host_user_username, property_id) FROM stdin;
+COPY public._message (id, deleted_by_host, sent_by_guest, text, guest_user_username, host_user_username, property_id) FROM stdin;
 \.
 
 
@@ -460,7 +553,15 @@ COPY public._message (id, deleted_by_host, sent_by_guest, guest_user_username, h
 -- Data for Name: _property; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._property (id, city_id, host_username) FROM stdin;
+COPY public._property (id, address, avg_review_stars, description, latitude, longitude, num_reviews, type, city_id, host_username) FROM stdin;
+\.
+
+
+--
+-- Data for Name: _property_amenities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._property_amenities (property_id, has_elevator, has_heating, has_kitchen, has_lounge, has_parking, has_refrigerator, has_tv, has_wifi) FROM stdin;
 \.
 
 
@@ -473,10 +574,26 @@ COPY public._property_image (property_id, image_id) FROM stdin;
 
 
 --
+-- Data for Name: _property_rules; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._property_rules (property_id, events_allowed, pets_allowed, smoking_allowed) FROM stdin;
+\.
+
+
+--
 -- Data for Name: _reservation; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._reservation (id, guest_username, property_id) FROM stdin;
+COPY public._reservation (id, end_date, num_persons, start_date, guest_username, property_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: _review; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._review (id, created_on, stars, text, guest_username, property_id) FROM stdin;
 \.
 
 
@@ -492,7 +609,7 @@ COPY public._role (name) FROM stdin;
 -- Data for Name: _user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._user (username, email, password, image_id) FROM stdin;
+COPY public._user (username, email, first_name, last_name, mobile_number, password, image_id) FROM stdin;
 \.
 
 
@@ -551,6 +668,13 @@ SELECT pg_catalog.setval('public._property_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public._reservation_id_seq', 1, false);
+
+
+--
+-- Name: _review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public._review_id_seq', 1, false);
 
 
 --
@@ -618,6 +742,14 @@ ALTER TABLE ONLY public._message
 
 
 --
+-- Name: _property_amenities _property_amenities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._property_amenities
+    ADD CONSTRAINT _property_amenities_pkey PRIMARY KEY (property_id);
+
+
+--
 -- Name: _property _property_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -626,11 +758,27 @@ ALTER TABLE ONLY public._property
 
 
 --
+-- Name: _property_rules _property_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._property_rules
+    ADD CONSTRAINT _property_rules_pkey PRIMARY KEY (property_id);
+
+
+--
 -- Name: _reservation _reservation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public._reservation
     ADD CONSTRAINT _reservation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: _review _review_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._review
+    ADD CONSTRAINT _review_pkey PRIMARY KEY (id);
 
 
 --
@@ -698,6 +846,14 @@ ALTER TABLE ONLY public._admin
 
 
 --
+-- Name: _review fk899yk967a74k2x4c1t92fyvlp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._review
+    ADD CONSTRAINT fk899yk967a74k2x4c1t92fyvlp FOREIGN KEY (property_id) REFERENCES public._property(id);
+
+
+--
 -- Name: _property fkabtywbe39bpfxiu6b2cs7ew8g; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -722,6 +878,14 @@ ALTER TABLE ONLY public._host
 
 
 --
+-- Name: _review fkfsfl2skpkkf4w9gccnw1ieptk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._review
+    ADD CONSTRAINT fkfsfl2skpkkf4w9gccnw1ieptk FOREIGN KEY (guest_username) REFERENCES public._guest(username);
+
+
+--
 -- Name: _city fkg502tjt7on6mkh3hv0ryh9xwh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -743,6 +907,14 @@ ALTER TABLE ONLY public._message
 
 ALTER TABLE ONLY public.user_role
     ADD CONSTRAINT fkgij1lvdsbw3jjlpah59d6v88m FOREIGN KEY (role_name) REFERENCES public._role(name);
+
+
+--
+-- Name: _property_amenities fkgqkr2p669gb61wpx2d9pj6on6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._property_amenities
+    ADD CONSTRAINT fkgqkr2p669gb61wpx2d9pj6on6 FOREIGN KEY (property_id) REFERENCES public._property(id);
 
 
 --
@@ -775,6 +947,14 @@ ALTER TABLE ONLY public._user
 
 ALTER TABLE ONLY public._available_time_slot
     ADD CONSTRAINT fko5k9uxpt0csdnykrd42f1nj6x FOREIGN KEY (property_id) REFERENCES public._property(id);
+
+
+--
+-- Name: _property_rules fkrbqpegebsitv3bci7vlnlq64t; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._property_rules
+    ADD CONSTRAINT fkrbqpegebsitv3bci7vlnlq64t FOREIGN KEY (property_id) REFERENCES public._property(id);
 
 
 --
