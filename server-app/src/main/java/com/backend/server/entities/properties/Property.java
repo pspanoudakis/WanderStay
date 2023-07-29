@@ -22,6 +22,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,7 +43,10 @@ public class Property {
     @ManyToOne(optional = false)
     private Host host;
 
-    @OneToMany(mappedBy = "property", cascade = {CascadeType.ALL})
+    @OneToMany(
+        mappedBy = "property",
+        cascade = {CascadeType.ALL}
+    )
     @Builder.Default
     private List<AvailableTimeSlot> availableSlots = new LinkedList<AvailableTimeSlot>();
 
@@ -57,10 +62,18 @@ public class Property {
     @Builder.Default
     private List<Image> images = new ArrayList<Image>();
 
-    @OneToOne(optional = false, mappedBy = "property")
+    @OneToOne(
+        optional = false,
+        mappedBy = "property",
+        cascade = {CascadeType.ALL}
+    )
     private PropertyRules rules;
 
-    @OneToOne(optional = false, mappedBy = "property")
+    @OneToOne(
+        optional = false,
+        mappedBy = "property",
+        cascade = {CascadeType.ALL}
+    )
     private PropertyAmenities amenities;
 
     @Enumerated(EnumType.STRING)
@@ -69,11 +82,17 @@ public class Property {
     @Lob
     private String description;
 
-    private float avgReviewStars;
-    private int numReviews;
+    // @Builder.Default
+    // private float avgReviewStars = 0;
+    // @Builder.Default
+    // private int numReviews = 0;
 
     private String address;
 
     private Double latitude;
     private Double longitude;
+
+    @Min(1)
+    @Max(30_000)
+    private short spaceArea;
 }

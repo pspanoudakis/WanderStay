@@ -162,6 +162,7 @@ ALTER TABLE public._host OWNER TO postgres;
 CREATE TABLE public._image (
     id bigint NOT NULL,
     data oid,
+    is_main boolean NOT NULL,
     path character varying(255)
 );
 
@@ -234,14 +235,14 @@ ALTER SEQUENCE public._message_id_seq OWNED BY public._message.id;
 CREATE TABLE public._property (
     id bigint NOT NULL,
     address character varying(255),
-    avg_review_stars real NOT NULL,
     description oid,
     latitude double precision,
     longitude double precision,
-    num_reviews integer NOT NULL,
+    space_area smallint NOT NULL,
     type character varying(255),
     city_id bigint NOT NULL,
-    host_username character varying(255) NOT NULL
+    host_username character varying(255) NOT NULL,
+    CONSTRAINT _property_space_area_check CHECK (((space_area <= 30000) AND (space_area >= 1)))
 );
 
 
@@ -260,7 +261,10 @@ CREATE TABLE public._property_amenities (
     has_parking boolean NOT NULL,
     has_refrigerator boolean NOT NULL,
     has_tv boolean NOT NULL,
-    has_wifi boolean NOT NULL
+    has_wifi boolean NOT NULL,
+    num_bathrooms smallint NOT NULL,
+    num_bedrooms smallint NOT NULL,
+    num_beds smallint NOT NULL
 );
 
 
@@ -305,7 +309,10 @@ ALTER TABLE public._property_image OWNER TO postgres;
 
 CREATE TABLE public._property_rules (
     property_id bigint NOT NULL,
+    base_day_cost integer NOT NULL,
     events_allowed boolean NOT NULL,
+    min_reservation_days smallint NOT NULL,
+    per_guest_cost integer NOT NULL,
     pets_allowed boolean NOT NULL,
     smoking_allowed boolean NOT NULL
 );
@@ -408,6 +415,8 @@ CREATE TABLE public._user (
     username character varying(255) NOT NULL,
     email character varying(255),
     first_name character varying(255),
+    is_active boolean NOT NULL,
+    is_locked boolean NOT NULL,
     last_name character varying(255),
     mobile_number character varying(255),
     password character varying(255) NOT NULL,
@@ -537,7 +546,7 @@ COPY public._host (username) FROM stdin;
 -- Data for Name: _image; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._image (id, data, path) FROM stdin;
+COPY public._image (id, data, is_main, path) FROM stdin;
 \.
 
 
@@ -553,7 +562,7 @@ COPY public._message (id, deleted_by_host, sent_by_guest, text, guest_user_usern
 -- Data for Name: _property; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._property (id, address, avg_review_stars, description, latitude, longitude, num_reviews, type, city_id, host_username) FROM stdin;
+COPY public._property (id, address, description, latitude, longitude, space_area, type, city_id, host_username) FROM stdin;
 \.
 
 
@@ -561,7 +570,7 @@ COPY public._property (id, address, avg_review_stars, description, latitude, lon
 -- Data for Name: _property_amenities; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._property_amenities (property_id, has_elevator, has_heating, has_kitchen, has_lounge, has_parking, has_refrigerator, has_tv, has_wifi) FROM stdin;
+COPY public._property_amenities (property_id, has_elevator, has_heating, has_kitchen, has_lounge, has_parking, has_refrigerator, has_tv, has_wifi, num_bathrooms, num_bedrooms, num_beds) FROM stdin;
 \.
 
 
@@ -577,7 +586,7 @@ COPY public._property_image (property_id, image_id) FROM stdin;
 -- Data for Name: _property_rules; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._property_rules (property_id, events_allowed, pets_allowed, smoking_allowed) FROM stdin;
+COPY public._property_rules (property_id, base_day_cost, events_allowed, min_reservation_days, per_guest_cost, pets_allowed, smoking_allowed) FROM stdin;
 \.
 
 
@@ -609,7 +618,7 @@ COPY public._role (name) FROM stdin;
 -- Data for Name: _user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._user (username, email, first_name, last_name, mobile_number, password, image_id) FROM stdin;
+COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
 \.
 
 

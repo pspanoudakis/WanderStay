@@ -26,4 +26,7 @@ public class Image {
     private byte[] data;
 
     private String path;
+
+    @Builder.Default
+    private boolean isMain = false;
 }

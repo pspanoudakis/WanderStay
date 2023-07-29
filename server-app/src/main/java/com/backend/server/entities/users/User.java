@@ -57,6 +57,10 @@ public class User implements UserDetails {
 
     private String mobileNumber;
 
+    private boolean isActive;
+
+    private boolean isLocked;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
@@ -69,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !isLocked;
     }
 
     @Override
@@ -79,7 +83,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
     }
 
 }

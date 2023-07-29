@@ -1,9 +1,6 @@
 package com.backend.server.entities.properties;
 
 import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.JoinColumn;
@@ -31,10 +28,6 @@ public class PropertyAmenities {
     @JoinColumn(nullable = false, name = "property_id")
     private Property property;
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // private Long id;
-
     private boolean hasWifi;
     private boolean hasRefrigerator;
     private boolean hasHeating;
@@ -43,4 +36,8 @@ public class PropertyAmenities {
     private boolean hasElevator;
     private boolean hasLounge;
     private boolean hasParking;
+
+    private byte numBeds;
+    private byte numBedrooms;
+    private byte numBathrooms;
 }
