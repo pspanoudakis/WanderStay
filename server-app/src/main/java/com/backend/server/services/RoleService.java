@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.backend.server.entities.users.Role;
-import com.backend.server.entities.users.RoleLiteral;
+import com.backend.server.entities.users.RoleType;
 import com.backend.server.repositories.RoleRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,11 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
-    @Cacheable
-    private Role getRequiredRole(String roleName) {
-        return this.getRequiredRoles(List.of(roleName)).get(0);
+    private Role getRequiredRole(RoleType roleName) {
+        return this.getRequiredRoles(List.of(roleName.toString())).get(0);
     }
 
-    @Cacheable
-    public List<Role> getRequiredRoles(List<String> roleNames) {
+    private List<Role> getRequiredRoles(List<String> roleNames) {
         try {
             List<Role> roles = roleRepository.findAllById(roleNames);
             if (roles.size() != roleNames.size()) {
@@ -47,16 +45,16 @@ public class RoleService {
     
     @Cacheable
     public Role getGuestRole() {
-        return getRequiredRole(RoleLiteral.GUEST.name());
+        return getRequiredRole(RoleType.GUEST);
     }
 
     @Cacheable
     public Role getHostRole() {
-        return getRequiredRole(RoleLiteral.HOST.name());
+        return getRequiredRole(RoleType.HOST);
     }
 
     @Cacheable
     public Role getAdminRole() {
-        return getRequiredRole(RoleLiteral.ADMIN.name());
+        return getRequiredRole(RoleType.ADMIN);
     }
 }

@@ -37,8 +37,6 @@ public class User implements UserDetails {
     @JsonIgnore
     @Column(nullable = false)
     private String password;
-    
-    private String email;
 
     @OneToOne(optional = true)
     private Image image;
@@ -50,6 +48,14 @@ public class User implements UserDetails {
         inverseJoinColumns = { @JoinColumn(name="role_name") }
     )
     private List<Role> roles = new ArrayList<Role>();
+
+    private String email;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String mobileNumber;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

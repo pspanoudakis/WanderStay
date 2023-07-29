@@ -1,7 +1,10 @@
-package com.backend.server.entities.users;
+package com.backend.server.entities.properties;
 
-import com.backend.server.entities.properties.Property;
+import java.util.Date;
 
+import com.backend.server.entities.users.Guest;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +12,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,26 +26,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "_message")
-public class Message {
+@Table(name = "_review")
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(optional = false)
-    private Guest guestUser;
-
-    @ManyToOne(optional = false)
-    private Host hostUser;
+    private Guest guest;
 
     @ManyToOne(optional = false)
     private Property property;
-
-    private boolean sentByGuest;
-
-    @Builder.Default
-    private boolean deletedByHost = false;
+    
+    @Min(1)
+    @Max(5)
+    @Column(nullable = false)
+    private byte stars;
 
     @Lob
     private String text;
+
+    @Temporal(TemporalType.DATE)
+    private Date createdOn;
 }
