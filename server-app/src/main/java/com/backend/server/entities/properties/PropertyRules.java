@@ -1,7 +1,6 @@
 package com.backend.server.entities.properties;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -24,7 +23,7 @@ public class PropertyRules {
     private PropertyFieldEntityId id;
 
     @MapsId("propertyId")
-    @OneToOne(optional = false, cascade = {CascadeType.ALL})
+    @OneToOne(optional = false)
     @JoinColumn(nullable = false, name = "property_id")
     private Property property;
 

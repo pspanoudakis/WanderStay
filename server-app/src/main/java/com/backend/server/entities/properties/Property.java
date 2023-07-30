@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.backend.server.entities.cities.City;
 import com.backend.server.entities.images.Image;
+import com.backend.server.entities.locations.City;
 import com.backend.server.entities.users.Host;
 
 import jakarta.persistence.CascadeType;
