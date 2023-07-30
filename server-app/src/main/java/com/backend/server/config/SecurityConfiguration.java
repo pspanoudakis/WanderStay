@@ -52,7 +52,8 @@ public class SecurityConfiguration {
             .requestMatchers(
                 "/auth/**",
                 "/public/**",
-                "/locations/**"
+                "/location/**",
+                "/property/**"
             )
             .permitAll()
 

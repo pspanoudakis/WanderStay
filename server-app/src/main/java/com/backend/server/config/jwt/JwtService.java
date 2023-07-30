@@ -24,7 +24,7 @@ public class JwtService {
     // make sure byte length is correct!
     private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-    private static final long JWT_SECS_DURATION = 60;
+    private static final long JWT_SECS_DURATION = 60*60;
 
     private Key getSignInKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));

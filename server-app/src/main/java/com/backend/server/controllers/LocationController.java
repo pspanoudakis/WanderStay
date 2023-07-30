@@ -13,7 +13,7 @@ import com.backend.server.services.LocationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/locations")
+@RequestMapping("/location")
 @RequiredArgsConstructor
 public class LocationController {
 
