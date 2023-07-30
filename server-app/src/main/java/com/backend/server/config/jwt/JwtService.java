@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -20,11 +19,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private String SECRET_KEY;
-    // make sure byte length is correct!
-    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-    private static final long JWT_SECS_DURATION = 60*60;
+    String SECRET_KEY;
 
     private Key getSignInKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
@@ -35,7 +30,7 @@ public class JwtService {
             .parserBuilder()
             .setSigningKey(getSignInKey())
             .build()
-            .parseClaimsJws(jwt)
+            .parseClaimsJws(jwt.replace(JwtConstants.AUTH_BEARER_START, ""))
             .getBody();
     }
 
@@ -61,8 +56,10 @@ public class JwtService {
             .setClaims(claims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * JWT_SECS_DURATION))
-            .signWith(getSignInKey(), signatureAlgorithm)
+            .setExpiration(new Date(
+                System.currentTimeMillis() + 1000 * JwtConstants.JWT_SECS_DURATION
+            ))
+            .signWith(getSignInKey(), JwtConstants.signatureAlgorithm)
             .compact();
     }
 

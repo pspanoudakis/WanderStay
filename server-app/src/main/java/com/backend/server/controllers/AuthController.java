@@ -1,8 +1,10 @@
 package com.backend.server.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +31,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) {
         return ControllerUtils.responseFactory(() -> authService.login(request));
+    }
+
+    @PostMapping("/tokenLogin")
+    public ResponseEntity<ApiResponse> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return ControllerUtils.responseFactory(authService.loginWithToken(token));
     }
 }

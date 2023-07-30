@@ -22,9 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter{
 
-    private static final String AUTH_BEARER_START = "Bearer ";
-    private static final int BEARER_CONTENT_IDX_START = AUTH_BEARER_START.length();
-
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -36,12 +33,12 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     ) throws ServletException, IOException {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith(AUTH_BEARER_START)) {
+        if (authHeader == null || !authHeader.startsWith(JwtConstants.AUTH_BEARER_START)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwt = authHeader.substring(BEARER_CONTENT_IDX_START);
+        final String jwt = authHeader.substring(JwtConstants.BEARER_CONTENT_IDX_START);
         final String username = jwtService.findUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

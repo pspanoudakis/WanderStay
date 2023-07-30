@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -41,12 +42,12 @@ public class User implements UserDetails {
     @OneToOne(optional = true)
     private Image image;
 
-    @ManyToMany
-    @Builder.Default
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_role",
         inverseJoinColumns = { @JoinColumn(name="role_name") }
     )
+    @Builder.Default
     private List<Role> roles = new ArrayList<Role>();
 
     private String email;

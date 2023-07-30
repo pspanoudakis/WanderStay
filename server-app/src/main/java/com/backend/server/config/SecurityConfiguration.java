@@ -50,7 +50,9 @@ public class SecurityConfiguration {
             // *Whitelist* these requests
             .authorizeHttpRequests()
             .requestMatchers(
-                "/auth/**",
+                "/auth/register",
+                "/auth/login",
+                
                 "/public/**",
                 "/location/**",
                 "/property/**"
