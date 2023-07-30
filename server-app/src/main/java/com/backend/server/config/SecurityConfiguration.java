@@ -51,7 +51,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests()
             .requestMatchers(
                 "/auth/**",
-                "/public/**"
+                "/public/**",
+                "/locations/**"
             )
             .permitAll()
 

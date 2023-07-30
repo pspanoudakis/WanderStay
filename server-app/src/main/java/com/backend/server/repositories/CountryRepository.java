@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.backend.server.entities.cities.Country;
+import com.backend.server.entities.locations.Country;
 
 public interface CountryRepository extends JpaRepository<Country, Long>{
     
@@ -13,5 +13,5 @@ public interface CountryRepository extends JpaRepository<Country, Long>{
 
     Optional<Country> findById(Long id);
 
-    List<Country> findAll();
+    List<Country> findAllByOrderByNameAsc();
 }

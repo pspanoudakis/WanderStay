@@ -1,7 +1,9 @@
-package com.backend.server.entities.cities;
+package com.backend.server.entities.locations;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,11 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne(
+        optional = false,
+        fetch = FetchType.LAZY
+    )
     private Country country;
 
     private String name;
