@@ -515,6 +515,387 @@ COPY public._available_time_slot (id, end_date, start_date, property_id) FROM st
 --
 
 COPY public._city (id, name, country_id) FROM stdin;
+1	New Kingston	1
+2	Pyongyang	2
+3	Shymkent	3
+4	Colombo	4
+5	Antipolo	5
+6	Baghdad	6
+7	Al Basrah al Qadimah	6
+8	Zaporizhzhya	7
+9	Bouake	8
+10	Abobo	8
+11	Leeds	9
+12	Kuala Lumpur	10
+13	Krakow	11
+14	Belgrade	12
+15	Cheongju-si	2
+16	Ta'if	13
+17	Stockholm	14
+18	Taiz	15
+19	Tembisa	16
+20	Can Tho	17
+21	Mississauga	18
+22	Montreal	18
+23	Puente Alto	19
+24	As Sulaymaniyah	6
+25	Naples	20
+26	Medellin	21
+27	Yerevan	22
+28	Melbourne	23
+29	Cartagena	21
+30	Edmonton	18
+31	Brisbane	23
+32	Libreville	24
+33	Santiago de los Caballeros	25
+34	Algiers	26
+35	Alexandria	27
+36	Kowloon	28
+37	Glasgow	9
+38	Kakamega	29
+39	Agadir	30
+40	Ulan Bator	31
+41	Muscat	32
+42	Paranaque City	5
+43	Kota Bharu	10
+44	Busan	2
+45	Seongnam-si	2
+46	Malacca	10
+47	Bremen	33
+48	Mosul	6
+49	Basrah	6
+50	Mukalla	15
+51	Harare	34
+52	Essen	33
+53	Kabul	35
+54	N'Djamena	36
+55	Sevastopol	7
+56	Jeddah	13
+57	Singapore	37
+58	Poznan	11
+59	Makati City	5
+60	Odesa	7
+61	Marrakesh	30
+62	Niamey	38
+63	Liverpool	9
+64	Bucaramanga	21
+65	Boumerdas	26
+66	Asmara	39
+67	Pikine	40
+68	Dakar	40
+69	Barcelona	41
+70	Kampala	42
+71	Bloemfontein	16
+72	Abu Ghurayb	6
+73	Antwerpen	43
+74	Bangui	44
+75	Irbid	45
+76	Bishkek	46
+77	Klang	10
+78	Dublin	47
+79	Dammam	13
+80	Dushanbe	48
+81	Asuncion	49
+82	Tebessa	26
+83	Hamburg	33
+84	Al Ahmadi	50
+85	Beirut	51
+86	Lilongwe	52
+87	Conakry	53
+88	Montevideo	54
+89	Valencia	55
+90	Kharkiv	7
+91	Petaling Jaya	10
+92	Arequipa	56
+93	Brussels	43
+94	Cotonou	57
+95	Minsk	58
+96	Lubumbashi	59
+97	Valencia	41
+98	Comilla	60
+99	San Miguel de Tucuman	61
+100	Ha'il	13
+101	Touba	40
+102	Damascus	62
+103	Tunis	63
+104	Ipoh	10
+105	Kuantan	10
+106	Kathmandu	64
+107	Las Pinas	5
+108	Ibague	21
+109	Copenhagen	65
+110	Port Elizabeth	16
+111	Cape Town	16
+112	Haiphong	17
+113	Yangon	66
+114	Kirkuk	6
+115	Al Mawsil al Jadidah	6
+116	Munich	33
+117	Hong Kong	28
+118	Kigali	67
+119	Mbuji-Mayi	59
+120	Santiago	19
+121	Pohang	2
+122	Kimhae	2
+123	Cheonan	2
+124	General Santos	5
+125	Jerusalem	68
+126	Brampton	18
+127	Lviv	7
+128	Kyiv	7
+129	Port Said	27
+130	Asyut	27
+131	Budapest	69
+132	Frankfurt am Main	33
+133	Aden	15
+134	Phnom Penh	70
+135	Nouakchott	71
+136	Rome	20
+137	Johor Bahru	10
+138	Sultanah	13
+139	Sofia	72
+140	Berlin	33
+141	Guayaquil	73
+142	Buenos Aires	61
+143	Nuernberg	33
+144	Koeln	33
+145	Duisburg	33
+146	Riga	74
+147	Rabat	30
+148	Blantyre	52
+149	Zarqa	45
+150	Villa Nueva	75
+151	Tegucigalpa	76
+152	Fes	30
+153	Rotterdam	77
+154	Lima	56
+155	Quezon City	5
+156	Bulawayo	34
+157	Bogota	21
+158	Santiago de Cuba	78
+159	Quito	73
+160	Tanta	27
+161	Shubra al Khaymah	27
+162	Cairo	27
+163	Al Mahallah al Kubra	27
+164	Birmingham	9
+165	Port-au-Prince	79
+166	Dresden	33
+167	Homyel'	58
+168	Winnipeg	18
+169	Kingston	1
+170	Nairobi	29
+171	Kota Kinabalu	10
+172	Al Mansurah	27
+173	Sevilla	41
+174	Madrid	41
+175	Erbil	6
+176	Genoa	20
+177	Buraydah	13
+178	Mogadishu	80
+179	Homs	62
+180	Lisbon	81
+181	Taguig	5
+182	Banqiao	82
+183	Thuan An	17
+184	Sanaa	15
+185	Pretoria	16
+186	Pietermaritzburg	16
+187	Abu Dhabi	83
+188	Rosario	61
+189	Vancouver	18
+190	Kinshasa	59
+191	Cucuta	21
+192	Luanda	84
+193	Takeo	70
+194	Daegu	2
+195	Vilnius	85
+196	Kampung Baru Subang	10
+197	Subang Jaya	10
+198	Maputo	86
+199	Cebu City	5
+200	Callao	56
+201	Tashkent	87
+202	Maturin	55
+203	Donetsk	7
+204	Taichung	82
+205	Hanoi	17
+206	Santo Domingo Oeste	25
+207	Malaga	41
+208	Santo Domingo Este	25
+209	Al Fayyum	27
+210	Sarajevo	88
+211	London	9
+212	Accra	89
+213	Gwangju	2
+214	Ansan-si	2
+215	Casablanca	30
+216	Nyala	90
+217	Bucharest	91
+218	Dnipro	7
+219	Pasig City	5
+220	Omdurman	90
+221	Khartoum	90
+222	Ouagadougou	92
+223	Santa Cruz de la Sierra	93
+224	Djibouti	94
+225	Grosszschocher	33
+226	Caracas	55
+227	Durban	16
+228	Bien Hoa	17
+229	Mandalay	66
+230	Macau	95
+231	Nampula	86
+232	San Pedro Sula	76
+233	Kandahar	35
+234	Gold Coast	23
+235	Najran	13
+236	Bangkok	96
+237	Samarkand	87
+238	Kaohsiung	82
+239	Da Nang	17
+240	Tripoli	97
+241	Sale	30
+242	Trujillo	56
+243	Davao	5
+244	Madinat an Nasr	27
+245	Tuen Mun	28
+246	Kleinzschocher	33
+247	Herat	35
+248	Vienna	98
+249	San Salvador	99
+250	Ciudad Guayana	55
+251	Barcelona	55
+252	Al Hudaydah	15
+253	Soweto	16
+254	Benoni	16
+255	Ho Chi Minh City	17
+256	Pointe-Noire	59
+257	Brazzaville	59
+258	Cordoba	61
+259	Aktobe	3
+260	Chisinau	100
+261	Wroclaw	11
+262	Oslo	101
+263	Caloocan City	5
+264	Lome	102
+265	Kryvyy Rih	7
+266	Amman	45
+267	Goyang-si	2
+268	Monrovia	103
+269	Meknes	30
+270	Antananarivo	104
+271	Helsinki	105
+272	Barquisimeto	55
+273	Marseille	106
+274	Lyon	106
+275	Kumasi	89
+276	Suez	27
+277	Giza	27
+278	Suwon	2
+279	Incheon	2
+280	Hwaseong-si	2
+281	Changwon	2
+282	Bamako	107
+283	Beira	86
+284	Amsterdam	77
+285	Manila	5
+286	Calamba	5
+287	Medina	13
+288	Taipei	82
+289	Hamilton	18
+290	Daejeon	2
+291	Turin	20
+292	Edinburgh	9
+293	Namangan	87
+294	Santo Domingo	25
+295	Yaounde	108
+296	Sharjah	83
+297	Al Ain City	83
+298	Perth	23
+299	Bucheon-si	2
+300	Tangier	30
+301	Nay Pyi Taw	66
+302	Karbala	6
+303	Milan	20
+304	Athens	109
+305	Mecca	13
+306	Freetown	110
+307	Bujumbura	111
+308	Quebec	18
+309	Havana	78
+310	Dhaka	60
+311	Mazar-e Sharif	35
+312	Mar del Plata	61
+313	Salta	61
+314	Managua	112
+315	Hamhung	2
+316	Seoul	2
+317	Benghazi	97
+318	Sheffield	9
+319	Camayenne	53
+320	Zagreb	113
+321	Tabuk	13
+322	Riyadh	13
+323	Matola	86
+324	Jeonju	2
+325	Almaty	3
+326	Maracay	55
+327	Budta	5
+328	Cali	21
+329	Abidjan	8
+330	Douala	108
+331	Leipzig	33
+332	Hannover	33
+333	Duesseldorf	33
+334	Dubai	83
+335	Guatemala City	75
+336	Cuenca	73
+337	Addis Ababa	114
+338	Baku	115
+339	Lodz	11
+340	Mombasa	29
+341	Ulsan	2
+342	Ra's Bayrut	51
+343	Malingao	5
+344	Warsaw	11
+345	Goeteborg	14
+346	Dar es Salaam	116
+347	Adelaide	23
+348	Chattogram	60
+349	Bobo-Dioulasso	92
+350	La Paz	93
+351	Calgary	18
+352	Ottawa	18
+353	Toronto	18
+354	Kisangani	59
+355	Shah Alam	10
+356	Johannesburg	16
+357	Paris	106
+358	Sydney	23
+359	Khulna	60
+360	Aleppo	62
+361	Ar Raqqah	62
+362	Anyang-si	2
+363	Nasiriyah	6
+364	Palermo	20
+365	Tbilisi	117
+366	Victoria	28
+367	Lusaka	118
+368	Rajshahi	60
+369	Rangpur	60
+370	Cochabamba	93
+371	Barranquilla	21
+372	Prague	119
+373	Stuttgart	33
+374	Oran	26
+375	Zaragoza	41
+376	Dortmund	33
+377	Chiclayo	56
+378	Maracaibo	55
+379	Latakia	62
+380	Ashgabat	120
+381	Tainan	82
 \.
 
 
@@ -523,6 +904,126 @@ COPY public._city (id, name, country_id) FROM stdin;
 --
 
 COPY public._country (id, name) FROM stdin;
+1	Jamaica
+2	Korea
+3	Kazakhstan
+4	Sri Lanka
+5	Philippines
+6	Iraq
+7	Ukraine
+8	Côte d'Ivoire
+9	United Kingdom
+10	Malaysia
+11	Poland
+12	Serbia
+13	Saudi Arabia
+14	Sweden
+15	Yemen
+16	South Africa
+17	Viet Nam
+18	Canada
+19	Chile
+20	Italy
+21	Colombia
+22	Armenia
+23	Australia
+24	Gabon
+25	Dominican Republic
+26	Algeria
+27	Egypt
+28	Hong Kong
+29	Kenya
+30	Morocco
+31	Mongolia
+32	Oman
+33	Germany
+34	Zimbabwe
+35	Afghanistan
+36	Chad
+37	Singapore
+38	Niger
+39	Eritrea
+40	Senegal
+41	Spain
+42	Uganda
+43	Belgium
+44	Central African Republic
+45	Jordan
+46	Kyrgyzstan
+47	Ireland
+48	Tajikistan
+49	Paraguay
+50	Kuwait
+51	Lebanon
+52	Malawi
+53	Guinea
+54	Uruguay
+55	Venezuela
+56	Peru
+57	Benin
+58	Belarus
+59	Congo
+60	Bangladesh
+61	Argentina
+62	Syrian Arab Republic
+63	Tunisia
+64	Nepal
+65	Denmark
+66	Myanmar
+67	Rwanda
+68	Israel
+69	Hungary
+70	Cambodia
+71	Mauritania
+72	Bulgaria
+73	Ecuador
+74	Latvia
+75	Guatemala
+76	Honduras
+77	Netherlands
+78	Cuba
+79	Haiti
+80	Somalia
+81	Portugal
+82	Taiwan
+83	United Arab Emirates
+84	Angola
+85	Lithuania
+86	Mozambique
+87	Uzbekistan
+88	Bosnia and Herzegovina
+89	Ghana
+90	Sudan
+91	Romania
+92	Burkina Faso
+93	Bolivia
+94	Djibouti
+95	Macau
+96	Thailand
+97	Libyan Arab Jamahiriya
+98	Austria
+99	El Salvador
+100	Moldova
+101	Norway
+102	Togo
+103	Liberia
+104	Madagascar
+105	Finland
+106	France
+107	Mali
+108	Cameroon
+109	Greece
+110	Sierra Leone
+111	Burundi
+112	Nicaragua
+113	Croatia
+114	Ethiopia
+115	Azerbaijan
+116	Tanzania
+117	Georgia
+118	Zambia
+119	Czech Republic
+120	Turkmenistan
 \.
 
 
@@ -641,14 +1142,14 @@ SELECT pg_catalog.setval('public._available_time_slot_id_seq', 1, false);
 -- Name: _city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._city_id_seq', 1, false);
+SELECT pg_catalog.setval('public._city_id_seq', 381, true);
 
 
 --
 -- Name: _country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._country_id_seq', 1, false);
+SELECT pg_catalog.setval('public._country_id_seq', 120, true);
 
 
 --
