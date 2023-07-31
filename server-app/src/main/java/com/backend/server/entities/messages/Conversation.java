@@ -1,13 +1,17 @@
-package com.backend.server.entities.users;
+package com.backend.server.entities.messages;
+
+import java.util.List;
 
 import com.backend.server.entities.properties.Property;
+import com.backend.server.entities.users.Guest;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +23,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "_message")
-public class Message {
+@Table(name = "_conversation")
+public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,16 +33,14 @@ public class Message {
     private Guest guestUser;
 
     @ManyToOne(optional = false)
-    private Host hostUser;
-
-    @ManyToOne(optional = false)
     private Property property;
-
-    private boolean sentByGuest;
 
     @Builder.Default
     private boolean deletedByHost = false;
 
-    @Lob
-    private String text;
+    @OneToMany(
+        cascade = {CascadeType.ALL},
+        mappedBy = "conversation"
+    )
+    private List<Message> messages;
 }

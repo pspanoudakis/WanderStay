@@ -101,6 +101,41 @@ ALTER SEQUENCE public._city_id_seq OWNED BY public._city.id;
 
 
 --
+-- Name: _conversation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._conversation (
+    id bigint NOT NULL,
+    deleted_by_host boolean NOT NULL,
+    guest_user_username character varying(255) NOT NULL,
+    property_id bigint NOT NULL
+);
+
+
+ALTER TABLE public._conversation OWNER TO postgres;
+
+--
+-- Name: _conversation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public._conversation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public._conversation_id_seq OWNER TO postgres;
+
+--
+-- Name: _conversation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public._conversation_id_seq OWNED BY public._conversation.id;
+
+
+--
 -- Name: _country; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -196,12 +231,10 @@ ALTER SEQUENCE public._image_id_seq OWNED BY public._image.id;
 
 CREATE TABLE public._message (
     id bigint NOT NULL,
-    deleted_by_host boolean NOT NULL,
-    sent_by_guest boolean NOT NULL,
+    sent_on timestamp(6) without time zone,
     text oid,
-    guest_user_username character varying(255) NOT NULL,
-    host_user_username character varying(255) NOT NULL,
-    property_id bigint NOT NULL
+    conversation_id bigint NOT NULL,
+    sent_by_username character varying(255) NOT NULL
 );
 
 
@@ -453,6 +486,13 @@ ALTER TABLE ONLY public._city ALTER COLUMN id SET DEFAULT nextval('public._city_
 
 
 --
+-- Name: _conversation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._conversation ALTER COLUMN id SET DEFAULT nextval('public._conversation_id_seq'::regclass);
+
+
+--
 -- Name: _country id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -499,6 +539,7 @@ ALTER TABLE ONLY public._review ALTER COLUMN id SET DEFAULT nextval('public._rev
 --
 
 COPY public._admin (username) FROM stdin;
+admin
 \.
 
 
@@ -900,6 +941,14 @@ COPY public._city (id, name, country_id) FROM stdin;
 
 
 --
+-- Data for Name: _conversation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._conversation (id, deleted_by_host, guest_user_username, property_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: _country; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1055,7 +1104,7 @@ COPY public._image (id, data, is_main, path) FROM stdin;
 -- Data for Name: _message; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._message (id, deleted_by_host, sent_by_guest, text, guest_user_username, host_user_username, property_id) FROM stdin;
+COPY public._message (id, sent_on, text, conversation_id, sent_by_username) FROM stdin;
 \.
 
 
@@ -1112,6 +1161,7 @@ COPY public._review (id, created_on, stars, text, guest_username, property_id) F
 --
 
 COPY public._role (name) FROM stdin;
+ADMIN
 \.
 
 
@@ -1120,6 +1170,7 @@ COPY public._role (name) FROM stdin;
 --
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
+admin	\N	\N	t	f	\N	\N	$2a$10$r62lf3utXCMM34zPNyETT.L5Fl2d43bMcCCKwQBZBZt8NQgYTKP4m	\N
 \.
 
 
@@ -1128,6 +1179,7 @@ COPY public._user (username, email, first_name, is_active, is_locked, last_name,
 --
 
 COPY public.user_role (user_username, role_name) FROM stdin;
+admin	ADMIN
 \.
 
 
@@ -1143,6 +1195,13 @@ SELECT pg_catalog.setval('public._available_time_slot_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public._city_id_seq', 381, true);
+
+
+--
+-- Name: _conversation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public._conversation_id_seq', 1, false);
 
 
 --
@@ -1209,6 +1268,14 @@ ALTER TABLE ONLY public._available_time_slot
 
 ALTER TABLE ONLY public._city
     ADD CONSTRAINT _city_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: _conversation _conversation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._conversation
+    ADD CONSTRAINT _conversation_pkey PRIMARY KEY (id);
 
 
 --
@@ -1316,19 +1383,11 @@ ALTER TABLE ONLY public._property_image
 
 
 --
--- Name: _message fk2lo5n6s81pgw1i5p10xr7mwnb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: _message fk58x69j9pqcyn75ls5t6o67nd7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public._message
-    ADD CONSTRAINT fk2lo5n6s81pgw1i5p10xr7mwnb FOREIGN KEY (property_id) REFERENCES public._property(id);
-
-
---
--- Name: _message fk3u8rfbixm4egfrhcpix6vljr8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public._message
-    ADD CONSTRAINT fk3u8rfbixm4egfrhcpix6vljr8 FOREIGN KEY (guest_user_username) REFERENCES public._guest(username);
+    ADD CONSTRAINT fk58x69j9pqcyn75ls5t6o67nd7 FOREIGN KEY (conversation_id) REFERENCES public._conversation(id);
 
 
 --
@@ -1388,6 +1447,22 @@ ALTER TABLE ONLY public._host
 
 
 --
+-- Name: _message fkelcaebrjg5ynpsgm29wa0hrme; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._message
+    ADD CONSTRAINT fkelcaebrjg5ynpsgm29wa0hrme FOREIGN KEY (sent_by_username) REFERENCES public._user(username);
+
+
+--
+-- Name: _conversation fkeug5b5q3uanp61n0j3vld3864; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._conversation
+    ADD CONSTRAINT fkeug5b5q3uanp61n0j3vld3864 FOREIGN KEY (property_id) REFERENCES public._property(id);
+
+
+--
 -- Name: _review fkfsfl2skpkkf4w9gccnw1ieptk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1401,14 +1476,6 @@ ALTER TABLE ONLY public._review
 
 ALTER TABLE ONLY public._city
     ADD CONSTRAINT fkg502tjt7on6mkh3hv0ryh9xwh FOREIGN KEY (country_id) REFERENCES public._country(id);
-
-
---
--- Name: _message fkgg64gispyo6k1u4p1gr8uafkh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public._message
-    ADD CONSTRAINT fkgg64gispyo6k1u4p1gr8uafkh FOREIGN KEY (host_user_username) REFERENCES public._host(username);
 
 
 --
@@ -1441,6 +1508,14 @@ ALTER TABLE ONLY public._reservation
 
 ALTER TABLE ONLY public.user_role
     ADD CONSTRAINT fklq0c9ngoogy42vinpnlvooxh1 FOREIGN KEY (user_username) REFERENCES public._user(username);
+
+
+--
+-- Name: _conversation fkn5c7prfy764cw18xi1139iwr9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._conversation
+    ADD CONSTRAINT fkn5c7prfy764cw18xi1139iwr9 FOREIGN KEY (guest_user_username) REFERENCES public._guest(username);
 
 
 --
