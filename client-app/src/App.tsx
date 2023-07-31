@@ -3,7 +3,7 @@ import './App.css';
 import { NavBar } from './components/NavBar';
 import { Outlet } from 'react-router-dom';
 import { Footer } from './components/Footer';
-import { AppContext, appContextInitState, AppContextState, AppContextType } from './AppContext';
+import { AppContext, appContextInitState, AppContextState } from './AppContext';
 
 export function App() {
 

@@ -1,4 +1,6 @@
 import { createContext } from 'react'
+import { LocationEntity } from './api/entities/LocationEntity'
+import { RoleType } from './api/entities/RoleType'
 
 // TODO: fix me (maybe?)
 type UserContext = {
@@ -6,7 +8,16 @@ type UserContext = {
     firstName: string,
     lastName: string,
     email: string,
-    mobileNumber: string
+    mobileNumber: string,
+    roles: RoleType[]
+}
+
+export type SearchContext = {
+    country?: LocationEntity,
+    city?: LocationEntity,
+    dateFrom?: Date | null,
+    dateTo?: Date | null,
+    numPersons: number
 }
 
 type ModalProps = {
@@ -20,20 +31,34 @@ type ModalContext = {
 }
 
 export type AppContextState = {
-    userContext?: UserContext,
+    businessContext: {
+        userContext?: UserContext,
+        searchContext: SearchContext
+    }
     modalContext: ModalContext
 }
 
 // Use this as a cheatsheet
-//
+
 // type AppContextType = {
 //     state: {
-//         userContext?: {
-//             username: string,
-//             firstName: string,
-//             lastName: string,
-//             email: string,
-//             mobileNumber: string
+//         businessContext: {
+//             userContext?: {
+//                 username: string,
+//                 firstName: string,
+//                 lastName: string,
+//                 email: string,
+//                 mobileNumber: string
+//             },
+//             searchContext: {
+//                 location?: {
+//                     id: number,
+//                     name: string
+//                 },
+//                 dayFrom?: Date,
+//                 dayTo?: Date,
+//                 numPersons: number
+//             }
 //         },
 //         modalContext: {
 //             showModal: boolean,
@@ -52,7 +77,16 @@ export type AppContextType = {
 }
 
 export const appContextInitState: AppContextState = {
-    userContext: undefined,
+    businessContext: {
+        userContext: undefined,
+        searchContext: {
+            country: undefined,
+            city: undefined,
+            dateFrom: new Date(),
+            dateTo: undefined,
+            numPersons: 1
+        }
+    },
     modalContext: {
         showModal: false,
         modalProps: {}
@@ -67,7 +101,20 @@ export const AppContext = createContext<AppContextType>({
 export function setUserContext(currentCtx: AppContextType, newUserCtx: UserContext) {
     currentCtx.setState?.({
         ...currentCtx.state,
-        userContext: newUserCtx
+        businessContext: {
+            ...currentCtx.state.businessContext,
+            userContext: newUserCtx
+        }
+    });
+}
+
+export function setSearchContext(currentCtx: AppContextType, newSearchCtx: SearchContext) {
+    currentCtx.setState?.({
+        ...currentCtx.state,
+        businessContext: {
+            ...currentCtx.state.businessContext,
+            searchContext: newSearchCtx
+        }
     });
 }
 
