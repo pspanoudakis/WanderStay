@@ -52,10 +52,9 @@ public class SecurityConfiguration {
             .requestMatchers(
                 "/auth/register",
                 "/auth/login",
-                
-                "/public/**",
                 "/location/**",
-                "/property/**"
+                "/property/**",
+                "/images/**"
             )
             .permitAll()
 

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public final class ControllerUtils {
 
-    public static <T extends ApiResponse> ResponseEntity<T> responseFactory(T res) {
+    public static ResponseEntity<ApiResponse> responseFactory(ApiResponse res) {
         if (res.isOk()) {
             return ResponseEntity.ok(res);
         } else {
@@ -14,9 +14,9 @@ public final class ControllerUtils {
         }
     }
 
-    public static <T extends ApiResponse> ResponseEntity<T> responseFactory(ThrowingSupplier<T> fn) {
+    public static ResponseEntity<ApiResponse> responseFactory(ThrowingSupplier<ApiResponse> fn) {
         try {
-            T res = fn.get();
+            ApiResponse res = fn.get();
             return ControllerUtils.responseFactory(res);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

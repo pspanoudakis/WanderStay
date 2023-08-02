@@ -37,4 +37,6 @@ out/
 .vscode/
 *.code-workspace
 
-*.csv
+big-cities.csv
+test.html
+resources/images/**
