@@ -7,6 +7,7 @@ import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { MyProfile } from './pages/MyProfile';
 import { UserInfo } from './pages/UserInfo';
+import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 						<Route index element={<MyProfile />} />
 						<Route path='userInfo' element={<UserInfo />} />
 					</Route>
+					<Route path='searchProperties' element={<SearchPropertiesPage/>} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

@@ -9,7 +9,7 @@ export function NavBar() {
             <PopOverMenu/>
 
         </div>
-        <div className="flex justify-center p-2 items-baseline px-8 rounded-full">
+        <div className="w-full relative mb-8">
             <SearchBar/>
         </div>
     </nav>);

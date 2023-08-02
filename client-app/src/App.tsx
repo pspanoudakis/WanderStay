@@ -22,9 +22,17 @@ export function App() {
 			">
 				<NavBar/>
 
-				{/* <div className='rounded-md border-1 border-main-petrol min-w-max'>
-				</div> */}
-				<Outlet/>				
+				<div
+					className='
+						rounded-md border-2 border-main-petrol 
+						min-w-max flex justify-center items-start w-9/12 py-5 px-7
+					'
+					style={{
+						minHeight: '40rem'
+					}}
+				>
+					<Outlet/>
+				</div>
 
 				<Footer/>
 			</div>		
