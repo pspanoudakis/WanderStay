@@ -1,26 +1,26 @@
 package com.backend.server;
 
-// import java.io.File;
-// import java.util.List;
-// import java.util.Scanner;
+import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.backend.server.services.ImageService;
+import com.backend.server.entities.users.Admin;
+import com.backend.server.entities.users.RoleEntityId;
+import com.backend.server.entities.users.User;
+import com.backend.server.repositories.AdminRepository;
+import com.backend.server.repositories.UserRepository;
+import com.backend.server.services.RoleService;
+// import java.io.File;
+// import java.util.Scanner;
 // import com.backend.server.entities.locations.City;
 // import com.backend.server.entities.locations.Country;
-// import com.backend.server.entities.users.Admin;
-// import com.backend.server.entities.users.RoleEntityId;
-// import com.backend.server.entities.users.User;
-// import com.backend.server.repositories.AdminRepository;
 // import com.backend.server.repositories.CityRepository;
 // import com.backend.server.repositories.CountryRepository;
-// import com.backend.server.repositories.UserRepository;
-// import com.backend.server.services.RoleService;
 
 @SpringBootApplication
 public class ServerApplication{
@@ -36,30 +36,30 @@ public class ServerApplication{
 		};
 	}
 
-	// @Bean
-	// public CommandLineRunner createAdminUser(
-	// 	UserRepository userRepository, 
-	// 	AdminRepository adminRepository, 
-	// 	RoleService roleService,
-	// 	PasswordEncoder passwordEncoder
-	// ) {
-	// 	return args -> {
-	// 		User user = userRepository.save(
-	// 			User.builder()
-	// 				.username("admin")
-	// 				.password(passwordEncoder.encode("admin"))
-	// 				.isActive(true)
-	// 				.roles(List.of(roleService.getAdminRole()))
-	// 				.build()
-	// 		);
-	// 		adminRepository.save(
-	// 			Admin.builder()
-	// 				.user(user)
-	// 				.id(new RoleEntityId())
-	// 				.build()
-	// 		);
-	// 	};
-	// }
+	@Bean
+	public CommandLineRunner createAdminUser(
+		UserRepository userRepository, 
+		AdminRepository adminRepository, 
+		RoleService roleService,
+		PasswordEncoder passwordEncoder
+	) {
+		return args -> {
+			User user = userRepository.save(
+				User.builder()
+					.username("admin")
+					.password(passwordEncoder.encode("admin"))
+					.isActive(true)
+					.roles(List.of(roleService.getAdminRole()))
+					.build()
+			);
+			adminRepository.save(
+				Admin.builder()
+					.user(user)
+					.id(new RoleEntityId())
+					.build()
+			);
+		};
+	}
 
 	// @Bean
 	// public CommandLineRunner populateCountriesDB(CountryRepository countryRepository, CityRepository cityRepository) {

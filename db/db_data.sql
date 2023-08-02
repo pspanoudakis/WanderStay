@@ -196,7 +196,6 @@ ALTER TABLE public._host OWNER TO postgres;
 
 CREATE TABLE public._image (
     id bigint NOT NULL,
-    data oid,
     is_main boolean NOT NULL,
     path character varying(255)
 );
@@ -1096,7 +1095,7 @@ COPY public._host (username) FROM stdin;
 -- Data for Name: _image; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public._image (id, data, is_main, path) FROM stdin;
+COPY public._image (id, is_main, path) FROM stdin;
 \.
 
 
@@ -1170,7 +1169,6 @@ ADMIN
 --
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
-admin	\N	\N	t	f	\N	\N	$2a$10$r62lf3utXCMM34zPNyETT.L5Fl2d43bMcCCKwQBZBZt8NQgYTKP4m	\N
 \.
 
 
