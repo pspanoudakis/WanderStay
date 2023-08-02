@@ -1169,6 +1169,7 @@ ADMIN
 --
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
+admin	\N	\N	t	f	\N	\N	$2a$10$r62lf3utXCMM34zPNyETT.L5Fl2d43bMcCCKwQBZBZt8NQgYTKP4m	\N
 \.
 
 
