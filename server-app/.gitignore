@@ -40,3 +40,4 @@ out/
 big-cities.csv
 test.html
 resources/images/**
+!resources/images/.gitignore

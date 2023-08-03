@@ -34,6 +34,8 @@ services:
   server-app:
     build: 
       context: ./server-app
+    volumes:
+      - ./server-app/resources/images:/resources/images
     container_name: server-app-container
     depends_on:
       - database
