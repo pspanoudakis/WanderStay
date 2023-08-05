@@ -25,9 +25,12 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("img") MultipartFile img) {
+    public ResponseEntity<?> uploadImage(
+        @RequestParam("img") MultipartFile img,
+        @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
+    ) {
         try {
-            imageService.saveImage(img, false);
+            imageService.saveImage(img, Boolean.parseBoolean(isMainStr));
             return ResponseEntity.ok(null);
         } catch (IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -38,7 +41,6 @@ public class ImageController {
     @GetMapping("/{imgId}")
     public ResponseEntity<Resource> downloadImage(@PathVariable(required = true) Long imgId) {
         Resource img = imageService.retrieveImage(imgId);
-        // img.getContentAsByteArray()
         if (img == null) {
             return ResponseEntity.badRequest().body(null);
         }
