@@ -53,7 +53,7 @@ public class SecurityConfiguration {
                 "/auth/register",
                 "/auth/login",
                 "/location/**",
-                "/property/**",
+                "/property/search",
                 "/images/**"
             )
             .permitAll()

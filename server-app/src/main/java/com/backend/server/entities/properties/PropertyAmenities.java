@@ -1,7 +1,9 @@
 package com.backend.server.entities.properties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
@@ -19,12 +21,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "_property_amenities")
 public class PropertyAmenities {
 
-    @EmbeddedId
-    private PropertyFieldEntityId id;
+    @JsonIgnore
+    @Id
+    private Long id;
 
-    @MapsId("propertyId")
+    @MapsId
     @OneToOne(optional = false)
     @JoinColumn(nullable = false, name = "property_id")
+    @JsonIgnore
     private Property property;
 
     private boolean hasWifi;

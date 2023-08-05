@@ -9,6 +9,7 @@ import com.backend.server.entities.locations.City;
 import com.backend.server.entities.users.Host;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -63,18 +64,23 @@ public class Property {
     private List<Image> images = new ArrayList<Image>();
 
     @OneToOne(
-        optional = false,
+        // optional = false,
         mappedBy = "property",
         cascade = {CascadeType.ALL}
+        // fetch = FetchType.EAGER
     )
     private PropertyRules rules;
 
     @OneToOne(
-        optional = false,
+        // optional = false,
         mappedBy = "property",
         cascade = {CascadeType.ALL}
+        // fetch = FetchType.EAGER
     )
     private PropertyAmenities amenities;
+
+    @Column(nullable = false)
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private PropertyType type;
