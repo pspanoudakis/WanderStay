@@ -17,6 +17,7 @@ import com.backend.server.entities.properties.PropertyAmenities_;
 import com.backend.server.entities.properties.PropertyRules_;
 import com.backend.server.entities.properties.Property_;
 
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
@@ -63,19 +64,27 @@ public class PropertyFiltersSpecification {
                     searchFilters.getDateFrom().toInstant(), 
                     searchFilters.getDateTo().toInstant()
                 );
+                Expression<Integer> totalCostExpression = (
+                    criteriaBuilder.sum(
+                        criteriaBuilder.prod(
+                            propertyRoot.join(Property_.rules).get(PropertyRules_.baseDayCost),
+                            numDays
+                        ),
+                        criteriaBuilder.prod(
+                            propertyRoot.join(Property_.rules).get(PropertyRules_.perGuestCost),
+                            numDays * searchFilters.getNumPersons()
+                        )
+                    )
+                );
+                // We need given date range to find total days and total costs to order by
+                propertyQuery.orderBy(
+                    criteriaBuilder.asc(totalCostExpression)
+                );
+
                 if (searchFilters.getMaxCost() != null) {
                     predicates.add(
                         criteriaBuilder.lessThanOrEqualTo(
-                            criteriaBuilder.sum(
-                                criteriaBuilder.prod(
-                                    propertyRoot.join(Property_.rules).get(PropertyRules_.baseDayCost),
-                                    numDays
-                                ),
-                                criteriaBuilder.prod(
-                                    propertyRoot.join(Property_.rules).get(PropertyRules_.perGuestCost),
-                                    numDays * searchFilters.getNumPersons()
-                                )
-                            ),
+                            totalCostExpression,
                             searchFilters.getMaxCost()
                         )
                     );
@@ -181,7 +190,7 @@ public class PropertyFiltersSpecification {
                     );
                 }
             }
-
+            
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
