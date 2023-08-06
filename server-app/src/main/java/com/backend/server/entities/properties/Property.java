@@ -46,7 +46,8 @@ public class Property {
 
     @OneToMany(
         mappedBy = "property",
-        cascade = {CascadeType.ALL}
+        cascade = {CascadeType.ALL},
+        orphanRemoval = true
     )
     @Builder.Default
     private List<AvailableTimeSlot> availableSlots = new LinkedList<AvailableTimeSlot>();
@@ -54,7 +55,9 @@ public class Property {
     @ManyToOne(optional = false)
     private City city;
     
-    @OneToMany
+    @OneToMany(
+        orphanRemoval = true
+    )
     @JoinTable(
         name = "_property_image",
         joinColumns = @JoinColumn(name = "property_id"),

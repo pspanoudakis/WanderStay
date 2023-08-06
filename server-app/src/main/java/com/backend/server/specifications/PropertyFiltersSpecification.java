@@ -95,72 +95,31 @@ public class PropertyFiltersSpecification {
                         (short) numDays
                     )
                 );
-
-                // Subquery<AvailableTimeSlot> slotSubquery = (
-                //     propertyQuery
-                //         .subquery(AvailableTimeSlot.class)
-                //         .select(propertyRoot.join(Property_.availableSlots))
-                // );
-                // Root<AvailableTimeSlot> slotRoot = 
-                //     slotSubquery.from(AvailableTimeSlot.class);               
-
-                // predicates.add(
-                //     criteriaBuilder.exists(
-                //         slotSubquery.where(
-                //             criteriaBuilder.lessThanOrEqualTo(
-                //                 slotRoot.get(AvailableTimeSlot_.startDate),
-                //                 searchFilters.getDateFrom()
-                //             ),
-                //             criteriaBuilder.greaterThanOrEqualTo(
-                //                 slotRoot.get(AvailableTimeSlot_.endDate),
-                //                 searchFilters.getDateTo()
-                //             )
-                //         )
-                //     )
-                // );
                 
-                // /* // Subquery<AvailableTimeSlot> slotSubquery = 
-                // //     propertyQuery.subquery(AvailableTimeSlot.class);
-                // // Root<AvailableTimeSlot> slotRoot = 
-                // //     slotSubquery.from(AvailableTimeSlot.class);               
-
-                // // predicates.add(
-                // //     criteriaBuilder.exists(
-                // //         slotSubquery
-                // //             .select(propertyRoot.join(Property_.availableSlots))
-                // //             .where(
-                // //                 criteriaBuilder.lessThanOrEqualTo(
-                // //                     slotRoot.get(AvailableTimeSlot_.startDate),
-                // //                     searchFilters.getDateFrom()
-                // //                 ),
-                // //                 criteriaBuilder.greaterThanOrEqualTo(
-                // //                     slotRoot.get(AvailableTimeSlot_.endDate),
-                // //                     searchFilters.getDateTo()
-                // //                 )
-                // //             )
-                // //     )
-                // // );
-                
-                // // predicates.add(
-                // //     criteriaBuilder.exists(
-                // //         slotSubquery
-                // //             .select(slotRoot)
-                // //             .where(
-                // //                 criteriaBuilder.equal(
-                // //                     slotRoot.join(AvailableTimeSlot_.property).get(Property_.id),
-                // //                     propertyRoot.get(Property_.id)
-                // //                 ),
-                // //                 criteriaBuilder.lessThanOrEqualTo(
-                // //                     slotRoot.get(AvailableTimeSlot_.startDate),
-                // //                     searchFilters.getDateFrom()
-                // //                 ),
-                // //                 criteriaBuilder.greaterThanOrEqualTo(
-                // //                     slotRoot.get(AvailableTimeSlot_.endDate),
-                // //                     searchFilters.getDateTo()
-                // //                 )
-                // //             )
-                // //     )
-                // // ); */
+                Subquery<AvailableTimeSlot> slotSubquery = 
+                    propertyQuery.subquery(AvailableTimeSlot.class);
+                Root<AvailableTimeSlot> slotRoot = 
+                    slotSubquery.from(AvailableTimeSlot.class);
+                predicates.add(
+                    criteriaBuilder.exists(
+                        slotSubquery
+                            .select(slotRoot)
+                            .where(
+                                criteriaBuilder.equal(
+                                    slotRoot.join(AvailableTimeSlot_.property).get(Property_.id),
+                                    propertyRoot.get(Property_.id)
+                                ),
+                                criteriaBuilder.lessThanOrEqualTo(
+                                    slotRoot.get(AvailableTimeSlot_.startDate),
+                                    searchFilters.getDateFrom()
+                                ),
+                                criteriaBuilder.greaterThanOrEqualTo(
+                                    slotRoot.get(AvailableTimeSlot_.endDate),
+                                    searchFilters.getDateTo()
+                                )
+                            )
+                    )
+                );
             }
 
             if (searchFilters.getNumPersons() != null) {
