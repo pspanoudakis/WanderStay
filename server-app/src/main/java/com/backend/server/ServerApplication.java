@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.backend.server.services.ImageService;
+
+// import java.util.Date;
 // import java.util.List;
 // import org.springframework.security.crypto.password.PasswordEncoder;
 // import com.backend.server.entities.users.Admin;
@@ -21,6 +23,7 @@ import com.backend.server.services.ImageService;
 // import java.util.Scanner;
 // import com.backend.server.entities.locations.City;
 // import com.backend.server.entities.locations.Country;
+// import com.backend.server.entities.properties.AvailableTimeSlot;
 // import com.backend.server.entities.properties.Property;
 // import com.backend.server.entities.properties.PropertyAmenities;
 // import com.backend.server.entities.properties.PropertyRules;
@@ -142,6 +145,7 @@ public class ServerApplication{
 	// 					.city(cityRepository.findById(Long.valueOf(i)).orElseThrow())
 	// 					.images(List.of())
 	// 					.type(PropertyType.PRIVATE_PROPERTY)
+	// 					.availableSlots(null)
 	// 					.rules(null)
 	// 					.amenities(null)
 	// 					.spaceArea((short) 1)
@@ -174,6 +178,19 @@ public class ServerApplication{
 	// 					.perGuestCost(i)
 	// 					.build()
 	// 			);
+	// 			property.setAvailableSlots(List.of(
+	// 				AvailableTimeSlot.builder()
+	// 					.property(property)
+	// 					.startDate(new Date(123, 9, 1))
+	// 					.endDate(new Date(123, 9, i + 3))
+	// 					.build()
+	// 				,
+	// 				AvailableTimeSlot.builder()
+	// 					.property(property)
+	// 					.startDate(new Date(123, 10, 1))
+	// 					.endDate(new Date(123, 10, i + 3))
+	// 					.build()
+	// 			));
 	// 			propertyRepository.save(property);
 	// 		}
 	// 	};
