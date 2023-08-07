@@ -72,7 +72,7 @@ export function SearchBar() {
             numPersons: String(searchOptions.numPersons)
         }
         navigate({
-            pathname: '/searchProperties',
+            pathname: '/searchProperties?',
             search: createSearchParams(searchParams).toString()
         })
     }
