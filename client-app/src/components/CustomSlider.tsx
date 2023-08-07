@@ -2,20 +2,28 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
 interface CustomSliderProps{
-    marks : {value:number, label:string}[],
-    value? : number,
-    setIsChecked : (newValue? : number) => void,
+    marks: Array<{
+        value: number, 
+        label: string
+    }>,
+    value?: number,
+    setValue: (newValue : number) => void,
 }
 
-export function CustomSlider(props:CustomSliderProps){
+export function CustomSlider(props: CustomSliderProps){
     return(
-        <Box sx={{ width: 300 }}>
+        <Box sx={{ width: 290 }}>
         <Slider 
             aria-label="Custom marks"
-            defaultValue={20}
             step={10}
             valueLabelDisplay="auto"
             marks={props.marks}
+            min={0}
+            max={props.marks[Math.max(props.marks.length - 1, 0)].value ?? 100}
+            value={props.value}
+            onChange={(_, val) => (
+                props.setValue(val instanceof Array ? val[0] : val)
+            )}            
         />
         </Box>
     )

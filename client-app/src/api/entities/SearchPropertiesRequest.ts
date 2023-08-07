@@ -1,6 +1,19 @@
 import { PropertyAmenity, PropertyRule, PropertyType } from "./enums";
 
-export interface PropertyFiltersCriteria {
+export interface PropertySearchFilters {
+    maxCost: number,
+
+    type?: PropertyType,
+
+    amenityFilters: {
+        [amenity in PropertyAmenity]: boolean
+    },
+    ruleFilters: {
+        [rule in PropertyRule]: boolean
+    },
+}
+
+export type PropertySearchCriteria = {
     countryId: number,
     cityId: number,
 
@@ -9,14 +22,7 @@ export interface PropertyFiltersCriteria {
     dateTo: string,
     
     numPersons: number,
-
-    maxCost: number,
-
-    type: PropertyType,
-
-    amenityFilters: PropertyAmenity[],
-    ruleFilters: PropertyRule[],
-}
+} & PropertySearchFilters
 
 export interface PaginationRequest {
     pageNum: number,
@@ -25,5 +31,5 @@ export interface PaginationRequest {
 
 export interface PropertySearchRequest {
     paginationInfo: PaginationRequest,
-    filtersInfo: PropertyFiltersCriteria,
+    filtersInfo: PropertySearchCriteria,
 };
