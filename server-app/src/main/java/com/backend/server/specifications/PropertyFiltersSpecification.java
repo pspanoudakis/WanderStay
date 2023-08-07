@@ -58,40 +58,38 @@ public class PropertyFiltersSpecification {
                 );
             }
 
+            var propertyRulesJoin = propertyRoot.join(Property_.rules);
             if (searchFilters.getDateFrom() != null && searchFilters.getDateTo() != null) {
 
                 int numDays = (int) ChronoUnit.DAYS.between(
                     searchFilters.getDateFrom().toInstant(), 
                     searchFilters.getDateTo().toInstant()
-                );
-                Expression<Integer> totalCostExpression = (
+                );                
+                Expression<Integer> totalCostPerDayExpression = (
                     criteriaBuilder.sum(
+                        propertyRulesJoin.get(PropertyRules_.baseDayCost),
                         criteriaBuilder.prod(
-                            propertyRoot.join(Property_.rules).get(PropertyRules_.baseDayCost),
-                            numDays
-                        ),
-                        criteriaBuilder.prod(
-                            propertyRoot.join(Property_.rules).get(PropertyRules_.perGuestCost),
-                            numDays * searchFilters.getNumPersons()
+                            propertyRulesJoin.get(PropertyRules_.perGuestCost),
+                            (int) searchFilters.getNumPersons()
                         )
                     )
                 );
                 // We need given date range to find total days and total costs to order by
                 propertyQuery.orderBy(
-                    criteriaBuilder.asc(totalCostExpression)
+                    criteriaBuilder.asc(totalCostPerDayExpression)
                 );
 
-                if (searchFilters.getMaxCost() != null) {
+                if (searchFilters.getMaxCostPerDay() != null) {
                     predicates.add(
                         criteriaBuilder.lessThanOrEqualTo(
-                            totalCostExpression,
-                            searchFilters.getMaxCost()
+                            totalCostPerDayExpression,
+                            searchFilters.getMaxCostPerDay()
                         )
                     );
                 }
                 predicates.add(
                     criteriaBuilder.lessThanOrEqualTo(
-                        propertyRoot.join(Property_.rules).get(PropertyRules_.minReservationDays),
+                        propertyRulesJoin.get(PropertyRules_.minReservationDays),
                         (short) numDays
                     )
                 );
@@ -122,29 +120,30 @@ public class PropertyFiltersSpecification {
                 );
             }
 
+            var propertyAmenitiesJoin = propertyRoot.join(Property_.amenities);
             if (searchFilters.getNumPersons() != null) {
                 predicates.add(
                     criteriaBuilder.greaterThanOrEqualTo(
-                        propertyRoot.join(Property_.amenities).get(PropertyAmenities_.numBeds),
+                        propertyAmenitiesJoin.get(PropertyAmenities_.numBeds),
                         searchFilters.getNumPersons()
                     )
                 );
-            }
-            
+            }            
             if (searchFilters.getAmenityFilters() != null) {
                 for (var filter: searchFilters.getAmenityFilters()) {
                     predicates.add(
                         criteriaBuilder.isTrue(
-                            propertyRoot.join(Property_.amenities).get(filter)
+                            propertyAmenitiesJoin.get(filter)
                         )
                     );
                 }                
             }
+
             if (searchFilters.getRuleFilters() != null) {
                 for (var filter: searchFilters.getRuleFilters()) {
                     predicates.add(
                         criteriaBuilder.isTrue(
-                            propertyRoot.join(Property_.rules).get(filter)
+                            propertyRulesJoin.get(filter)
                         )
                     );
                 }

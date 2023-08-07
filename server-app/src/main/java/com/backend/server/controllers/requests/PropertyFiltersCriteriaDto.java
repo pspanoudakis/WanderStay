@@ -33,7 +33,7 @@ public class PropertyFiltersCriteriaDto {
 
     private Byte numPersons;
 
-    private Integer maxCost;
+    private Integer maxCostPerDay;
 
     private List<String> amenityFilters;
     private List<String> ruleFilters;
