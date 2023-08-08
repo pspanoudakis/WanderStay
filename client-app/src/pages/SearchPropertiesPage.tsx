@@ -3,8 +3,8 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { AppContext } from "../AppContext";
 import { SearchFilters } from "../components/SearchFilters";
-import { PropertySearchFilters } from "../api/entities/SearchPropertiesRequest";
-import { PropertyAmenity, PropertyRule } from "../api/entities/enums";
+import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
+import { PropertyAmenity, PropertyRule } from "../api/entities/propertyEnums";
 
 export function SearchPropertiesPage() {
 

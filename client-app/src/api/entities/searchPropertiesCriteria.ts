@@ -1,4 +1,4 @@
-import { PropertyAmenity, PropertyRule, PropertyType } from "./enums";
+import { PropertyAmenity, PropertyRule, PropertyType } from "./propertyEnums";
 
 export interface PropertySearchFilters {
     maxCost: number,
@@ -23,13 +23,3 @@ export type PropertySearchCriteria = {
     
     numPersons: number,
 } & PropertySearchFilters
-
-export interface PaginationRequest {
-    pageNum: number,
-    pageSize: number,
-}
-
-export interface PropertySearchRequest {
-    paginationInfo: PaginationRequest,
-    filtersInfo: PropertySearchCriteria,
-};
