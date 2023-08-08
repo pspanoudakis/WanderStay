@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { AppContext } from "../AppContext";
 import { SearchFilters } from "../components/SearchFilters";
-import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
+import { PropertyAmenityFilters, PropertyRuleFilters, PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
 import { PropertyAmenity, PropertyRule } from "../api/entities/propertyEnums";
+import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
+import { useSearchParams } from "react-router-dom";
 
 export function SearchPropertiesPage() {
 
@@ -12,23 +14,37 @@ export function SearchPropertiesPage() {
         state: { businessContext }
     } = useContext(AppContext);
 
+    const [params, setParams] = useSearchParams();
+
     const [filters, setFilters] = useState<PropertySearchFilters>({
         maxCost: 100,
+        type: undefined,
         amenityFilters: Object.values(PropertyAmenity).reduce(
             (filters, amenity) => {
                 filters[amenity] = false;
                 return filters;
             },
-            {} as {[amenity in PropertyAmenity]: boolean}
+            {} as PropertyAmenityFilters
         ),
         ruleFilters: Object.values(PropertyRule).reduce(
             (filters, rule) => {
                 filters[rule] = false;
                 return filters;
             },
-            {} as {[amenity in PropertyRule]: boolean}
+            {} as PropertyRuleFilters
         ),
     });
+
+    const fetchProperties = useCallback(
+        (pageNumber: number, pageSize: number) => {
+            return fetch('');
+        }
+        , 
+        [
+            params,
+            filters
+        ]
+    );
 
     return (
         <div className="flex w-full justify-start gap-10 mt-10 h-full">
@@ -36,15 +52,18 @@ export function SearchPropertiesPage() {
                 filters={filters}
                 setFilters={setFilters}
             />
-            <div className="flex flex-col w-full gap-2">
+            <PaginatedResultsWrapper
+                pageSize={10}
+                resultFetcher={fetchProperties}
+                resultRenderer={(r) => <span>{String(r)}</span>}
+            />
+            {/* <div className="flex flex-col w-full gap-2">
                 
                 <h1 className="flex justify-start font-bold"> 
                  {businessContext.searchContext.city?.name ?? "Please Select a City"} : Βρέθηκαν {} καταλύματα
                 </h1>
                 <div className="flex justify-end ">
-                <Stack spacing={3}>
-                    <Pagination count={5} size="small" color="primary" />
-                </Stack>
+                <Pagination count={5} size="small" color="primary"/>
                 </div>
 
                 <div className="flex border-2 shadow-lg">
@@ -58,7 +77,7 @@ export function SearchPropertiesPage() {
                         
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
