@@ -30,10 +30,10 @@ export function SearchFilters({filters, setFilters}: {
                     setValue={val => 
                         setFilters({
                             ...filters,
-                            maxCost: val
+                            maxCostPerDay: val
                         })
                     }
-                    value={filters.maxCost}
+                    value={filters.maxCostPerDay}
                 />
             </div>
             <div className="flex flex-col border-b-2 border-main-petrol justify-center items-start pl-3 mt-2">

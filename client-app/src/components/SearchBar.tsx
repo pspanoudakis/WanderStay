@@ -29,7 +29,7 @@ export function SearchBar() {
     useEffect(() => {
         setLoadingLocations(true);
         fetchCountries()
-            .then(countries => setCountryList(countries))
+            .then(response => setCountryList(response.content.locations))
             .finally(() => setLoadingLocations(false));
     }, [])
 
@@ -43,7 +43,7 @@ export function SearchBar() {
             setLoadingLocations(true);
     
             fetchCities(searchOptions.country?.id)
-                .then(cities => setCityList(cities))
+                .then(response => setCityList(response.content.locations))
                 .finally(() => setLoadingLocations(false));
         }
 

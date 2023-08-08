@@ -1,3 +1,4 @@
+import { OptionalDate } from "./dates";
 import { PropertyAmenity, PropertyRule, PropertyType } from "./propertyEnums";
 
 export type PropertyAmenityFilters = {
@@ -9,7 +10,7 @@ export type PropertyRuleFilters = {
 }
 
 export type PropertySearchFilters = {
-    maxCost: number,
+    maxCostPerDay: number,
 
     type?: PropertyType,
 
@@ -18,12 +19,12 @@ export type PropertySearchFilters = {
 }
 
 export type PropertySearchCriteria = {
-    countryId: number,
-    cityId: number,
+    countryId?: number,
+    cityId?: number,
 
     // date.toJSON().slice(0, 10)
-    dateFrom: string,
-    dateTo: string,
+    dateFrom: OptionalDate,
+    dateTo: OptionalDate,
     
-    numPersons: number,
+    numPersons?: number,
 } & PropertySearchFilters

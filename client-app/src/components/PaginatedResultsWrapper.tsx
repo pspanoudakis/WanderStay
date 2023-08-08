@@ -1,6 +1,6 @@
 import { Pagination } from "@mui/material";
 import { PaginatedResponse } from "../api/responses/PaginatedResponse";
-import { ComponentType, ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 interface PaginatedResultsWrapperProps<T> {
     resultFetcher: 
@@ -62,7 +62,7 @@ export function PaginatedResultsWrapper<T>({
             <span>Loading...</span>
             :
             <div className="flex flex-col flex-1">
-                <div className="flex flex-row w-full">
+                <div className="flex flex-row w-full justify-between">
                     {
                         loading ? 
                             loadingTitle 
@@ -74,7 +74,7 @@ export function PaginatedResultsWrapper<T>({
                         size="small" 
                         color="primary"
                         page={currentPage + 1}
-                        onChange={(_, p) => setCurrentPage(p)}
+                        onChange={(_, p) => setCurrentPage(p - 1)}
                     />                
                 </div>
                 {

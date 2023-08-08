@@ -1,31 +1,13 @@
 import { LocationEntity } from "../entities/LocationEntity";
+import { FetchDataResponse, fetchData } from "./fetchAPI";
 
-async function fetchLocations(url: string) {
-    return fetch(
-        url,
-        {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': ''
-            },
-            body: undefined
-        }
-    ).then((response) => {
-        if (response.ok) {
-            return response.json().then( content => {
-                console.log(content);
-                const {locations} = content as {
-                    locations: LocationEntity[]
-                };
-                return locations;
-            })
-        }
-        else {
-            return [];
-        }
-    });
+export async function fetchLocations(url: string) {
+    return await fetchData({
+        endpoint: url,
+        method: "GET"
+    }) as FetchDataResponse<{
+        locations: LocationEntity[]
+    }>;
 }
 
 export async function fetchCities(countryId: number) {
