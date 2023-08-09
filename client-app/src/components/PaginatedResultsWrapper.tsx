@@ -7,7 +7,7 @@ interface PaginatedResultsWrapperProps<T> {
         (pageNumber: number, pageSize: number) => Promise<PaginatedResponse<T>>,
 
     resultsContainerRenderer?: (results: T[]) => JSX.Element,
-    resultRenderer?: (result: T) => ReactNode,
+    resultRenderer?: (result: T, idx: number) => ReactNode,
 
     setExtLoading?: (loading: boolean) => void,
     loadingTitle?: string,
@@ -82,7 +82,7 @@ export function PaginatedResultsWrapper<T>({
                         resultsContainerRenderer(results)
                         :
                         <div className="flex flex-col w-full">
-                            {results.map(r => resultRenderer?.(r))}
+                            {results.map((r, i) => resultRenderer?.(r, i))}
                         </div>
                 }
             </div>

@@ -5,12 +5,10 @@ import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria"
 import { PropertyAmenity, PropertyRule, PropertyType } from "../api/entities/propertyEnums";
 import { PropertyAmenityLabels, PropertyRuleLabels, PropertyTypeLabels } from './utils/propertyFieldLabels';
 
-const MAX_SLIDER_COST = 1000
-const SLIDER_MARKS = [0, 100, 250, 500, MAX_SLIDER_COST];
-
-export function SearchFilters({filters, setFilters}: {
+export function SearchFilters({filters, setFilters, sliderMarks}: {
     filters: PropertySearchFilters,
-    setFilters: (newFilters: PropertySearchFilters) => void
+    setFilters: (newFilters: PropertySearchFilters) => void,    
+    sliderMarks: number[]
 }) {
     
     return (
@@ -21,10 +19,10 @@ export function SearchFilters({filters, setFilters}: {
             <div className="flex flex-col border-b-2 border-main-petrol justify-center items-start mt-2 pl-3">
                 <b>Ο ημερήσιος προϋπολογισμός σας:</b>
                 <CustomSlider 
-                    marks={SLIDER_MARKS.map((c, i) => {
+                    marks={sliderMarks.map((c, i) => {
                         return {
                             value: c,
-                            label: `${c}€${i === SLIDER_MARKS.length - 1  ? '+' : ''}`
+                            label: `${c}€${i === sliderMarks.length - 1  ? '+' : ''}`
                         };
                     })}
                     setValue={val => 

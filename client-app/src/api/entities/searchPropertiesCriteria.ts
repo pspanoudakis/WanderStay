@@ -10,7 +10,7 @@ export type PropertyRuleFilters = {
 }
 
 export type PropertySearchFilters = {
-    maxCostPerDay: number,
+    maxCostPerDay?: number,
 
     type?: PropertyType,
 
