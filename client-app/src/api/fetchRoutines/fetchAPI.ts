@@ -56,16 +56,16 @@ export async function fetchData({
                     jwt: extractJwt && res.headers.get('Authorization') || undefined
                 };
             }).catch(err => {
-                console.error('ERROR: Cannot parse response as JSON.');
+                console.error('FETCH ERROR: Cannot parse response as JSON.');
                 console.error(err);
             })
         }
         else {
-            console.error('ERROR: Server returned error response.');
+            console.error('FETCH ERROR: Server returned error response.');
             console.error(res);
         }
     }).catch(err => {
-        console.error('ERROR: Error while invoking `fetch`.');
+        console.error('FETCH ERROR: Error while invoking `fetch`.');
         console.error(err);
     });
     

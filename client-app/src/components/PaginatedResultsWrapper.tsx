@@ -43,12 +43,14 @@ export function PaginatedResultsWrapper<T>({
         resultFetcher(currentPage, pageSize)
             .then(response => {
                 setResults(response.content);
-                setTotalPages(response.totalPages);                
-            })
-            .finally(() => {
+                setTotalPages(response.totalPages); 
                 setExtLoading?.(false);
-                setLoading(false)
-            });
+                setLoading(false)               
+            })
+            // .finally(() => {
+            //     setExtLoading?.(false);
+            //     setLoading(false)
+            // });
 
     }, [resultFetcher, currentPage, pageSize, setExtLoading]);
 

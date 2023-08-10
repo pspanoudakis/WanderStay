@@ -5,5 +5,11 @@ export function compareDates(d1: OptionalDate, d2: OptionalDate) {
 }
 
 export function dateToStr(d: OptionalDate) {
-    return d?.toJSON().slice(0, 10);
+    if (d) {
+        return [
+            d.getFullYear().toString(),
+            ('0' + (d.getMonth() + 1)).slice(-2),
+            ('0' + (d.getDate())).slice(-2)
+        ].join('-');
+    }
 }
