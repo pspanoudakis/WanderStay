@@ -68,8 +68,10 @@ export function PaginatedResultsWrapper<T>({
                     {
                         loading ? 
                             loadingTitle 
-                            : 
-                            (idleTitleBuilder?.(results.length) ?? 'Αποτελέσματα Αναζήτησης')
+                            :
+                            <span className="font-bold text-lg">
+                                {(idleTitleBuilder?.(results.length) ?? 'Αποτελέσματα Αναζήτησης')}                            
+                            </span> 
                     }
                     <Pagination 
                         count={totalPages} 
@@ -83,7 +85,7 @@ export function PaginatedResultsWrapper<T>({
                     resultsContainerRenderer ?
                         resultsContainerRenderer(results)
                         :
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full pt-3">
                             {results.map((r, i) => resultRenderer?.(r, i))}
                         </div>
                 }
