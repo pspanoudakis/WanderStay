@@ -4,6 +4,10 @@ export function compareDates(d1: OptionalDate, d2: OptionalDate) {
     return Number(d2?.getTime()) - Number(d1?.getTime());
 }
 
+export function compareDatesStr(d1: string | null, d2: string | null) {
+    return d2?.localeCompare(d1 ?? '') ?? (- Number(Boolean(d1)))
+}
+
 export function dateToStr(d: OptionalDate) {
     if (d) {
         return [
@@ -12,4 +16,5 @@ export function dateToStr(d: OptionalDate) {
             ('0' + (d.getDate())).slice(-2)
         ].join('-');
     }
+    return null
 }

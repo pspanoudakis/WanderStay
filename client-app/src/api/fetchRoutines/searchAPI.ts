@@ -1,4 +1,3 @@
-import { dateToStr } from "../entities/dates";
 import { PropertyAmenity, PropertyRule } from "../entities/propertyEnums";
 import { PropertySearchRequest } from "../requests/PropertySearchRequest";
 import { PaginatedResponse, emptyPaginatedResponse } from "../responses/PaginatedResponse";
@@ -32,9 +31,9 @@ function createSearchRequestBody(searchOptions: PropertySearchRequest) {
                     [] as PropertyRule[]
                 )
             ),
-            numPersons: searchOptions.filtersInfo.numPersons,
-            dateFrom: dateToStr(filtersInfo.dateFrom),
-            dateTo: dateToStr(filtersInfo.dateTo)
+            numPersons: filtersInfo.numPersons,
+            dateFrom: filtersInfo.dateFrom,
+            dateTo: filtersInfo.dateTo
         },
         paginationInfo: {
             ...searchOptions.paginationInfo

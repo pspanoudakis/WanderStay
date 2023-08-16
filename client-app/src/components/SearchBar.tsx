@@ -11,7 +11,7 @@ import { AppContext, SearchContext, setSearchContext } from '../AppContext';
 import { LocationEntity } from '../api/entities/LocationEntity';
 import { fetchCities, fetchCountries } from '../api/fetchRoutines/locationsAPI';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { compareDates } from '../api/entities/dates';
+import { compareDatesStr, dateToStr } from '../api/entities/dates';
 
 type PickerDateRange = [Dayjs | null, Dayjs | null]
 
@@ -36,18 +36,18 @@ export function SearchBar() {
     useEffect(() => {
         setSearchOptions({
             ...searchOptions,
-            city: undefined
+            cityId: null
         })
         setCityList([]);
-        if (searchOptions.country) {
+        if (searchOptions.countryId) {
             setLoadingLocations(true);
     
-            fetchCities(searchOptions.country?.id)
+            fetchCities(searchOptions.countryId)
                 .then(response => setCityList(response.content.locations))
                 .finally(() => setLoadingLocations(false));
         }
 
-    }, [searchOptions.country?.id]);
+    }, [searchOptions.countryId]);
 
     const setSearchOptions = (newOptions: SearchContext) => {
         setSearchContext(appCtx, newOptions);
@@ -56,8 +56,8 @@ export function SearchBar() {
     const dateRangeOnChange = ([from, to]: PickerDateRange) => {
         setSearchOptions({
             ...searchOptions,
-            dateFrom: from?.toDate(),
-            dateTo: to?.toDate()
+            dateFrom: dateToStr(from?.toDate()),
+            dateTo: dateToStr(to?.toDate())
         })
     }
 
@@ -65,10 +65,10 @@ export function SearchBar() {
 
     const triggerSearch = () => {
         const searchParams = {
-            countryId: String(searchOptions.country?.id),
-            cityId: String(searchOptions.city?.id),
-            dateFrom: String(searchOptions.dateFrom),
-            dateTo: String(searchOptions.dateTo),
+            countryId: String(searchOptions.countryId),
+            cityId: String(searchOptions.cityId),
+            dateFrom: searchOptions.dateFrom ?? '',
+            dateTo: searchOptions.dateTo ?? '',
             numPersons: String(searchOptions.numPersons)
         }
         navigate({
@@ -79,14 +79,14 @@ export function SearchBar() {
 
     const canTriggerSearch = useMemo(
         () => Boolean(
-            searchOptions.country?.id &&
-            searchOptions.city?.id &&
-            (compareDates(searchOptions.dateFrom, searchOptions.dateTo) > 0) &&
+            searchOptions.countryId &&
+            searchOptions.cityId &&
+            (compareDatesStr(searchOptions.dateFrom, searchOptions.dateTo) > 0) &&
             searchOptions.numPersons
         ), 
         [
-            searchOptions.country?.id,
-            searchOptions.city?.id,
+            searchOptions.countryId,
+            searchOptions.cityId,
             searchOptions.dateFrom,
             searchOptions.dateTo,
             searchOptions.numPersons
@@ -112,11 +112,11 @@ export function SearchBar() {
                     placeholder="Χώρα"
                     noOptionsText="Δεν βρέθηκαν Χώρες"
                     options={countryList}
-                    value={searchOptions.country ?? null}
+                    value={countryList.find(c => c.id === searchOptions.countryId) ?? null}
                     getOptionLabel={getLocationLabel}
                     onChange={(_, c) => setSearchOptions({
                         ...searchOptions,
-                        country: c ?? undefined
+                        countryId: c?.id ?? null
                     })}
                     sx={{ width: '14rem' }}
                     isOptionEqualToValue={(opt, val) => opt.id === val.id}
@@ -126,11 +126,11 @@ export function SearchBar() {
                     placeholder="Πόλη"
                     noOptionsText="Δεν βρέθηκαν Πόλεις"
                     options={cityList}
-                    value={searchOptions.city ?? null}
+                    value={cityList.find(c => c.id === searchOptions.cityId) ?? null}
                     getOptionLabel={getLocationLabel}
                     onChange={(_, c) => setSearchOptions({
                         ...searchOptions,
-                        city: c ?? undefined
+                        cityId: c?.id ?? null
                     })}
                     sx={{ width: '14rem' }}
                     isOptionEqualToValue={(opt, val) => opt.id === val.id}

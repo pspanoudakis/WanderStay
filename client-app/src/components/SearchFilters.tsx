@@ -5,19 +5,30 @@ import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria"
 import { PropertyAmenity, PropertyRule, PropertyType } from "../api/entities/propertyEnums";
 import { PropertyAmenityLabels, PropertyRuleLabels, PropertyTypeLabels } from './utils/propertyFieldLabels';
 
-export function SearchFilters({filters, setFilters, sliderMarks}: {
+export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
     filters: PropertySearchFilters,
     setFilters: (newFilters: PropertySearchFilters) => void,    
-    sliderMarks: number[]
+    sliderMarks: number[],
+    onSearch: () => void,
 }) {
     
     return (
-        <div className="flex flex-col w-1/3 border-2 border-main-petrol rounded-md h-full">
-            <div className="flex border-b-2 border-main-petrol justify-center">
-                <b>Φιλτράρισμα κατά:</b>
+        <div className="flex flex-col w-1/3 border-2 border-main-petrol rounded-md h-full items-center">
+            <div className="flex flex-row border-b-2 w-full border-main-petrol justify-center py-2 gap-2">
+                <b>Επιλογές Αναζήτησης</b>
+                <button
+                    className='
+                        rounded-xl px-4
+                        bg-main-petrol duration-300 hover:bg-dark-petrol
+                        text-white font-semibold
+                    '
+                    onClick={onSearch}
+                >
+                    Εφαρμογή
+                </button>
             </div>
-            <div className="flex flex-col border-b-2 border-main-petrol justify-center items-start mt-2 pl-3">
-                <b>Ο ημερήσιος προϋπολογισμός σας:</b>
+            <div className="flex flex-col border-b-2 border-main-petrol justify-center mt-2 pl-3 w-full">
+                <span className='font-semibold'>Ο ημερήσιος προϋπολογισμός σας</span>
                 <CustomSlider 
                     marks={sliderMarks.map((c, i) => {
                         return {
@@ -34,8 +45,8 @@ export function SearchFilters({filters, setFilters, sliderMarks}: {
                     value={filters.maxCostPerDay}
                 />
             </div>
-            <div className="flex flex-col border-b-2 border-main-petrol justify-center items-start pl-3 mt-2">
-                <b>Τύπος Δωματίου:</b>
+            <div className="flex flex-col border-b-2 border-main-petrol justify-center w-full pl-3 mt-2">
+                <span className='font-semibold'>Τύπος Δωματίου</span>
                 {
                     Object.values(PropertyType).map((type, i) => 
                         <CheckboxWithLabel 
@@ -53,8 +64,8 @@ export function SearchFilters({filters, setFilters, sliderMarks}: {
                     )
                 }
             </div>
-            <div className="flex flex-col justify-center items-start pl-3 mt-2">
-                <b>Παροχές:</b>
+            <div className="flex flex-col justify-center w-full pl-3 mt-2">
+                <span className='font-semibold'>Παροχές</span>
                 {
                     Object.values(PropertyAmenity).map((amenity, i) => 
                         <CheckboxWithLabel 
@@ -75,8 +86,8 @@ export function SearchFilters({filters, setFilters, sliderMarks}: {
                     )
                 }
             </div>
-            <div className="flex flex-col justify-center items-start pl-3 mt-2">
-                <b>Κανόνες Ενοικίασης:</b>
+            <div className="flex flex-col justify-center w-full pl-3 mt-2">
+                <span className='font-semibold'>Κανόνες Ενοικίασης</span>
                 {
                     Object.values(PropertyRule).map((rule, i) => 
                         <CheckboxWithLabel 

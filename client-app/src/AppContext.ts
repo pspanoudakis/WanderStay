@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import { LocationEntity } from './api/entities/LocationEntity'
 import { RoleType } from './api/entities/RoleType'
+import { dateToStr } from './api/entities/dates'
 
 // TODO: fix me (maybe?)
 type UserContext = {
@@ -13,10 +13,10 @@ type UserContext = {
 }
 
 export type SearchContext = {
-    country?: LocationEntity,
-    city?: LocationEntity,
-    dateFrom?: Date | null,
-    dateTo?: Date | null,
+    countryId: number | null,
+    cityId: number | null,
+    dateFrom: string | null,
+    dateTo: string | null,
     numPersons: number
 }
 
@@ -80,10 +80,10 @@ export const appContextInitState: AppContextState = {
     businessContext: {
         userContext: undefined,
         searchContext: {
-            country: undefined,
-            city: undefined,
-            dateFrom: new Date(),
-            dateTo: undefined,
+            countryId: null,
+            cityId: null,
+            dateFrom: dateToStr(new Date()),
+            dateTo: null,
             numPersons: 1
         }
     },

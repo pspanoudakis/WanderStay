@@ -1,5 +1,5 @@
-import { useCallback, useContext, useState } from "react";
-import { AppContext } from "../AppContext";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { AppContext, setSearchContext } from "../AppContext";
 import { SearchFilters } from "../components/SearchFilters";
 import { PropertyAmenityFilters, PropertyRuleFilters, PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
 import { PropertyAmenity, PropertyRule } from "../api/entities/propertyEnums";
@@ -12,11 +12,11 @@ const MAX_SLIDER_COST = 1000
 const SLIDER_MARKS = [0, 100, 250, 500, MAX_SLIDER_COST];
 export function SearchPropertiesPage() {
 
-    const {
-        state: { businessContext }
-    } = useContext(AppContext);
+    const appCtx = useContext(AppContext);
 
     const [params, ] = useSearchParams();
+
+    const [triggerSearchHelper, setTriggerSearchHelper] = useState(false)
 
     const [filters, setFilters] = useState<PropertySearchFilters>({
         maxCostPerDay: 100,
@@ -37,22 +37,47 @@ export function SearchPropertiesPage() {
         ),
     });
 
+    const extractUrlParams = () => {
+        return {
+            dateFrom: params.get('dateFrom'),
+            dateTo: params.get('dateTo'),
+            countryId: (
+                params.get('countryId') ?
+                    Number(params.get('countryId'))
+                    :
+                    null
+            ),
+            cityId: (
+                params.get('cityId') ?
+                    Number(params.get('cityId'))
+                    :
+                    null
+            ),
+            numPersons: (
+                params.get('numPersons') ?
+                    Number(params.get('numPersons'))
+                    :
+                    1
+            )
+        }
+    }
+
+    useEffect(() => {
+        setSearchContext(appCtx, extractUrlParams())
+    }, [params])
+
     const fetchProperties = useCallback(
         async (pageNum: number, pageSize: number) => {
             return fetchPropertyResults({
                 filtersInfo: {
-                    ...filters,                    
-                    dateFrom: businessContext.searchContext.dateFrom,
-                    dateTo: businessContext.searchContext.dateTo,
-                    countryId: businessContext.searchContext.country?.id,
-                    cityId: businessContext.searchContext.city?.id,
-                    numPersons: businessContext.searchContext.numPersons,
+                    ...filters,
                     maxCostPerDay: (
                         filters.maxCostPerDay === MAX_SLIDER_COST ?
                             undefined
                             :
                             filters.maxCostPerDay
-                    )
+                    ),                   
+                    ...extractUrlParams()               
                 },
                 paginationInfo: {
                     pageNum,
@@ -62,7 +87,8 @@ export function SearchPropertiesPage() {
                 return res.content;
             });
 
-        },[params, filters]
+        },
+        [params, triggerSearchHelper]
     );
 
     return (
@@ -71,6 +97,7 @@ export function SearchPropertiesPage() {
                 filters={filters}
                 setFilters={setFilters}
                 sliderMarks={SLIDER_MARKS}
+                onSearch={() => setTriggerSearchHelper(triggerSearchHelper !== true)}
             />
             <PaginatedResultsWrapper
                 pageSize={3}
