@@ -92,7 +92,7 @@ export function SearchPropertiesPage() {
     );
 
     return (
-        <div className="flex w-full justify-start gap-10 mt-10 h-full">
+        <div className="flex w-full justify-start gap-10 h-full">
             <SearchFilters
                 filters={filters}
                 setFilters={setFilters}

@@ -13,8 +13,8 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
 }) {
     
     return (
-        <div className="flex flex-col w-1/3 border-2 border-main-petrol rounded-md h-full items-center">
-            <div className="flex flex-row border-b-2 w-full border-main-petrol justify-center py-2 gap-2">
+        <div className="flex flex-col w-1/3 border-2 border-main-petrol rounded-md h-full items-center divide-y divide-main-petrol">
+            <div className="flex flex-row w-full justify-center items-center py-2 gap-2">
                 <b>Επιλογές Αναζήτησης</b>
                 <button
                     className='
@@ -27,8 +27,8 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                     Εφαρμογή
                 </button>
             </div>
-            <div className="flex flex-col border-b-2 border-main-petrol justify-center mt-2 pl-3 w-full">
-                <span className='font-semibold'>Ο ημερήσιος προϋπολογισμός σας</span>
+            <div className="flex flex-col justify-center px-3 w-full">
+                <span className='font-semibold pt-1'>Ο ημερήσιος προϋπολογισμός σας</span>
                 <CustomSlider 
                     marks={sliderMarks.map((c, i) => {
                         return {
@@ -45,8 +45,8 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                     value={filters.maxCostPerDay}
                 />
             </div>
-            <div className="flex flex-col border-b-2 border-main-petrol justify-center w-full pl-3 mt-2">
-                <span className='font-semibold'>Τύπος Δωματίου</span>
+            <div className="flex flex-col justify-center w-full px-3 mt-2">
+                <span className='font-semibold pt-1'>Τύπος Δωματίου</span>
                 {
                     Object.values(PropertyType).map((type, i) => 
                         <CheckboxWithLabel 
@@ -64,8 +64,8 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                     )
                 }
             </div>
-            <div className="flex flex-col justify-center w-full pl-3 mt-2">
-                <span className='font-semibold'>Παροχές</span>
+            <div className="flex flex-col justify-center w-full px-3 mt-2">
+                <span className='font-semibold pt-1'>Παροχές</span>
                 {
                     Object.values(PropertyAmenity).map((amenity, i) => 
                         <CheckboxWithLabel 
@@ -86,8 +86,8 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                     )
                 }
             </div>
-            <div className="flex flex-col justify-center w-full pl-3 mt-2">
-                <span className='font-semibold'>Κανόνες Ενοικίασης</span>
+            <div className="flex flex-col justify-center w-full px-3 mt-2">
+                <span className='font-semibold pt-1'>Κανόνες Ενοικίασης</span>
                 {
                     Object.values(PropertyRule).map((rule, i) => 
                         <CheckboxWithLabel 
