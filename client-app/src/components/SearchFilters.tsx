@@ -18,7 +18,7 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                 <b>Επιλογές Αναζήτησης</b>
                 <button
                     className='
-                        rounded-xl px-4
+                        rounded-xl px-4 py-0.5
                         bg-main-petrol duration-300 hover:bg-dark-petrol
                         text-white font-semibold
                     '

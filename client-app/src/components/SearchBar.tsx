@@ -177,7 +177,7 @@ export function SearchBar() {
                     >
                         <FontAwesomeIcon icon={faCaretDown} size='xl'/>
                     </button>
-                    <span className='font-bold text-xl'>{searchOptions.numPersons}</span>
+                    <span className='font-bold text-lg w-6'>{searchOptions.numPersons}</span>
                     <button 
                         className='bg-white rounded-full h-fit p-1' 
                         onClick={() => setSearchOptions({
