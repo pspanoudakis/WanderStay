@@ -193,7 +193,7 @@ export function SearchBar() {
                     className='
                         bg-main-petrol text-white rounded-full text-xl
                         h-fit px-3 py-2
-                        duration-200
+                        duration-300
                         hover:bg-dark-petrol
                         disabled:bg-light-petrol
                     '

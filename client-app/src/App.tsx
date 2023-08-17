@@ -6,6 +6,7 @@ import { Footer } from './components/Footer';
 import { AppContext, appContextInitState, AppContextState } from './AppContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { APP_PALLETE } from './components/utils/colorConstants';
+import { Modal } from './components/Modal';
 
 const muiTheme = createTheme({
 	typography: {
@@ -53,6 +54,8 @@ export function App() {
 					</div>
 
 					<Footer/>
+
+					<Modal/>
 				</div>
 			</ThemeProvider>
 		</AppContext.Provider>
