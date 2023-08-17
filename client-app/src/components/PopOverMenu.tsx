@@ -44,7 +44,7 @@ export function PopOverMenu() {
     return (
         <>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', outline: 'none' }}>
-                <Tooltip title="Account settings">
+                <Tooltip title="Προφίλ Χρήστη">
                     <IconButton
                         onClick={handleClick}
                         size="small"

@@ -4,6 +4,23 @@ import { NavBar } from './components/NavBar';
 import { Outlet } from 'react-router-dom';
 import { Footer } from './components/Footer';
 import { AppContext, appContextInitState, AppContextState } from './AppContext';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { APP_PALLETE } from './components/utils/colorConstants';
+
+const muiTheme = createTheme({
+	typography: {
+		fontFamily: ["system-ui", "Helvetica", "Arial", "sans-serif"].join(","),
+		fontSize: 12,
+	},
+	palette: {
+		primary: {
+			main: APP_PALLETE['main-petrol'],
+			dark: APP_PALLETE['dark-petrol'],
+			light: APP_PALLETE['light-petrol'],
+			contrastText: 'white'
+		}
+	}
+})
 
 export function App() {
 
@@ -16,26 +33,28 @@ export function App() {
 				setState: setAppContext
 			}}
 		>
-			<div className="
-				min-h-screen w-full
-				flex justify-between items-center flex-col gap-4
-			">
-				<NavBar/>
+			<ThemeProvider theme={muiTheme}>
+				<div className="
+					min-h-screen w-full
+					flex justify-between items-center flex-col gap-4
+				">
+					<NavBar/>
 
-				<div
-					className='
-						rounded-md border-2 border-main-petrol 
-						min-w-max flex justify-center items-start w-9/12 py-5 px-7
-					'
-					style={{
-						minHeight: '40rem'
-					}}
-				>
-					<Outlet/>
+					<div
+						className='
+							rounded-md border-2 border-main-petrol 
+							min-w-max flex justify-center items-start w-9/12 py-5 px-7
+						'
+						style={{
+							minHeight: '40rem'
+						}}
+					>
+						<Outlet/>
+					</div>
+
+					<Footer/>
 				</div>
-
-				<Footer/>
-			</div>		
+			</ThemeProvider>
 		</AppContext.Provider>
 	);
 }
