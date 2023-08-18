@@ -1,6 +1,7 @@
 import { Pagination } from "@mui/material";
 import { PaginatedResponse } from "../api/responses/PaginatedResponse";
 import { ReactNode, useCallback, useEffect, useState } from "react";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 interface PaginatedResultsWrapperProps<T> {
     resultFetcher: 
@@ -59,37 +60,42 @@ export function PaginatedResultsWrapper<T>({
         fetchResults();
     }, [fetchResults]);
     
-    return (
-        loading ?
-            <span>Loading...</span>
-            :
-            <div className="flex flex-col flex-1">
-                <div className="flex flex-row w-full justify-between">
-                    {
-                        loading ? 
-                            loadingTitle 
-                            :
+    return (        
+        <div className="flex flex-col flex-1 relative">
+            <div className="flex flex-row w-full justify-between">
+                {
+                    loading && !results.length ? 
+                        loadingTitle 
+                        :
+                        <>
                             <span className="font-bold text-lg">
                                 {(idleTitleBuilder?.(results.length) ?? 'Αποτελέσματα Αναζήτησης')}                            
-                            </span> 
-                    }
-                    <Pagination 
-                        count={totalPages} 
-                        size="small" 
-                        color="primary"
-                        page={currentPage + 1}
-                        onChange={(_, p) => setCurrentPage(p - 1)}
-                    />                
-                </div>
-                {
-                    resultsContainerRenderer ?
-                        resultsContainerRenderer(results)
-                        :
-                        <div className="flex flex-col w-full pt-3">
-                            {results.map((r, i) => resultRenderer?.(r, i))}
-                        </div>
-                }
+                            </span>
+                            <Pagination 
+                                count={totalPages} 
+                                size="small" 
+                                color="primary"
+                                page={currentPage + 1}
+                                onChange={(_, p) => setCurrentPage(p - 1)}
+                            />
+                        </>
+                }                                
             </div>
+            {
+                resultsContainerRenderer ?
+                    resultsContainerRenderer(results)
+                    :
+                    <div className="flex flex-col w-full pt-3">
+                        {results.map((r, i) => resultRenderer?.(r, i))}
+                    </div>
+            }
+            {
+                loading ?
+                <LoadingSpinner coverParent={results.length > 0} customTwBgColor="bg-white/75"/>
+                :
+                null
+            }
+        </div>
     );
 
 }

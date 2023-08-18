@@ -100,7 +100,8 @@ export function SearchPropertiesPage() {
                 onSearch={() => setTriggerSearchHelper(triggerSearchHelper !== true)}
             />
             <PaginatedResultsWrapper
-                pageSize={3}
+                pageSize={4}
+                idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchProperties}
                 resultRenderer={(id, idx) => {
                     return (
