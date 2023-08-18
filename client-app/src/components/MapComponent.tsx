@@ -1,26 +1,38 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import {MapContainer, Marker, Popup, TileLayer, useMap} from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { Marker as MarkerRefType } from 'leaflet'
 import "leaflet/dist/leaflet.css"
 
-interface MapProps{coordinateX: number, coordinateY: number}
+type PositionCoordinates = {
+  lat: number,
+  lng: number,
+}
+
+interface MapProps {
+  position: PositionCoordinates,
+  setPosition?: (pos: PositionCoordinates) => void,
+  editable : boolean
+}
+ 
 export function MapComponent(props: MapProps){
-    
-    const [center, setCenter] = useState({lat: 13.084622, lng: 80.248357});
-    const ZOOM_LEVEL = 9;
-    const mapRef = useRef();
-    
-    
-function DraggableMarker() {
+  
+  const ZOOM_LEVEL = 9; 
+  
+  function DraggableMarker() {
+    // https://react-leaflet.js.org/docs/example-draggable-marker/
+
     const [draggable, setDraggable] = useState(false)
-    const [position, setPosition] = useState(center)
-    const markerRef = useRef(null)
+    const markerRef = useRef<MarkerRefType | null>(null)
     const eventHandlers = useMemo(
       () => ({
         dragend() {
           const marker = markerRef.current
-        //   if (marker != null) {
-        //     setPosition(marker.getLatLng())
-        //   }
+           if (props.editable && marker) {
+             props.setPosition?.({
+              lat: marker.getLatLng().lat,
+              lng: marker.getLatLng().lng,
+             })
+           }
         },
       }),
       [],
@@ -28,17 +40,21 @@ function DraggableMarker() {
     const toggleDraggable = useCallback(() => {
       setDraggable((d) => !d)
     }, [])
-  
+
+    // useEffect(() => {
+    //     console.log("Position:", position);
+    //   }, [position]);
+
     return (
       <Marker
         draggable={draggable}
         eventHandlers={eventHandlers}
-        position={position}
+        position={props.position}
         ref={markerRef}>
         <Popup minWidth={90}>
           <span onClick={toggleDraggable}>
             {draggable
-              ? 'Marker is draggable'
+              ? props.position.lat.toString() + "," + props.position.lng.toString()
               : 'Click here to make marker draggable'}
           </span>
         </Popup>
@@ -49,15 +65,21 @@ function DraggableMarker() {
         <div className='flex flex-col w-3/5 gap-2 items-start'>
             <div className='text-xl font-bold'>Τοποθεσία</div>
             <MapContainer
-                center={[props.coordinateX, props.coordinateY]}
+                center={[props.position.lat, props.position.lng]}
                 zoom={ZOOM_LEVEL}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
-                    {/* <Marker position={center}>
-                        <Popup>
-                        {props.coordinateX} , {props.coordinateY}
-                        </Popup>
-                    </Marker> */}
-                    <DraggableMarker/>
+                    <TileLayer 
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    {
+                        props.editable ?
+                        <DraggableMarker/> :
+                        <Marker position={[props.position.lat, props.position.lng]}>
+                          <Popup>
+                          {props.position.lat} , {props.position.lng}
+                          </Popup>
+                        </Marker>
+                    }
             </MapContainer>
         </div>
     
