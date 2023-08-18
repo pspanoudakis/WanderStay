@@ -22,6 +22,14 @@ interface PropertyResultTileProps{
 export function PropertyResultTile(props: PropertyResultTileProps){
    
     const propertyPreview = props.propertyPreview;
+
+    function nofBedsFunction(nof : number){
+        if (nof === 1){
+            return nof + " " + "κρεβάτι";
+        }
+        return nof + " " + "κρεβάτια";
+    }
+
     return (
         <Link to={`/property/${propertyPreview.propertyId}`}>
             <div className="border-2 border-main-petrol rounded-lg">
@@ -49,17 +57,17 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                                 <span className='text-lg font-bold'>
                                     {propertyPreview.title}
                                 </span>
-                                <h1 className='font-bold'> 
-                                    <FontAwesomeIcon icon={faStar} size='lg' className="text-dark-petrol" />
-                                    {propertyPreview.reviewRate} - {propertyPreview.nofReviews}
+                                <h1 className='font-bold text-lg'> 
+                                    <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />
+                                    {propertyPreview.reviewRate}  ({propertyPreview.nofReviews})
                                 </h1>
                             </div>
                             <div className='flex-1 w-full flex flex-col justify-between items-start border-l-2 border-main-petrol pl-3 mt-2'>
                                 <span className="text-sm">{propertyPreview.description}</span>
-                                <span className="text-sm">{propertyPreview.nofBeds} κρεβάτια</span>
+                                <span className="text-sm">{nofBedsFunction(propertyPreview.nofBeds)}</span>
                                 <div className="flex w-full justify-between">
-                                    <span className="text-sm">{propertyPreview.pricePerNight}€/διανυκτέρευση</span>
-                                    <b><h1>{propertyPreview.totalPrice}$ </h1></b>
+                                    <span className="text-sm font-semibold">{propertyPreview.pricePerNight}€/διανυκτέρευση</span>
+                                    <b><h1 className='text-2xl'>{propertyPreview.totalPrice}$ </h1></b>
                                 </div>
                             </div>
                         </div>
