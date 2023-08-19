@@ -13,5 +13,5 @@ class JwtConstants {
     // make sure byte length is correct!
     static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-    static final long JWT_SECS_DURATION = 60*60;
+    static final long JWT_SECS_DURATION = 2*60*60;
 }

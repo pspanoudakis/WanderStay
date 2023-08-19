@@ -1,7 +1,6 @@
 package com.backend.server.services;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +44,17 @@ public class AuthService {
     }
 
     private AuthResponse createAuthResponse(User user, String jwt) {
-        return buildAuthResponse(user, jwt);
+        return buildAuthResponse(user, jwtService.cleanUpJwt(jwt));
+    }
+
+    public User getUserFromTokenOrElseThrow(String token) throws RuntimeException{
+        return userRepository.findByUsername(
+            jwtService.findUsername(token)
+        ).orElseThrow(
+            () -> new RuntimeException(
+                    "The provided JWT is not associated with a User, is Invalid or has Expired."
+                )
+        );
     }
     
     public ApiResponse register(RegisterRequest request) {
@@ -59,14 +68,14 @@ public class AuthService {
                 "Cannot register user with role '" + RoleType.ADMIN.toString() + "'"
             );
         }
-        boolean isHost = !request.getRoles().contains(RoleType.HOST.toString());
+        boolean isHost = request.getRoles().contains(RoleType.HOST.toString());
         User user = User.builder()
             .username(request.getUsername())
             .email(request.getEmail())
             .mobileNumber(request.getMobileNumber())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(roleService.getRequiredRoles(request.getRoles()))
-            .isActive(isHost)
+            .isActive(/* true */!isHost)
             .build();
         userRepository.save(user);
         return createAuthResponse(user);
@@ -91,12 +100,11 @@ public class AuthService {
     }
 
     public ApiResponse loginWithToken(String token) {
-        Optional<User> user = userRepository.findByUsername(
-            jwtService.findUsername(token)
-        );
-        if (user.isPresent()) {
-            return createAuthResponse(user.get(), token);
+        try {
+            User user = getUserFromTokenOrElseThrow(token);
+            return createAuthResponse(user, token);
+        } catch (RuntimeException e) {
+            return new ApiErrorResponse("The provided JWT is invalid.");
         }
-        return new ApiErrorResponse("The provided JWT is invalid.");
     }
 }

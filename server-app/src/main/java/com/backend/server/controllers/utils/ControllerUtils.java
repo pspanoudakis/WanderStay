@@ -19,7 +19,9 @@ public final class ControllerUtils {
             ApiResponse res = fn.get();
             return ControllerUtils.responseFactory(res);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new ApiErrorResponse(e.getMessage())
+            );
         }
     }
 }

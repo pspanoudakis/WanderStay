@@ -2,6 +2,8 @@ package com.backend.server.entities.properties;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "_available_time_slot")
 public class AvailableTimeSlot {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +39,7 @@ public class AvailableTimeSlot {
     @Column(nullable = false)
     private Date endDate;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "property_id")
     private Property property;

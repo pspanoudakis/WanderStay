@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/host")
-@PreAuthorize("hasRole('HOST')")
+@PreAuthorize("hasAuthority('HOST')")
 @RequiredArgsConstructor
 public class HostController {
     

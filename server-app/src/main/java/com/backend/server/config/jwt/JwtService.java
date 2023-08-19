@@ -21,6 +21,10 @@ public class JwtService {
     @Value("${jwt.secret}")
     String SECRET_KEY;
 
+    public String cleanUpJwt(String jwt) {
+        return jwt.replace(JwtConstants.AUTH_BEARER_START, "");
+    }
+
     private Key getSignInKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
@@ -30,7 +34,7 @@ public class JwtService {
             .parserBuilder()
             .setSigningKey(getSignInKey())
             .build()
-            .parseClaimsJws(jwt.replace(JwtConstants.AUTH_BEARER_START, ""))
+            .parseClaimsJws(cleanUpJwt(jwt))
             .getBody();
     }
 
