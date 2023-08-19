@@ -1,8 +1,8 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AppContext, setSearchContext } from "../AppContext";
 import { SearchFilters } from "../components/SearchFilters";
-import { PropertyAmenityFilters, PropertyRuleFilters, PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
-import { PropertyAmenity, PropertyRule } from "../api/entities/propertyEnums";
+import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
+import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags } from "../api/entities/propertyEnums";
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { useSearchParams } from "react-router-dom";
 import { fetchPropertyResults } from "../api/fetchRoutines/searchAPI";
@@ -26,14 +26,14 @@ export function SearchPropertiesPage() {
                 filters[amenity] = false;
                 return filters;
             },
-            {} as PropertyAmenityFilters
+            {} as PropertyAmenityFlags
         ),
         ruleFilters: Object.values(PropertyRule).reduce(
             (filters, rule) => {
                 filters[rule] = false;
                 return filters;
             },
-            {} as PropertyRuleFilters
+            {} as PropertyRuleFlags
         ),
     });
 

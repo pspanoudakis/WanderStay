@@ -4,6 +4,7 @@ import { CustomSlider } from "./CustomSlider";
 import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
 import { PropertyAmenity, PropertyRule, PropertyType } from "../api/entities/propertyEnums";
 import { PropertyAmenityLabels, PropertyRuleLabels, PropertyTypeLabels } from './utils/propertyFieldLabels';
+import { PropertyFlagsCheckList } from './PropertyFlagsCheckList';
 
 export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
     filters: PropertySearchFilters,
@@ -66,7 +67,7 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
             </div>
             <div className="flex flex-col justify-center w-full px-3 mt-2">
                 <span className='font-semibold pt-1'>Παροχές</span>
-                {
+                {/* {
                     Object.values(PropertyAmenity).map((amenity, i) => 
                         <CheckboxWithLabel 
                             key={i}
@@ -84,11 +85,21 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                             }
                         />
                     )
-                }
+                } */}
+                <PropertyFlagsCheckList
+                    fieldFlags={filters.amenityFilters}
+                    setFieldFlags={amenities => {
+                        setFilters({
+                            ...filters,
+                            amenityFilters: amenities
+                        })
+                    }}
+                    editable
+                />
             </div>
             <div className="flex flex-col justify-center w-full px-3 mt-2">
                 <span className='font-semibold pt-1'>Κανόνες Ενοικίασης</span>
-                {
+                {/* {
                     Object.values(PropertyRule).map((rule, i) => 
                         <CheckboxWithLabel 
                             key={i}
@@ -106,7 +117,17 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
                             }
                         />
                     )
-                }
+                } */}
+                <PropertyFlagsCheckList
+                    fieldFlags={filters.ruleFilters}
+                    setFieldFlags={rules => {
+                        setFilters({
+                            ...filters,
+                            ruleFilters: rules
+                        })
+                    }}
+                    editable
+                />
             </div>
         </div>
     );

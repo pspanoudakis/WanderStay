@@ -2,13 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PropertyAmenity, PropertyRule, PropertyType } from "../../api/entities/propertyEnums";
 import { faBirthdayCake, faCouch, faDog, faElevator, faKitchenSet, faParking, faSmoking, faSnowflake, faTemperatureArrowUp, faTv, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons";
 
-export const PropertyTypeLabels:
-{ 
-    [amenity in PropertyType]: {
+export type PropertyFieldLabelsType<T extends PropertyRule | PropertyAmenity | PropertyType> = { 
+    [field in T]: {
         label: string,
         icon?: JSX.Element
     } 
-} = {
+}
+
+export const PropertyTypeLabels:PropertyFieldLabelsType<PropertyType> = {
     [PropertyType.PRIVATE_ROOM]: {
         label: 'Ιδιωτικό Δωμάτιο'
     },
@@ -20,13 +21,7 @@ export const PropertyTypeLabels:
     },
 };
 
-export const PropertyAmenityLabels:
-{ 
-    [amenity in PropertyAmenity]: {
-        label: string,
-        icon?: JSX.Element
-    } 
-} = {
+export const PropertyAmenityLabels:PropertyFieldLabelsType<PropertyAmenity> = {
     [PropertyAmenity.HAS_WIFI]: {
         label: "Wifi",
         icon: <FontAwesomeIcon icon={faWifi}/>
@@ -61,13 +56,7 @@ export const PropertyAmenityLabels:
     },
 }
 
-export const PropertyRuleLabels:
-{ 
-    [amenity in PropertyRule]: {
-        label: string,
-        icon?: JSX.Element
-    } 
-} = {
+export const PropertyRuleLabels:PropertyFieldLabelsType<PropertyRule> = {
     [PropertyRule.SMOKING_ALLOWED]: {
         label: "Κάπνισμα",
         icon: <FontAwesomeIcon icon={faSmoking}/>
@@ -80,4 +69,10 @@ export const PropertyRuleLabels:
         label: "Εκδηλώσεις / Πάρτι",
         icon: <FontAwesomeIcon icon={faBirthdayCake}/>
     },
+}
+
+export const PropertyFieldLabels = {
+    ...PropertyTypeLabels,
+    ...PropertyAmenityLabels,
+    ...PropertyRuleLabels
 }

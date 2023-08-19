@@ -1,3 +1,7 @@
+export type PropertyFieldFlags<T extends PropertyRule | PropertyAmenity> = { 
+    [field in T]: boolean
+}
+
 export enum PropertyType {
     PRIVATE_ROOM = "PRIVATE_ROOM",
 
@@ -29,4 +33,8 @@ export enum PropertyRule {
 
 export type PropertyRuleFlags = {
     [rule in PropertyRule]: boolean
+}
+
+export function getEnumValues<T extends PropertyRule | PropertyAmenity>() {
+    
 }

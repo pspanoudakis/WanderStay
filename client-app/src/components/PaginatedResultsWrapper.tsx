@@ -31,6 +31,7 @@ export function PaginatedResultsWrapper<T>({
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(-1);
     const [results, setResults] = useState<T[]>([]);
+    const [totalElements, setTotalElements] = useState(0);
 
     useEffect(() => {
         setCurrentPage(0);
@@ -44,7 +45,8 @@ export function PaginatedResultsWrapper<T>({
         resultFetcher(currentPage, pageSize)
             .then(response => {
                 setResults(response.content);
-                setTotalPages(response.totalPages); 
+                setTotalPages(response.totalPages);
+                setTotalElements(response.totalElements);
                 setExtLoading?.(false);
                 setLoading(false)               
             })
@@ -69,7 +71,7 @@ export function PaginatedResultsWrapper<T>({
                         :
                         <>
                             <span className="font-bold text-lg">
-                                {(idleTitleBuilder?.(results.length) ?? 'Αποτελέσματα Αναζήτησης:' + " " + results.length)}                            
+                                {(idleTitleBuilder?.(totalElements) ?? 'Αποτελέσματα Αναζήτησης:' + " " + results.length)}                            
                             </span>
                             <Pagination 
                                 count={totalPages} 
