@@ -1,20 +1,12 @@
-import { PropertyAmenity, PropertyRule, PropertyType } from "./propertyEnums";
-
-export type PropertyAmenityFilters = {
-    [amenity in PropertyAmenity]: boolean
-}
-
-export type PropertyRuleFilters = {
-    [rule in PropertyRule]: boolean
-}
+import { PropertyAmenityFlags, PropertyRuleFlags, PropertyType } from "./propertyEnums";
 
 export type PropertySearchFilters = {
     maxCostPerDay?: number,
 
     type?: PropertyType,
 
-    amenityFilters: PropertyAmenityFilters,
-    ruleFilters: PropertyRuleFilters,
+    amenityFilters: PropertyAmenityFlags,
+    ruleFilters: PropertyRuleFlags,
 }
 
 export type PropertySearchCriteria = {

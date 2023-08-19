@@ -17,8 +17,16 @@ export enum PropertyAmenity {
     HAS_PARKING = "hasParking",
 };
 
+export type PropertyAmenityFlags = {
+    [amenity in PropertyAmenity]: boolean
+}
+
 export enum PropertyRule {
     SMOKING_ALLOWED = "smokingAllowed",
     PETS_ALLOWED = "petsAllowed",
     EVENTS_ALLOWED = "eventsAllowed",
+}
+
+export type PropertyRuleFlags = {
+    [rule in PropertyRule]: boolean
 }

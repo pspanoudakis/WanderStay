@@ -40,7 +40,6 @@ export function App() {
 					flex justify-between items-center flex-col gap-4
 				">
 					<NavBar/>
-
 					<div
 						className='
 							rounded-md border-2 border-main-petrol 
@@ -52,9 +51,7 @@ export function App() {
 					>
 						<Outlet/>
 					</div>
-
 					<Footer/>
-
 					<Modal/>
 				</div>
 			</ThemeProvider>
