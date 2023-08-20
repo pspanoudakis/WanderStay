@@ -72,9 +72,12 @@ public class PropertyService {
                         .reviewsSummary(getPropertyReviewsSummary(p.getId()))
                         .pricePerNight(pricePerNight)
                         .totalPrice(
-                            DateUtils.getDaysBetween(
-                                searchRequest.getFiltersInfo().getDateFrom(),
-                                searchRequest.getFiltersInfo().getDateTo()
+                            Math.max(
+                                DateUtils.getDaysBetween(
+                                    searchRequest.getFiltersInfo().getDateFrom(),
+                                    searchRequest.getFiltersInfo().getDateTo()
+                                ),
+                                1
                             ) * pricePerNight
                         )
                         .build()
