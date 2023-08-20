@@ -113,8 +113,8 @@ export function SearchBar() {
                         renderInput={(params) => <TextField {...params} label="Χώρα" size='small'/>}
                         placeholder="Χώρα"
                         noOptionsText="Δεν βρέθηκαν Χώρες"
-                        options={countryList}
-                        value={countryList.find(c => c.id === searchOptions.countryId) ?? null}
+                        options={countryList ?? []}
+                        value={countryList?.find(c => c.id === searchOptions.countryId) ?? null}
                         getOptionLabel={getLocationLabel}
                         onChange={(_, c) => setSearchOptions({
                             ...searchOptions,

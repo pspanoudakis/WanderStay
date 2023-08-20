@@ -2,7 +2,7 @@ import { PropertySearchResult } from "../entities/PropertySearchResult";
 import { PropertyAmenity, PropertyRule } from "../entities/propertyEnums";
 import { PropertySearchRequest } from "../requests/PropertySearchRequest";
 import { PaginatedResponse, emptyPaginatedResponse } from "../responses/PaginatedResponse";
-import { FetchDataResponse, fetchData } from "./fetchAPI";
+import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 
 function createSearchRequestBody(searchOptions: PropertySearchRequest) {
     const filtersInfo = searchOptions.filtersInfo;
@@ -44,7 +44,7 @@ function createSearchRequestBody(searchOptions: PropertySearchRequest) {
 
 export async function fetchPropertyResults(searchOptions: PropertySearchRequest) {
     const response = await fetchData({
-        endpoint: "https://localhost:8080/property/search",
+        endpoint: createEndPointUrl("/property/search"),
         method: "POST",
         body: createSearchRequestBody(searchOptions)
     });
