@@ -35,6 +35,6 @@ public class AuthController {
 
     @PostMapping("/tokenLogin")
     public ResponseEntity<ApiResponseDto> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ControllerUtils.responseFactory(authService.loginWithToken(token));
+        return ControllerUtils.responseFactory(() -> authService.loginWithToken(token));
     }
 }

@@ -1,9 +1,12 @@
 package com.backend.server.services;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
+import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
@@ -12,7 +15,9 @@ import com.backend.server.controllers.utils.PageableRetriever;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Reservation;
+import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
+import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
@@ -31,9 +36,9 @@ public class PropertyService {
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
 
-    private Property getPropertyFromIdOrElseThrow(Long propertyId) throws RuntimeException{
+    private Property getPropertyFromIdOrElseThrow(Long propertyId) throws BadRequestException{
         return propertyRepository.findById(propertyId).orElseThrow(
-            () -> new RuntimeException(
+            () -> new BadRequestException(
                     "No property found with id '" + propertyId.toString() + "'"
                 )
         );
@@ -56,16 +61,10 @@ public class PropertyService {
     public ApiResponseDto makePropertyReservation(
         Long propertyId, String jwt,
         PropertyReservationRequestDto request
-    ) {
+    ) throws BadRequestException{
 
-        Guest guest;
-        Property property;
-        try {
-            guest = guestService.getGuestFromTokenOrElseThrow(jwt);
-            property = getPropertyFromIdOrElseThrow(propertyId);            
-        } catch (RuntimeException e) {
-            return new ApiErrorResponseDto(e.getMessage());
-        }
+        Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
+        Property property = getPropertyFromIdOrElseThrow(propertyId);
 
         // Check Capacity
         if (property.getAmenities().getNumBeds() < request.getNumPersons()) {
@@ -134,7 +133,7 @@ public class PropertyService {
     public Page<ReviewDto> getPropertyReviews(
         Long propertyId, 
         Short numPage, Byte pageSize
-    ) throws RuntimeException {
+    ) throws BadRequestException {
         return reviewRepository.findAllByPropertyOrderByCreatedOnDesc(
             getPropertyFromIdOrElseThrow(propertyId),
             PageableRetriever.getPageable(numPage, pageSize)
@@ -148,5 +147,27 @@ public class PropertyService {
                     .build()
             );
         });
+    }
+
+    @Transactional
+    public ApiResponseDto createOrUpdatePropertyReview(
+        Long propertyId, String jwt,
+        PropertyReviewRequestDto request
+    ) throws BadRequestException {
+        Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
+        Property property = getPropertyFromIdOrElseThrow(propertyId);
+
+        // Find existing review from this guest or create a new one
+        Review review = reviewRepository.findOneByPropertyAndGuest(property, guest).orElseGet(
+            () -> new Review()
+        );
+        review.setGuest(guest);
+        review.setProperty(property);
+        review.setStars(request.getStars());
+        review.setText(request.getText());
+        review.setCreatedOn(new Date());
+
+        reviewRepository.save(review);
+        return new ApiResponseDto(true);
     }
 }

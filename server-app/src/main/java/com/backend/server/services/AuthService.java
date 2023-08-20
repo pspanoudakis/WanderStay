@@ -14,9 +14,9 @@ import com.backend.server.controllers.requests.RegisterRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.AuthResponseDto;
-import com.backend.server.controllers.utils.ServiceUtils;
 import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
+import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -47,11 +47,11 @@ public class AuthService {
         return buildAuthResponse(user, jwtService.cleanUpJwt(jwt));
     }
 
-    public User getUserFromTokenOrElseThrow(String token) throws RuntimeException{
+    public User getUserFromTokenOrElseThrow(String token) throws BadRequestException{
         return userRepository.findByUsername(
             jwtService.findUsername(token)
         ).orElseThrow(
-            () -> new RuntimeException(
+            () -> new BadRequestException(
                     "The provided JWT is not associated with a User, is Invalid or has Expired."
                 )
         );
@@ -90,21 +90,24 @@ public class AuthService {
                 )
             );            
         } catch (AuthenticationException e) {
-            return ServiceUtils.createErrorResponse(e);
+            return new ApiErrorResponseDto(e);
         }
         // We know the user is authenticated by now
         User user = userRepository.findByUsername(
             request.getUsername()
-        ).orElseThrow();
+        ).orElseThrow(
+            () -> new Error(
+                "User '" +  request.getUsername() + "' " +
+                "was successfully authenticated, but was not found in DB."
+            )
+        );
         return createAuthResponse(user);
     }
 
-    public ApiResponseDto loginWithToken(String token) {
-        try {
-            User user = getUserFromTokenOrElseThrow(token);
-            return createAuthResponse(user, token);
-        } catch (RuntimeException e) {
-            return new ApiErrorResponseDto("The provided JWT is invalid.");
-        }
+    public ApiResponseDto loginWithToken(String token) throws BadRequestException {
+        return createAuthResponse(
+            getUserFromTokenOrElseThrow(token),
+            token
+        );
     }
 }

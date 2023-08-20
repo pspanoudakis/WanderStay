@@ -12,4 +12,9 @@ public class ApiErrorResponseDto extends ApiResponseDto {
         super(false);
         this.error = msg;
     }
+
+    public ApiErrorResponseDto(Exception e) {
+        super(false);
+        this.error = e.getMessage();
+    }
 }

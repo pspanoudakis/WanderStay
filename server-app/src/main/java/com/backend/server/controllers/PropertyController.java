@@ -3,7 +3,7 @@ package com.backend.server.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.server.controllers.requests.PropertyReservationRequest;
+import com.backend.server.controllers.requests.PropertyReservationRequestDto;
+import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
-import com.backend.server.controllers.utils.ApiResponse;
+import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerUtils;
+import com.backend.server.exceptions.BadRequestException;
+import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.services.PropertyService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,27 +41,28 @@ public class PropertyController {
         );
     }
 
-    @PreAuthorize("hasAuthority('GUEST')")
+    // @PreAuthorize("hasAuthority('GUEST')")
     @PostMapping("/{propertyId}/reserve")
-    public ResponseEntity<ApiResponse> makePropertyReservation(
+    public ResponseEntity<ApiResponseDto> makePropertyReservation(
         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
         @PathVariable Long propertyId,
-        @RequestBody PropertyReservationRequest request
+        @RequestBody PropertyReservationRequestDto request
     ) {
         return ControllerUtils.responseFactory(
             () -> propertyService.makePropertyReservation(propertyId, jwt, request)
         );
     }
 
-    @PreAuthorize("hasAuthority('GUEST')")
+    // @PreAuthorize("hasAuthority('GUEST')")
     @PostMapping("/{propertyId}/review")
-    public ResponseEntity<ApiResponse> reviewProperty(
+    public ResponseEntity<ApiResponseDto> reviewProperty(
         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable Long propertyId
-        // @RequestBody PropertyReviewRequest request
+        @PathVariable Long propertyId,
+        @RequestBody PropertyReviewRequestDto request
     ) {
-        // TODO
-        return null;
+        return ControllerUtils.responseFactory(
+            () -> propertyService.createOrUpdatePropertyReview(propertyId, jwt, request)
+        );
     }
     
     @GetMapping("/{propertyId}/reviews")
@@ -71,7 +75,7 @@ public class PropertyController {
             return ResponseEntity.ok(
                 propertyService.getPropertyReviews(propertyId, numPage, pageSize)
             );
-        } catch (RuntimeException e) {
+        } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         
@@ -79,7 +83,7 @@ public class PropertyController {
 
     // TODO: delete this
     @GetMapping("/{propertyId}/reviewsSummary")
-    public ResponseEntity<?> getPropertyReviewsSummary(
+    public ResponseEntity<PropertyReviewsSummary> getPropertyReviewsSummary(
         @PathVariable Long propertyId
     ) {
         return ResponseEntity.ok(propertyService.getPropertyReviewsSummary(propertyId));
