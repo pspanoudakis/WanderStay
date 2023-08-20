@@ -1,6 +1,11 @@
 import { getJwt } from "../jwt/jwt";
 
 const FETCH_DELAY_MS = 650
+const SERVER_DOMAIN_URL = "https://localhost:8080"
+
+export function createEndPointUrl(postfix: string){
+    return SERVER_DOMAIN_URL + postfix;
+}
 
 function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));

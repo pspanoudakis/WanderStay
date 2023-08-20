@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-size: smaller;
+  font-size: 14;
 }
 
 :root {

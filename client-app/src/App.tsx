@@ -11,7 +11,7 @@ import { Modal } from './components/Modal';
 const muiTheme = createTheme({
 	typography: {
 		fontFamily: ["system-ui", "Helvetica", "Arial", "sans-serif"].join(","),
-		fontSize: 12,
+		fontSize: 14,
 	},
 	palette: {
 		primary: {
