@@ -10,6 +10,8 @@ import com.backend.server.services.ImageService;
 
 // import java.util.Date;
 // import java.util.List;
+// import java.util.Optional;
+
 // import org.springframework.security.crypto.password.PasswordEncoder;
 // import com.backend.server.entities.users.Admin;
 // import com.backend.server.entities.users.Guest;
@@ -28,11 +30,13 @@ import com.backend.server.services.ImageService;
 // import com.backend.server.entities.properties.PropertyAmenities;
 // import com.backend.server.entities.properties.PropertyRules;
 // import com.backend.server.entities.properties.PropertyType;
+// import com.backend.server.entities.properties.Review;
 // import com.backend.server.repositories.CityRepository;
 // import com.backend.server.repositories.CountryRepository;
 // import com.backend.server.repositories.GuestRepository;
 // import com.backend.server.repositories.HostRepository;
 // import com.backend.server.repositories.PropertyRepository;
+// import com.backend.server.repositories.ReviewRepository;
 
 @SpringBootApplication
 public class ServerApplication{
@@ -196,4 +200,29 @@ public class ServerApplication{
 	// 	};
 	// }
 
+	// @Bean
+	// public CommandLineRunner populatePropertyReviews(
+	// 	PropertyRepository propertyRepository, ReviewRepository reviewRepository, GuestRepository guestRepository, UserRepository userRepository
+	// ) {
+	// 	return args -> {
+	// 		Optional<Property> property = propertyRepository.findById((long)9);
+	// 		if (property.isPresent()) {
+	// 			for (Byte i = 0; i < 10; i++) {
+	// 				reviewRepository.save(
+	// 					Review.builder()
+	// 						.createdOn(new Date(123, 9, i + 1))
+	// 						.stars((byte)Math.max(1, (i/2)))
+	// 						.property(property.get())
+	// 						.text("text" + i.toString())
+	// 						.guest(
+	// 							guestRepository.findByUser(
+	// 								userRepository.findByUsername("admin").orElseThrow(null)
+	// 							).orElseThrow(null)
+	// 						)
+	// 						.build()
+	// 				);
+	// 			}
+	// 		}
+	// 	};
+	// }
 }

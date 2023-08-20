@@ -54,6 +54,8 @@ public class SecurityConfiguration {
                 "/auth/login",
                 "/location/**",
                 "/property/search",
+                "/property/*/reviews",
+                "/property/*/reviewsSummary",
                 "/images/**"
             )
             .permitAll()

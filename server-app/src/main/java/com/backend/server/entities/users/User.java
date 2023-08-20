@@ -62,6 +62,7 @@ public class User implements UserDetails {
 
     private boolean isLocked;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;

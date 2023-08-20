@@ -3,9 +3,11 @@ package com.backend.server.entities.properties;
 import java.util.Date;
 
 import com.backend.server.entities.users.Guest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "_review")
 public class Review {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +38,11 @@ public class Review {
     @ManyToOne(optional = false)
     private Guest guest;
 
-    @ManyToOne(optional = false)
+    @JsonIgnore
+    @ManyToOne(
+        optional = false, 
+        fetch = FetchType.LAZY
+    )
     private Property property;
     
     @Min(1)

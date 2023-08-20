@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.backend.server.controllers.requests.PropertyReservationRequest;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
+import com.backend.server.controllers.responses.ReviewDto;
 import com.backend.server.controllers.utils.ApiErrorResponse;
 import com.backend.server.controllers.utils.ApiResponse;
 import com.backend.server.controllers.utils.PageableRetriever;
@@ -12,8 +13,10 @@ import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.users.Guest;
+import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
+import com.backend.server.repositories.ReviewRepository;
 import com.backend.server.specifications.PropertyFiltersSpecification;
 
 import jakarta.transaction.Transactional;
@@ -23,9 +26,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PropertyService {
     private final PropertyFiltersSpecification filtersSpecification;
+    private final GuestService guestService;
     private final PropertyRepository propertyRepository;
     private final ReservationRepository reservationRepository;
-    private final GuestService guestService;
+    private final ReviewRepository reviewRepository;
 
     private Property getPropertyFromIdOrElseThrow(Long propertyId) throws RuntimeException{
         return propertyRepository.findById(propertyId).orElseThrow(
@@ -33,6 +37,10 @@ public class PropertyService {
                     "No property found with id '" + propertyId.toString() + "'"
                 )
         );
+    }
+
+    public PropertyReviewsSummary getPropertyReviewsSummary(Long propertyId) {
+        return reviewRepository.getPropertyReviewsSummary(propertyId);
     }
 
     public Page<Long> searchProperties(PropertySearchRequestDto searchRequest) {
@@ -119,8 +127,26 @@ public class PropertyService {
                 .numPersons(request.getNumPersons())
                 .build()
         );
-
         return new ApiResponse(true);
     }
     
+    @Transactional
+    public Page<ReviewDto> getPropertyReviews(
+        Long propertyId, 
+        Short numPage, Byte pageSize
+    ) throws RuntimeException {
+        return reviewRepository.findAllByPropertyOrderByCreatedOnDesc(
+            getPropertyFromIdOrElseThrow(propertyId),
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(r -> {
+            return (
+                ReviewDto.builder()
+                    .guestUsername(r.getGuest().getUser().getUsername())
+                    .createdOn(r.getCreatedOn())
+                    .stars(r.getStars())
+                    .text(r.getText())
+                    .build()
+            );
+        });
+    }
 }
