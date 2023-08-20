@@ -10,6 +10,7 @@ import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.responses.ReviewDto;
 import com.backend.server.controllers.utils.PageableRetriever;
 import com.backend.server.entities.properties.AvailableTimeSlot;
@@ -48,13 +49,16 @@ public class PropertyService {
         return reviewRepository.getPropertyReviewsSummary(propertyId);
     }
 
-    public Page<Long> searchProperties(PropertySearchRequestDto searchRequest) {
+    public Page<PropertySearchResultDto> searchProperties(PropertySearchRequestDto searchRequest) {
         return propertyRepository.findAll(
             filtersSpecification.getPropertyFiltersSpecification(
                 searchRequest.getFiltersInfo()
             ),
             PageableRetriever.getPageable(searchRequest.getPaginationInfo())
-        ).map(p -> p.getId());
+        ).map(p -> {
+            // TODO
+            return null;
+        });
     }
 
     @Transactional
@@ -157,6 +161,10 @@ public class PropertyService {
         Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
         Property property = getPropertyFromIdOrElseThrow(propertyId);
 
+        if (reservationRepository.findOneByPropertyAndGuest(property, guest).size() == 0) {
+            throw new BadRequestException("NO_RESERVATION_HISTORY");
+        }
+        
         // Find existing review from this guest or create a new one
         Review review = reviewRepository.findOneByPropertyAndGuest(property, guest).orElseGet(
             () -> new Review()

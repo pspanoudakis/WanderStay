@@ -17,6 +17,7 @@ import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.utils.ControllerUtils;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
@@ -32,7 +33,7 @@ public class PropertyController {
     private final PropertyService propertyService;
     
     @PostMapping("/search")
-    public ResponseEntity<Page<Long>> searchProperties(
+    public ResponseEntity<Page<PropertySearchResultDto>> searchProperties(
         @RequestBody PropertySearchRequestDto searchRequest
     ) {
 
