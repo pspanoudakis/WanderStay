@@ -1,6 +1,5 @@
 package com.backend.server.specifications;
 
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.PropertyAmenities_;
 import com.backend.server.entities.properties.PropertyRules_;
 import com.backend.server.entities.properties.Property_;
+import com.backend.server.utils.DateUtils;
 
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
@@ -60,11 +60,7 @@ public class PropertyFiltersSpecification {
 
             var propertyRulesJoin = propertyRoot.join(Property_.rules);
             if (searchFilters.getDateFrom() != null && searchFilters.getDateTo() != null) {
-
-                int numDays = (int) ChronoUnit.DAYS.between(
-                    searchFilters.getDateFrom().toInstant(), 
-                    searchFilters.getDateTo().toInstant()
-                );                
+             
                 Expression<Integer> totalCostPerDayExpression = (
                     criteriaBuilder.sum(
                         propertyRulesJoin.get(PropertyRules_.baseDayCost),
@@ -90,7 +86,10 @@ public class PropertyFiltersSpecification {
                 predicates.add(
                     criteriaBuilder.lessThanOrEqualTo(
                         propertyRulesJoin.get(PropertyRules_.minReservationDays),
-                        (short) numDays
+                        DateUtils.getDaysBetween(
+                            searchFilters.getDateFrom(), 
+                            searchFilters.getDateTo()
+                        )
                     )
                 );
                 

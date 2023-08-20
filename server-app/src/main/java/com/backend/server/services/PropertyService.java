@@ -24,6 +24,7 @@ import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
 import com.backend.server.specifications.PropertyFiltersSpecification;
+import com.backend.server.utils.DateUtils;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -50,15 +51,36 @@ public class PropertyService {
     }
 
     public Page<PropertySearchResultDto> searchProperties(PropertySearchRequestDto searchRequest) {
-        return propertyRepository.findAll(
-            filtersSpecification.getPropertyFiltersSpecification(
-                searchRequest.getFiltersInfo()
-            ),
-            PageableRetriever.getPageable(searchRequest.getPaginationInfo())
-        ).map(p -> {
-            // TODO
-            return null;
-        });
+        return (
+            propertyRepository.findAll(
+                filtersSpecification.getPropertyFiltersSpecification(
+                    searchRequest.getFiltersInfo()
+                ),
+                PageableRetriever.getPageable(searchRequest.getPaginationInfo())
+            ).map(p -> {
+                int pricePerNight = (
+                    p.getRules().getBaseDayCost() +
+                    (p.getRules().getPerGuestCost() * searchRequest.getFiltersInfo().getNumPersons())
+                );
+                return (
+                    PropertySearchResultDto.builder()
+                        .propertyId(p.getId())
+                        .title(p.getName())
+                        .description(p.getDescription())
+                        .imgId(null)
+                        .numBeds(p.getAmenities().getNumBeds())
+                        .reviewsSummary(getPropertyReviewsSummary(p.getId()))
+                        .pricePerNight(pricePerNight)
+                        .totalPrice(
+                            DateUtils.getDaysBetween(
+                                searchRequest.getFiltersInfo().getDateFrom(),
+                                searchRequest.getFiltersInfo().getDateTo()
+                            ) * pricePerNight
+                        )
+                        .build()
+                );
+            })
+        );
     }
 
     @Transactional
