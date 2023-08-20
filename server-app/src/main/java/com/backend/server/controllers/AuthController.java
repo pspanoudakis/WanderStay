@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.server.controllers.requests.LoginRequest;
-import com.backend.server.controllers.requests.RegisterRequest;
-import com.backend.server.controllers.utils.ApiResponse;
+import com.backend.server.controllers.requests.LoginRequestDto;
+import com.backend.server.controllers.requests.RegisterRequestDto;
+import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerUtils;
 import com.backend.server.services.AuthService;
 
@@ -24,17 +24,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<ApiResponseDto> register(@RequestBody RegisterRequestDto request) {
         return ControllerUtils.responseFactory(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequestDto request) {
         return ControllerUtils.responseFactory(() -> authService.login(request));
     }
 
     @PostMapping("/tokenLogin")
-    public ResponseEntity<ApiResponse> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<ApiResponseDto> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return ControllerUtils.responseFactory(authService.loginWithToken(token));
     }
 }

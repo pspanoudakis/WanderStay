@@ -1,12 +1,16 @@
 package com.backend.server.controllers.utils;
 
 import org.springframework.util.function.ThrowingSupplier;
+
+import com.backend.server.controllers.responses.ApiErrorResponseDto;
+import com.backend.server.controllers.responses.ApiResponseDto;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public final class ControllerUtils {
 
-    public static ResponseEntity<ApiResponse> responseFactory(ApiResponse res) {
+    public static ResponseEntity<ApiResponseDto> responseFactory(ApiResponseDto res) {
         if (res.isOk()) {
             return ResponseEntity.ok(res);
         } else {
@@ -14,13 +18,13 @@ public final class ControllerUtils {
         }
     }
 
-    public static ResponseEntity<ApiResponse> responseFactory(ThrowingSupplier<ApiResponse> fn) {
+    public static ResponseEntity<ApiResponseDto> responseFactory(ThrowingSupplier<ApiResponseDto> fn) {
         try {
-            ApiResponse res = fn.get();
+            ApiResponseDto res = fn.get();
             return ControllerUtils.responseFactory(res);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ApiErrorResponse(e.getMessage())
+                new ApiErrorResponseDto(e.getMessage())
             );
         }
     }

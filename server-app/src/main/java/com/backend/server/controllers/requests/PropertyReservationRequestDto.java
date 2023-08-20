@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PropertyReservationRequest {
+public class PropertyReservationRequestDto {
     @JsonFormat(
         shape = Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Athens"
     )

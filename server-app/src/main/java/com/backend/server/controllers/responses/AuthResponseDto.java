@@ -1,6 +1,5 @@
 package com.backend.server.controllers.responses;
 
-import com.backend.server.controllers.utils.ApiResponse;
 import com.backend.server.entities.users.User;
 
 import lombok.Builder;
@@ -10,14 +9,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AuthResponse extends ApiResponse {
+public class AuthResponseDto extends ApiResponseDto {
 
     private User user;
 
     private String jwt;
 
     @Builder
-    public AuthResponse(User user, String jwt) {
+    public AuthResponseDto(User user, String jwt) {
         super(true);
         this.user = user;
         this.jwt = jwt;

@@ -3,11 +3,11 @@ package com.backend.server.services;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.backend.server.controllers.requests.PropertyReservationRequest;
+import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
+import com.backend.server.controllers.responses.ApiErrorResponseDto;
+import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.ReviewDto;
-import com.backend.server.controllers.utils.ApiErrorResponse;
-import com.backend.server.controllers.utils.ApiResponse;
 import com.backend.server.controllers.utils.PageableRetriever;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
@@ -53,9 +53,9 @@ public class PropertyService {
     }
 
     @Transactional
-    public ApiResponse makePropertyReservation(
+    public ApiResponseDto makePropertyReservation(
         Long propertyId, String jwt,
-        PropertyReservationRequest request
+        PropertyReservationRequestDto request
     ) {
 
         Guest guest;
@@ -64,12 +64,12 @@ public class PropertyService {
             guest = guestService.getGuestFromTokenOrElseThrow(jwt);
             property = getPropertyFromIdOrElseThrow(propertyId);            
         } catch (RuntimeException e) {
-            return new ApiErrorResponse(e.getMessage());
+            return new ApiErrorResponseDto(e.getMessage());
         }
 
         // Check Capacity
         if (property.getAmenities().getNumBeds() < request.getNumPersons()) {
-            return new ApiErrorResponse(
+            return new ApiErrorResponseDto(
                 "This property has insufficient capacity for the specified reservation."
             );
         }
@@ -110,7 +110,7 @@ public class PropertyService {
             }
         }
         if (!slotFound) {
-            return new ApiErrorResponse(
+            return new ApiErrorResponseDto(
                 "This property is not available during the specified date range."
             );
         }
@@ -127,7 +127,7 @@ public class PropertyService {
                 .numPersons(request.getNumPersons())
                 .build()
         );
-        return new ApiResponse(true);
+        return new ApiResponseDto(true);
     }
     
     @Transactional

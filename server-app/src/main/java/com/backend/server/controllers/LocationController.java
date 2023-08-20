@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.server.controllers.utils.ApiResponse;
+import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerUtils;
 import com.backend.server.services.LocationService;
 
@@ -20,14 +20,14 @@ public class LocationController {
     private final LocationService locationService;
     
     @GetMapping("/countries")
-    public ResponseEntity<ApiResponse> getAllCountries() {
+    public ResponseEntity<ApiResponseDto> getAllCountries() {
         return ControllerUtils.responseFactory(
             locationService.getAllCountries()
         );
     }
 
     @GetMapping("/countries/{countryId}")
-    public ResponseEntity<ApiResponse> getCitiesByCountryId(@PathVariable Long countryId) {
+    public ResponseEntity<ApiResponseDto> getCitiesByCountryId(@PathVariable Long countryId) {
         return ControllerUtils.responseFactory(
             locationService.getCitiesByCountryId(countryId)
         );

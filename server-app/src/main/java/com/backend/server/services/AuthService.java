@@ -9,11 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.backend.server.config.jwt.JwtService;
-import com.backend.server.controllers.requests.LoginRequest;
-import com.backend.server.controllers.requests.RegisterRequest;
-import com.backend.server.controllers.responses.AuthResponse;
-import com.backend.server.controllers.utils.ApiErrorResponse;
-import com.backend.server.controllers.utils.ApiResponse;
+import com.backend.server.controllers.requests.LoginRequestDto;
+import com.backend.server.controllers.requests.RegisterRequestDto;
+import com.backend.server.controllers.responses.ApiErrorResponseDto;
+import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.controllers.responses.AuthResponseDto;
 import com.backend.server.controllers.utils.ServiceUtils;
 import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
@@ -31,19 +31,19 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
 
-    private AuthResponse buildAuthResponse(User user, String jwt) {
-        return AuthResponse.builder()
+    private AuthResponseDto buildAuthResponse(User user, String jwt) {
+        return AuthResponseDto.builder()
             .user(user)
             .jwt(jwt)
             .build();
     }
 
-    private AuthResponse createAuthResponse(User user) {
+    private AuthResponseDto createAuthResponse(User user) {
         String jwt = jwtService.generateJwt(user);
         return buildAuthResponse(user, jwt);
     }
 
-    private AuthResponse createAuthResponse(User user, String jwt) {
+    private AuthResponseDto createAuthResponse(User user, String jwt) {
         return buildAuthResponse(user, jwtService.cleanUpJwt(jwt));
     }
 
@@ -57,14 +57,14 @@ public class AuthService {
         );
     }
     
-    public ApiResponse register(RegisterRequest request) {
+    public ApiResponseDto register(RegisterRequestDto request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            return new ApiErrorResponse(
+            return new ApiErrorResponseDto(
                 "Username '" + request.getUsername() + "' already exists."
             );
         }
         if (request.getRoles().contains(RoleType.ADMIN.toString())) {
-            return new ApiErrorResponse(
+            return new ApiErrorResponseDto(
                 "Cannot register user with role '" + RoleType.ADMIN.toString() + "'"
             );
         }
@@ -81,7 +81,7 @@ public class AuthService {
         return createAuthResponse(user);
     }
 
-    public ApiResponse login(LoginRequest request) throws NoSuchElementException{
+    public ApiResponseDto login(LoginRequestDto request) throws NoSuchElementException{
         try {
             authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -99,12 +99,12 @@ public class AuthService {
         return createAuthResponse(user);
     }
 
-    public ApiResponse loginWithToken(String token) {
+    public ApiResponseDto loginWithToken(String token) {
         try {
             User user = getUserFromTokenOrElseThrow(token);
             return createAuthResponse(user, token);
         } catch (RuntimeException e) {
-            return new ApiErrorResponse("The provided JWT is invalid.");
+            return new ApiErrorResponseDto("The provided JWT is invalid.");
         }
     }
 }
