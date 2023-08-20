@@ -103,20 +103,20 @@ export function SearchPropertiesPage() {
                 pageSize={4}
                 idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchProperties}
-                resultRenderer={(id, idx) => {
+                resultRenderer={(p, idx) => {
                     return (
                         <PropertyResultTile
                             key={idx}
                             propertyPreview={{
-                                propertyId: id,
-                                description: `Description ${id}`,
+                                propertyId: p.propertyId,
+                                title: p.title,
+                                description: p.description,
                                 imgSrc: 'https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg',
-                                nofBeds: id,
-                                nofReviews: id,
-                                pricePerNight: id,
-                                reviewRate: id,
-                                title: `Property ${id}`,
-                                totalPrice: id
+                                nofBeds: p.numBeds,
+                                nofReviews: p.reviewsSummary.reviewCount,
+                                reviewRate: p.reviewsSummary.avgStars,
+                                pricePerNight: p.pricePerNight,
+                                totalPrice: p.totalPrice
                             }}
                         />
                     )

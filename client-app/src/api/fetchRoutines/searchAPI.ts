@@ -1,3 +1,4 @@
+import { PropertySearchResult } from "../entities/PropertySearchResult";
 import { PropertyAmenity, PropertyRule } from "../entities/propertyEnums";
 import { PropertySearchRequest } from "../requests/PropertySearchRequest";
 import { PaginatedResponse, emptyPaginatedResponse } from "../responses/PaginatedResponse";
@@ -55,5 +56,5 @@ export async function fetchPropertyResults(searchOptions: PropertySearchRequest)
                 content: emptyPaginatedResponse,
                 ok: false
             }
-    ) as FetchDataResponse<PaginatedResponse<number>>
+    ) as FetchDataResponse<PaginatedResponse<PropertySearchResult>>
 }
