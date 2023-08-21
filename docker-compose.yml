@@ -22,7 +22,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=appbase
+      - POSTGRES_DB=wanderstaydb
     ports:
       - '5432:5432'
     volumes:
@@ -40,7 +40,7 @@ services:
     depends_on:
       - database
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/appbase
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/wanderstaydb
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
