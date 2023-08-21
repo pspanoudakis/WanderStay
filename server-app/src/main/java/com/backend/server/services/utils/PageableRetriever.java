@@ -1,4 +1,4 @@
-package com.backend.server.controllers.utils;
+package com.backend.server.services.utils;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

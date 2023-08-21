@@ -9,7 +9,7 @@ import com.backend.server.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public final class ControllerUtils {
+public final class ControllerResponseUtils {
 
     public static ResponseEntity<ApiResponseDto> responseFactory(ApiResponseDto res) {
         if (res.isOk()) {
@@ -22,9 +22,9 @@ public final class ControllerUtils {
     public static ResponseEntity<ApiResponseDto> responseFactory(ThrowingSupplier<ApiResponseDto> fn) {
         try {
             ApiResponseDto res = fn.get();
-            return ControllerUtils.responseFactory(res);
+            return ControllerResponseUtils.responseFactory(res);
         } catch (BadRequestException e) {
-            return ControllerUtils.responseFactory(
+            return ControllerResponseUtils.responseFactory(
                 new ApiErrorResponseDto(e)
             );
         } catch (Exception e) {

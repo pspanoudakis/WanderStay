@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.server.controllers.responses.ApiResponseDto;
-import com.backend.server.controllers.utils.ControllerUtils;
+import com.backend.server.controllers.utils.ControllerResponseUtils;
 import com.backend.server.services.LocationService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,14 @@ public class LocationController {
     
     @GetMapping("/countries")
     public ResponseEntity<ApiResponseDto> getAllCountries() {
-        return ControllerUtils.responseFactory(
+        return ControllerResponseUtils.responseFactory(
             locationService.getAllCountries()
         );
     }
 
     @GetMapping("/countries/{countryId}")
     public ResponseEntity<ApiResponseDto> getCitiesByCountryId(@PathVariable Long countryId) {
-        return ControllerUtils.responseFactory(
+        return ControllerResponseUtils.responseFactory(
             locationService.getCitiesByCountryId(countryId)
         );
     }

@@ -12,7 +12,6 @@ import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.responses.ReviewDto;
-import com.backend.server.controllers.utils.PageableRetriever;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Reservation;
@@ -23,6 +22,7 @@ import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
+import com.backend.server.services.utils.PageableRetriever;
 import com.backend.server.specifications.PropertyFiltersSpecification;
 import com.backend.server.utils.DateUtils;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.server.controllers.requests.LoginRequestDto;
 import com.backend.server.controllers.requests.RegisterRequestDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
-import com.backend.server.controllers.utils.ControllerUtils;
+import com.backend.server.controllers.utils.ControllerResponseUtils;
 import com.backend.server.services.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,16 +25,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponseDto> register(@RequestBody RegisterRequestDto request) {
-        return ControllerUtils.responseFactory(authService.register(request));
+        return ControllerResponseUtils.responseFactory(authService.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequestDto request) {
-        return ControllerUtils.responseFactory(() -> authService.login(request));
+        return ControllerResponseUtils.responseFactory(() -> authService.login(request));
     }
 
     @PostMapping("/tokenLogin")
     public ResponseEntity<ApiResponseDto> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ControllerUtils.responseFactory(() -> authService.loginWithToken(token));
+        return ControllerResponseUtils.responseFactory(() -> authService.loginWithToken(token));
     }
 }

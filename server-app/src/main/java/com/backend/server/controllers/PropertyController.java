@@ -18,7 +18,7 @@ import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
-import com.backend.server.controllers.utils.ControllerUtils;
+import com.backend.server.controllers.utils.ControllerResponseUtils;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.services.PropertyService;
@@ -49,7 +49,7 @@ public class PropertyController {
         @PathVariable Long propertyId,
         @RequestBody PropertyReservationRequestDto request
     ) {
-        return ControllerUtils.responseFactory(
+        return ControllerResponseUtils.responseFactory(
             () -> propertyService.makePropertyReservation(propertyId, jwt, request)
         );
     }
@@ -61,7 +61,7 @@ public class PropertyController {
         @PathVariable Long propertyId,
         @RequestBody PropertyReviewRequestDto request
     ) {
-        return ControllerUtils.responseFactory(
+        return ControllerResponseUtils.responseFactory(
             () -> propertyService.createOrUpdatePropertyReview(propertyId, jwt, request)
         );
     }
