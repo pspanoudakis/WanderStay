@@ -20,4 +20,10 @@ public class PropertyDetailsDto extends PropertyBasicInfoDto {
     private List<AvailableTimeSlot> availableSlots;
     private PropertyAmenities amenities;
     private PropertyRules rules;
+    private Short spaceArea;
+    private String address;
+    private String cityName;
+    private String countryName;
+    private Double latitude;
+    private Double longitude;
 }

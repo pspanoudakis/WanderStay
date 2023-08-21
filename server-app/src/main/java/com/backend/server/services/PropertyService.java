@@ -238,6 +238,12 @@ public class PropertyService {
                 .availableSlots(property.getAvailableSlots())
                 .amenities(property.getAmenities())
                 .rules(property.getRules())
+                .spaceArea(property.getSpaceArea())
+                .address(property.getAddress())
+                .cityName(property.getCity().getName())
+                .countryName(property.getCity().getCountry().getName())
+                .latitude(property.getLatitude())
+                .longitude(property.getLongitude())
                 .build()
         );
     }
