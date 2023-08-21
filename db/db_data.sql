@@ -535,94 +535,121 @@ ALTER TABLE ONLY public._review ALTER COLUMN id SET DEFAULT nextval('public._rev
 
 
 --
--- Name: 19190; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16613; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19190');
+SELECT pg_catalog.lo_create('16613');
 
 
-ALTER LARGE OBJECT 19190 OWNER TO postgres;
-
---
--- Name: 19191; Type: BLOB; Schema: -; Owner: postgres
---
-
-SELECT pg_catalog.lo_create('19191');
-
-
-ALTER LARGE OBJECT 19191 OWNER TO postgres;
+ALTER LARGE OBJECT 16613 OWNER TO postgres;
 
 --
--- Name: 19192; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16614; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19192');
+SELECT pg_catalog.lo_create('16614');
 
 
-ALTER LARGE OBJECT 19192 OWNER TO postgres;
-
---
--- Name: 19193; Type: BLOB; Schema: -; Owner: postgres
---
-
-SELECT pg_catalog.lo_create('19193');
-
-
-ALTER LARGE OBJECT 19193 OWNER TO postgres;
+ALTER LARGE OBJECT 16614 OWNER TO postgres;
 
 --
--- Name: 19194; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16615; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19194');
+SELECT pg_catalog.lo_create('16615');
 
 
-ALTER LARGE OBJECT 19194 OWNER TO postgres;
-
---
--- Name: 19195; Type: BLOB; Schema: -; Owner: postgres
---
-
-SELECT pg_catalog.lo_create('19195');
-
-
-ALTER LARGE OBJECT 19195 OWNER TO postgres;
+ALTER LARGE OBJECT 16615 OWNER TO postgres;
 
 --
--- Name: 19196; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16616; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19196');
+SELECT pg_catalog.lo_create('16616');
 
 
-ALTER LARGE OBJECT 19196 OWNER TO postgres;
-
---
--- Name: 19197; Type: BLOB; Schema: -; Owner: postgres
---
-
-SELECT pg_catalog.lo_create('19197');
-
-
-ALTER LARGE OBJECT 19197 OWNER TO postgres;
+ALTER LARGE OBJECT 16616 OWNER TO postgres;
 
 --
--- Name: 19198; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16617; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19198');
+SELECT pg_catalog.lo_create('16617');
 
 
-ALTER LARGE OBJECT 19198 OWNER TO postgres;
+ALTER LARGE OBJECT 16617 OWNER TO postgres;
 
 --
--- Name: 19199; Type: BLOB; Schema: -; Owner: postgres
+-- Name: 16618; Type: BLOB; Schema: -; Owner: postgres
 --
 
-SELECT pg_catalog.lo_create('19199');
+SELECT pg_catalog.lo_create('16618');
 
 
-ALTER LARGE OBJECT 19199 OWNER TO postgres;
+ALTER LARGE OBJECT 16618 OWNER TO postgres;
+
+--
+-- Name: 16619; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16619');
+
+
+ALTER LARGE OBJECT 16619 OWNER TO postgres;
+
+--
+-- Name: 16620; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16620');
+
+
+ALTER LARGE OBJECT 16620 OWNER TO postgres;
+
+--
+-- Name: 16621; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16621');
+
+
+ALTER LARGE OBJECT 16621 OWNER TO postgres;
+
+--
+-- Name: 16622; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16622');
+
+
+ALTER LARGE OBJECT 16622 OWNER TO postgres;
+
+--
+-- Name: 16624; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16624');
+
+
+ALTER LARGE OBJECT 16624 OWNER TO postgres;
+
+--
+-- Name: 16625; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16625');
+
+
+ALTER LARGE OBJECT 16625 OWNER TO postgres;
+
+--
+-- Name: 16626; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16626');
+
+
+ALTER LARGE OBJECT 16626 OWNER TO postgres;
 
 --
 -- Name: 19430; Type: BLOB; Schema: -; Owner: postgres
@@ -744,10 +771,12 @@ COPY public._available_time_slot (id, end_date, start_date, property_id) FROM st
 14	2023-11-10	2023-11-01	7
 15	2023-10-11	2023-10-01	8
 16	2023-11-11	2023-11-01	8
-17	2023-10-12	2023-10-01	9
-18	2023-11-12	2023-11-01	9
-19	2023-10-13	2023-10-01	10
-20	2023-11-13	2023-11-01	10
+26	2023-10-13	2023-10-08	10
+19	2023-10-04	2023-10-01	10
+27	2023-11-13	2023-11-08	10
+20	2023-11-04	2023-11-01	10
+30	2023-11-12	2023-11-11	9
+28	2023-11-10	2023-11-08	9
 \.
 
 
@@ -1377,6 +1406,16 @@ COPY public._property_rules (property_id, base_day_cost, events_allowed, min_res
 --
 
 COPY public._reservation (id, end_date, num_persons, start_date, guest_username, property_id) FROM stdin;
+1	2023-10-08	10	2023-10-04	admin	10
+2	2023-11-08	10	2023-11-04	admin	10
+3	2023-11-08	9	2023-11-04	admin	9
+4	2023-10-08	9	2023-10-04	admin	9
+5	2023-10-04	9	2023-10-01	admin	9
+6	2023-10-12	9	2023-10-09	admin	9
+7	2023-10-09	9	2023-10-08	admin	9
+8	2023-11-11	9	2023-11-10	admin	9
+9	2023-11-04	9	2023-11-02	admin	9
+11	2023-11-02	9	2023-11-01	admin	9
 \.
 
 
@@ -1385,6 +1424,19 @@ COPY public._reservation (id, end_date, num_persons, start_date, guest_username,
 --
 
 COPY public._review (id, created_on, stars, text, guest_username, property_id) FROM stdin;
+2	2023-10-01	1	16613	admin	9
+3	2023-10-02	1	16614	admin	9
+4	2023-10-03	1	16615	admin	9
+5	2023-10-04	1	16616	admin	9
+6	2023-10-05	2	16617	admin	9
+7	2023-10-06	2	16618	admin	9
+8	2023-10-07	3	16619	admin	9
+9	2023-10-08	3	16620	admin	9
+10	2023-10-09	4	16621	admin	9
+11	2023-10-10	4	16622	admin	9
+12	2023-08-20	3	16624	admin	8
+13	2023-08-20	2	16625	admin	7
+14	2023-08-20	5	16626	admin	10
 \.
 
 
@@ -1405,6 +1457,7 @@ HOST
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
 admin	\N	\N	t	f	\N	\N	$2a$10$BxQnaglUv1IptBPrIjySiun8uEssBD9fjG7MctLxk5AbyVATTVNle	\N
+host1	h@h.h	\N	t	f	\N		$2a$10$TNdjIy1i37cZq6fQBS0uT.nq/W.mDrreag5k9uNHcxyLLc/Tlu5q2	\N
 \.
 
 
@@ -1416,6 +1469,7 @@ COPY public.user_role (user_username, role_name) FROM stdin;
 admin	ADMIN
 admin	GUEST
 admin	HOST
+host1	HOST
 \.
 
 
@@ -1423,7 +1477,7 @@ admin	HOST
 -- Name: _available_time_slot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._available_time_slot_id_seq', 20, true);
+SELECT pg_catalog.setval('public._available_time_slot_id_seq', 30, true);
 
 
 --
@@ -1451,7 +1505,7 @@ SELECT pg_catalog.setval('public._country_id_seq', 120, true);
 -- Name: _image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._image_id_seq', 1, false);
+SELECT pg_catalog.setval('public._image_id_seq', 1, true);
 
 
 --
@@ -1472,14 +1526,14 @@ SELECT pg_catalog.setval('public._property_id_seq', 10, true);
 -- Name: _reservation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._reservation_id_seq', 1, false);
+SELECT pg_catalog.setval('public._reservation_id_seq', 11, true);
 
 
 --
 -- Name: _review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._review_id_seq', 1, false);
+SELECT pg_catalog.setval('public._review_id_seq', 14, true);
 
 
 --
@@ -1488,44 +1542,56 @@ SELECT pg_catalog.setval('public._review_id_seq', 1, false);
 
 BEGIN;
 
-SELECT pg_catalog.lo_open('19190', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632031');
+SELECT pg_catalog.lo_open('16613', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787430');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19191', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632032');
+SELECT pg_catalog.lo_open('16614', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787431');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19192', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632033');
+SELECT pg_catalog.lo_open('16615', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787432');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19193', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632034');
+SELECT pg_catalog.lo_open('16616', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787433');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19194', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632035');
+SELECT pg_catalog.lo_open('16617', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787434');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19195', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632036');
+SELECT pg_catalog.lo_open('16618', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787435');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19196', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632037');
+SELECT pg_catalog.lo_open('16619', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787436');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19197', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632038');
+SELECT pg_catalog.lo_open('16620', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787437');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19198', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632039');
+SELECT pg_catalog.lo_open('16621', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787438');
 SELECT pg_catalog.lo_close(0);
 
-SELECT pg_catalog.lo_open('19199', 131072);
-SELECT pg_catalog.lowrite(0, '\x44657363203130');
+SELECT pg_catalog.lo_open('16622', 131072);
+SELECT pg_catalog.lowrite(0, '\x7465787439');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16624', 131072);
+SELECT pg_catalog.lowrite(0, '\x48656c6c6f20576f726c6421212132');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16625', 131072);
+SELECT pg_catalog.lowrite(0, '\x48656c6c6f20576f726c64');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16626', 131072);
+SELECT pg_catalog.lowrite(0, '\x48656c6c6f20576f726c64313021');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('19430', 131072);
