@@ -13,13 +13,32 @@ import com.backend.server.controllers.requests.LoginRequestDto;
 import com.backend.server.controllers.requests.RegisterRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
-import com.backend.server.controllers.responses.AuthResponseDto;
 import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.UserRepository;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+class AuthResponseDto extends ApiResponseDto {
+
+    private User user;
+    private String jwt;
+
+    @Builder
+    public AuthResponseDto(User user, String jwt) {
+        super(true);
+        this.user = user;
+        this.jwt = jwt;
+    }
+
+}
 
 @Service
 @RequiredArgsConstructor

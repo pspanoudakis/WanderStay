@@ -10,8 +10,11 @@ import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.controllers.responses.PropertyBasicInfoDto;
+import com.backend.server.controllers.responses.PropertyDetailsDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.responses.ReviewDto;
+import com.backend.server.controllers.responses.PropertyBasicInfoDto.PropertyBasicInfoDtoBuilder;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Reservation;
@@ -27,7 +30,19 @@ import com.backend.server.specifications.PropertyFiltersSpecification;
 import com.backend.server.utils.DateUtils;
 
 import jakarta.transaction.Transactional;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+class PropertyDetailsResponseDto extends ApiResponseDto {
+    PropertyDetailsDto propertyDetails;
+    PropertyDetailsResponseDto(PropertyDetailsDto pd) {
+        super(true);
+        propertyDetails = pd;
+    }
+}
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +58,18 @@ public class PropertyService {
             () -> new BadRequestException(
                     "No property found with id '" + propertyId.toString() + "'"
                 )
+        );
+    }
+
+    public <B extends PropertyBasicInfoDtoBuilder<? extends PropertyBasicInfoDto, B>> 
+    B initBasicPropertyDtoBuilder(Property p, PropertyBasicInfoDtoBuilder<?, B> builder) {
+        return (
+            builder
+                .propertyId(p.getId())
+                .propertyType(p.getType())
+                .title(p.getName())
+                .description(p.getDescription())
+                .reviewsSummary(getPropertyReviewsSummary(p.getId()))
         );
     }
 
@@ -63,13 +90,9 @@ public class PropertyService {
                     (p.getRules().getPerGuestCost() * searchRequest.getFiltersInfo().getNumPersons())
                 );
                 return (
-                    PropertySearchResultDto.builder()
-                        .propertyId(p.getId())
-                        .title(p.getName())
-                        .description(p.getDescription())
+                    initBasicPropertyDtoBuilder(p, PropertySearchResultDto.builder())
                         .imgId(null)
                         .numBeds(p.getAmenities().getNumBeds())
-                        .reviewsSummary(getPropertyReviewsSummary(p.getId()))
                         .pricePerNight(pricePerNight)
                         .totalPrice(
                             Math.max(
@@ -203,4 +226,20 @@ public class PropertyService {
         reviewRepository.save(review);
         return new ApiResponseDto(true);
     }
+
+    @Transactional
+    public PropertyDetailsResponseDto getPropertyDetails(Long propertyId)
+    throws BadRequestException {
+        Property property = getPropertyFromIdOrElseThrow(propertyId);
+        return new PropertyDetailsResponseDto(
+            initBasicPropertyDtoBuilder(property, PropertyDetailsDto.builder())
+                .hostName(property.getHost().getUser().getUsername())
+                .images(property.getImages())
+                .availableSlots(property.getAvailableSlots())
+                .amenities(property.getAmenities())
+                .rules(property.getRules())
+                .build()
+        );
+    }
+
 }
