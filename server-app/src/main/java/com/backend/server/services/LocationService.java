@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.LocationResponseDto;
+import com.backend.server.entities.locations.City;
 import com.backend.server.entities.locations.Country;
+import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.CityRepository;
 import com.backend.server.repositories.CountryRepository;
 
@@ -18,6 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class LocationService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
+
+    public City getCityFromIdOrElseThrow(Long cityId) throws BadRequestException {
+        return cityRepository.findById(cityId).orElseThrow(
+            () -> new BadRequestException(
+                    "No city found with id '" + cityId.toString() + "'"
+                )
+        );
+    }
 
     public ApiResponseDto getAllCountries() {
         return new LocationResponseDto(countryRepository.findAllByOrderByNameAsc());

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
+import com.backend.server.controllers.requests.PropertyUpdatedDetailsDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
@@ -48,6 +49,17 @@ public class PropertyController {
     ) {
         return ControllerResponseUtils.responseFactory(
             () -> propertyService.getPropertyDetails(propertyId)
+        );
+    }
+
+    @PostMapping("/{propertyId}")
+    public ResponseEntity<ApiResponseDto> createOrUpdateProperty(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @PathVariable(required = false) Long propertyId,
+        @RequestBody PropertyUpdatedDetailsDto request
+    ) {
+        return ControllerResponseUtils.responseFactory(
+            () -> propertyService.createOrUpdateProperty(propertyId, jwt, request)
         );
     }
 

@@ -1,13 +1,17 @@
 package com.backend.server.services;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.backend.server.controllers.requests.PendingImageDto;
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
+import com.backend.server.controllers.requests.PropertyUpdatedDetailsDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.PropertyBasicInfoDto;
@@ -15,11 +19,13 @@ import com.backend.server.controllers.responses.PropertyDetailsDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.responses.ReviewDto;
 import com.backend.server.controllers.responses.PropertyBasicInfoDto.PropertyBasicInfoDtoBuilder;
+import com.backend.server.entities.images.Image;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
+import com.backend.server.entities.users.Host;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
@@ -49,6 +55,8 @@ class PropertyDetailsResponseDto extends ApiResponseDto {
 public class PropertyService {
     private final PropertyFiltersSpecification filtersSpecification;
     private final GuestService guestService;
+    private final HostService hostService;
+    private final LocationService locationService;
     private final PropertyRepository propertyRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
@@ -73,6 +81,17 @@ public class PropertyService {
         );
     }
 
+    public Long getPropertyMainImageId(Property p) {
+        List<Image> images = p.getImages();
+        if (p.getImages().size() == 0) {
+            return null;
+        }
+        return images.stream()
+            .filter(i -> i.isMain())
+            .findFirst().orElseGet(() -> images.get(0))
+            .getId();
+    }
+
     public PropertyReviewsSummary getPropertyReviewsSummary(Long propertyId) {
         return reviewRepository.getPropertyReviewsSummary(propertyId);
     }
@@ -91,7 +110,7 @@ public class PropertyService {
                 );
                 return (
                     initBasicPropertyDtoBuilder(p, PropertySearchResultDto.builder())
-                        .imgId(null)
+                        .imgId(getPropertyMainImageId(p))
                         .numBeds(p.getAmenities().getNumBeds())
                         .pricePerNight(pricePerNight)
                         .totalPrice(
@@ -245,6 +264,61 @@ public class PropertyService {
                 .latitude(property.getLatitude())
                 .longitude(property.getLongitude())
                 .build()
+        );
+    }
+
+    @Transactional
+    private List<Image> createPropertyUpdatedImagesList(
+        List<PendingImageDto> newImages, List<Image> oldImages
+    ) {
+        // TODO
+        return List.of();
+    }
+
+    @Transactional
+    public PropertyDetailsResponseDto createOrUpdateProperty(
+        Long propertyId, String jwt,
+        PropertyUpdatedDetailsDto request
+    ) throws BadRequestException {
+        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+
+        // TODO: is `final ok`? (needed for lambda)
+        final Property property = (
+            propertyRepository.findById(propertyId)
+                .orElse(Property.builder().host(host).build())
+        );
+        property.setName(request.getTitle());
+        property.setType(request.getPropertyType());
+        property.setDescription(request.getDescription());
+
+        property.setImages(
+            createPropertyUpdatedImagesList(request.getPendingImages(), property.getImages())
+        );
+
+        property.setAvailableSlots(
+            request.getAvailableSlots().stream()
+                .map(s -> {
+                    s.setProperty(property);
+                    return s;
+                })
+                .collect(Collectors.toList()) 
+        );
+
+        request.getAmenities().setProperty(property);
+        property.setAmenities(request.getAmenities());
+        request.getRules().setProperty(property);
+        property.setRules(request.getRules());
+
+        property.setSpaceArea(request.getSpaceArea());
+        property.setCity(
+            locationService.getCityFromIdOrElseThrow(request.getCityId())
+        );
+        property.setAddress(request.getAddress());
+        property.setLongitude(request.getLongitude());
+        property.setLatitude(request.getLatitude());
+
+        return getPropertyDetails(
+            propertyRepository.save(property).getId()
         );
     }
 
