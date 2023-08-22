@@ -2,6 +2,18 @@ export type PropertyFieldFlags<T extends PropertyRule | PropertyAmenity> = {
     [field in T]: boolean
 }
 
+export type PropertyDetailedRules = {
+    minReservationDays: number,
+    baseDayCost: number,
+    perGuestCost: number,
+} & PropertyFieldFlags<PropertyRule>
+
+export type PropertyDetailedAmenities = {
+    numBeds: number,
+    numBedrooms: number,
+    numBathrooms: number,
+} & PropertyFieldFlags<PropertyAmenity>
+
 export enum PropertyType {
     PRIVATE_ROOM = "PRIVATE_ROOM",
 
