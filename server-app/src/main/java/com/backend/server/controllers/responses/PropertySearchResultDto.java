@@ -1,21 +1,15 @@
 package com.backend.server.controllers.responses;
 
-import com.backend.server.pojos.PropertyReviewsSummary;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
-public class PropertySearchResultDto {
-    private Long propertyId;
-    private String title;
-    private String description;
+@SuperBuilder
+public class PropertySearchResultDto extends PropertyBasicInfoDto {
     private Long imgId;
     private Byte numBeds;
-    private PropertyReviewsSummary reviewsSummary;
     private Integer pricePerNight;
     private Integer totalPrice;
 }

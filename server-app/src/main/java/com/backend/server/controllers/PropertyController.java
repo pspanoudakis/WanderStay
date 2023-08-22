@@ -42,6 +42,15 @@ public class PropertyController {
         );
     }
 
+    @GetMapping("/{propertyId}")
+    public ResponseEntity<ApiResponseDto> getPropertyDetails(
+        @PathVariable Long propertyId
+    ) {
+        return ControllerResponseUtils.responseFactory(
+            () -> propertyService.getPropertyDetails(propertyId)
+        );
+    }
+
     // @PreAuthorize("hasAuthority('GUEST')")
     @PostMapping("/{propertyId}/reserve")
     public ResponseEntity<ApiResponseDto> makePropertyReservation(

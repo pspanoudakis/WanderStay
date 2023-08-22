@@ -91,11 +91,6 @@ public class Property {
     @Lob
     private String description;
 
-    // @Builder.Default
-    // private float avgReviewStars = 0;
-    // @Builder.Default
-    // private int numReviews = 0;
-
     private String address;
 
     private Double latitude;
