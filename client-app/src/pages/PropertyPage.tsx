@@ -7,12 +7,21 @@ import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { PicturesGuestSection } from "../components/PicturesGuestSection";
 import { TitleSection } from "../components/TitleSection";
+import { AddressSection } from "../components/AddressSection";
+import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection";
+
+const IS_EDITABLE = true
 
 export function PropertyPage(){
     const pictures = [12,13,14]
     const [markerPosition, setMarkerPosition] = useState({lat: 13.084622, lng: 80.248357});
     const [title, setTitle] = useState("Title")
     const [textField, setTextField] = useState("description")
+    const [address, setAddress] = useState({
+        ad: "Kromnis 9",
+        city: "Drosia",
+        country: "Greece"
+    })
     const [rules, setRules] = useState({
         ...Object.values(PropertyRule).reduce(
             (filters, rule) => {
@@ -42,7 +51,7 @@ export function PropertyPage(){
     return(
         <div className="flex flex-col w-full gap-2">
         <TitleSection
-            editable={true}
+            editable={IS_EDITABLE}
             setTitle={setTitle}
             title={title}
         />
@@ -50,34 +59,66 @@ export function PropertyPage(){
             pictureList={pictures}
         />
         <DescriptionSection
-            editable={true}
+            editable={IS_EDITABLE}
             setText={setTextField}
             text={textField}
         />
-        <PropertyAmenitiesSection
-            editable={false}
-            amenityFlags={amenities}
-            setAmenityFlags={
-                (flags) => setAmenities({
-                    ...amenities,
-                    ...flags
-                })
-            }
+
+        <NumericAmentitiesSection
+            editable={IS_EDITABLE}
+            field={amenities}
+            setAmenityFlags={setAmenities}
         />
-        <PropertyRulesSection
-            editable={true}
-            ruleFlags={rules}
-            setRuleFlags={
-                (flags) => setRules({
-                    ...rules,
-                    ...flags
-                })
-            }
+        <div className="flex gap-2">
+            <PropertyAmenitiesSection
+                editable={IS_EDITABLE}
+                amenityFlags={{
+                    ...Object.values(PropertyAmenity).reduce(
+                        (flags, amenity) => {
+                            flags[amenity] = amenities[amenity];
+                            return flags;
+                        },
+                        {} as PropertyAmenityFlags
+                    ),
+                }}
+                setAmenityFlags={
+                    (flags) => setAmenities({
+                        ...amenities,
+                        ...flags
+                    })
+                }
+            />
+            <PropertyRulesSection
+                editable={IS_EDITABLE}
+                ruleFlags={{
+                    ...Object.values(PropertyRule).reduce(
+                        (flags, rule) => {
+                            flags[rule] = rules[rule];
+                            return flags;
+                        },
+                        {} as PropertyRuleFlags
+                    ),
+                }}
+                setRuleFlags={
+                    (flags) => setRules({
+                        ...rules,
+                        ...flags
+                    })
+                }
+            />
+        </div>
+       
+        <AddressSection
+            editable={IS_EDITABLE}
+            address={address.ad}
+            city={address.city}
+            country={address.country}
+            //setAddress={setAddress}
         />
         <span className="font-mono">{JSON.stringify(markerPosition)}</span>
         <MapComponent 
             position={markerPosition}
-            editable={true} 
+            editable={IS_EDITABLE} 
             setPosition={setMarkerPosition}            
         />
         </div>
