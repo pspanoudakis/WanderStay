@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
@@ -85,6 +86,24 @@ public class PropertyController {
         return ControllerResponseUtils.responseFactory(
             () -> propertyService.createOrUpdatePropertyReview(propertyId, jwt, request)
         );
+    }
+
+    // @PreAuthorize("hasAuthority('HOST')")
+    @PostMapping("/{propertyId}/uploadImage")
+    public ResponseEntity<ApiResponseDto> uploadNewPropertyImage(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @PathVariable(required = false) Long propertyId,
+        @RequestParam("img") MultipartFile img,
+        @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
+    ) {
+        return ControllerResponseUtils.responseFactory(
+            () -> propertyService.addPropertyImage(
+                    propertyId,
+                    jwt,
+                    img,
+                    Boolean.parseBoolean(isMainStr)
+                )
+        );        
     }
     
     @GetMapping("/{propertyId}/reviews")

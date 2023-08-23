@@ -1,10 +1,12 @@
 package com.backend.server.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
@@ -46,6 +48,16 @@ class PropertyDetailsResponseDto extends ApiResponseDto {
         super(true);
         propertyDetails = pd;
     }
+}
+
+@Setter
+@Getter
+class SavedImageResponseDto extends ApiResponseDto {
+    Long imageId;
+    SavedImageResponseDto(Long id) {
+        super(true);
+        imageId = id;
+    }    
 }
 
 @Service
@@ -243,6 +255,31 @@ public class PropertyService {
 
         reviewRepository.save(review);
         return new ApiResponseDto(true);
+    }
+
+    public SavedImageResponseDto addPropertyImage(
+        Long propertyId, String jwt,
+        MultipartFile file, boolean isMain
+    ) throws BadRequestException, IOException{
+        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+
+        Property property = null;
+        if (propertyId != null) {
+            property = getPropertyFromIdOrElseThrow(propertyId);
+            if (property.getHost().getUser().getUsername() != 
+                host.getUser().getUsername()) {
+                throw new BadRequestException(
+                    "This Host does not own a property with the given ID."
+                );
+            }
+        }
+        Image newImage = imageService.saveImage(file, isMain);
+        if (property != null) {
+            property.getImages().add(newImage);
+            propertyRepository.save(property);
+        }
+
+        return new SavedImageResponseDto(newImage.getId());
     }
 
     @Transactional
