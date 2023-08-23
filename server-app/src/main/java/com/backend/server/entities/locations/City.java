@@ -27,8 +27,7 @@ public class City {
 
     @JsonIgnore
     @ManyToOne(
-        optional = false,
-        fetch = FetchType.LAZY
+        optional = false
     )
     private Country country;
 

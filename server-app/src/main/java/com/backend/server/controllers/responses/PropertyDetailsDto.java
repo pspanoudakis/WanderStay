@@ -3,6 +3,8 @@ package com.backend.server.controllers.responses;
 import java.util.List;
 
 import com.backend.server.entities.images.Image;
+import com.backend.server.entities.locations.City;
+import com.backend.server.entities.locations.Country;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.PropertyAmenities;
 import com.backend.server.entities.properties.PropertyRules;
@@ -22,8 +24,8 @@ public class PropertyDetailsDto extends PropertyBasicInfoDto {
     private PropertyRules rules;
     private Short spaceArea;
     private String address;
-    private String cityName;
-    private String countryName;
+    private City city;
+    private Country country;
     private Double latitude;
     private Double longitude;
 }

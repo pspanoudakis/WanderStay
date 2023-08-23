@@ -16,7 +16,7 @@ public class PropertyUpdatedDetailsDto {
     private String title;
     private PropertyType propertyType;
     private String description;
-    private List<PendingImageDto> pendingImages;
+    private List<ImageSelectionDto> imageSelections;
     private List<AvailableTimeSlot> availableSlots;
     private PropertyAmenities amenities;
     private PropertyRules rules;

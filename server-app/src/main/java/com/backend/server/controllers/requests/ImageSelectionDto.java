@@ -1,12 +1,13 @@
 package com.backend.server.controllers.requests;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PendingImageDto {
-    private Long existingId;
+@AllArgsConstructor
+public class ImageSelectionDto {
+    private Long imgId;
     private boolean isMain;
-    private byte[] bytes;
 }

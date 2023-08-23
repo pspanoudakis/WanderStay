@@ -2,12 +2,10 @@ package com.backend.server.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import com.backend.server.controllers.requests.PendingImageDto;
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
@@ -57,6 +55,7 @@ public class PropertyService {
     private final GuestService guestService;
     private final HostService hostService;
     private final LocationService locationService;
+    private final ImageService imageService;
     private final PropertyRepository propertyRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
@@ -69,7 +68,7 @@ public class PropertyService {
         );
     }
 
-    public <B extends PropertyBasicInfoDtoBuilder<? extends PropertyBasicInfoDto, B>> 
+    private <B extends PropertyBasicInfoDtoBuilder<? extends PropertyBasicInfoDto, B>> 
     B initBasicPropertyDtoBuilder(Property p, PropertyBasicInfoDtoBuilder<?, B> builder) {
         return (
             builder
@@ -81,7 +80,7 @@ public class PropertyService {
         );
     }
 
-    public Long getPropertyMainImageId(Property p) {
+    private Long getPropertyMainImageId(Property p) {
         List<Image> images = p.getImages();
         if (p.getImages().size() == 0) {
             return null;
@@ -259,20 +258,12 @@ public class PropertyService {
                 .rules(property.getRules())
                 .spaceArea(property.getSpaceArea())
                 .address(property.getAddress())
-                .cityName(property.getCity().getName())
-                .countryName(property.getCity().getCountry().getName())
+                .city(property.getCity())
+                .country(property.getCity().getCountry())
                 .latitude(property.getLatitude())
                 .longitude(property.getLongitude())
                 .build()
         );
-    }
-
-    @Transactional
-    private List<Image> createPropertyUpdatedImagesList(
-        List<PendingImageDto> newImages, List<Image> oldImages
-    ) {
-        // TODO
-        return List.of();
     }
 
     @Transactional
@@ -291,17 +282,13 @@ public class PropertyService {
         property.setType(request.getPropertyType());
         property.setDescription(request.getDescription());
 
-        property.setImages(
-            createPropertyUpdatedImagesList(request.getPendingImages(), property.getImages())
-        );
-
         property.setAvailableSlots(
             request.getAvailableSlots().stream()
                 .map(s -> {
                     s.setProperty(property);
                     return s;
                 })
-                .collect(Collectors.toList()) 
+                .toList()
         );
 
         request.getAmenities().setProperty(property);
@@ -316,6 +303,12 @@ public class PropertyService {
         property.setAddress(request.getAddress());
         property.setLongitude(request.getLongitude());
         property.setLatitude(request.getLatitude());
+
+        List<Image> newImages = request.getImageSelections().stream().map(
+            (n) -> imageService.getImageFromIdOrElseThrow(n.getImgId())
+        ).toList();
+        imageService.broadcastImageDeletionsToFs(newImages, property.getImages());
+        property.setImages(newImages);
 
         return getPropertyDetails(
             propertyRepository.save(property).getId()
