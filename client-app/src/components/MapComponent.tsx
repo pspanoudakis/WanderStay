@@ -62,9 +62,11 @@ export function MapComponent(props: MapProps){
     )
   }
     return(
-        <div className='flex flex-col w-3/5 gap-2 items-start'>
-            <div className='text-xl font-bold'>Τοποθεσία</div>
+        <div className='flex flex-col w-full h-96 gap-2 items-start'>
             <MapContainer
+                style={{
+                  flex: "1 1 0%"
+                }}
                 center={[props.position.lat, props.position.lng]}
                 zoom={ZOOM_LEVEL}>
                     <TileLayer 

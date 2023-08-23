@@ -27,7 +27,6 @@ export function TitleSection(props: TitleProps){
                 label="Τίτλος" 
                 variant="standard" 
                 defaultValue={props.title} 
-                sx={{font: '20', fontWeight: 'bold'}}
                 inputProps={{ style: {fontWeight: 'bold', fontSize: '2em'} }}
                 />
                 </Box>
