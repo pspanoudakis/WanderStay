@@ -17,7 +17,8 @@ export interface FetchDataArgs {
     body?: any,
     useJwt?: boolean,
     extractJwt?: boolean,
-    contentType?: string
+    useRawBody?: boolean,
+    omitContentType?: boolean
 }
 
 export type FetchDataResponse<T> = {
@@ -33,7 +34,8 @@ export async function fetchData({
     body,
     useJwt,
     extractJwt,
-    contentType
+    useRawBody,
+    omitContentType
 }: FetchDataArgs): Promise<FetchDataResponse<unknown>> {
 
     let response: FetchDataResponse<unknown> = {
@@ -46,10 +48,15 @@ export async function fetchData({
             method,
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': contentType ?? 'application/json',
-                'Authorization': useJwt ? `Bearer ${getJwt()}` : ''
+                'Authorization': useJwt ? `Bearer ${getJwt()}` : '',
+                ...(!omitContentType && {'Content-Type': 'application/json'}),
             },
-            body: method === "POST" ? JSON.stringify(body) : undefined
+            body: (
+                method === "POST" ? 
+                    (useRawBody ? body : JSON.stringify(body))
+                    : 
+                    undefined
+            )
         }
         ).then(res => {
         if (res.ok) {

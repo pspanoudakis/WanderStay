@@ -9,6 +9,7 @@ import { MyProfile } from './pages/MyProfile';
 import { UserInfo } from './pages/UserInfo';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
 import { PropertyPage } from './pages/PropertyPage';
+import { TestPage } from './pages/Test';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					<Route path='property'>
 						<Route path=':propertyId' element={<PropertyPage/>} />
 					</Route>
+					<Route path='test' element={<TestPage/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

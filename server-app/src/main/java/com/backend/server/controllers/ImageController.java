@@ -30,8 +30,9 @@ public class ImageController {
         @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
     ) {
         try {
-            imageService.saveImage(img, Boolean.parseBoolean(isMainStr));
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(
+                imageService.saveImage(img, Boolean.parseBoolean("true"/* isMainStr */))
+            );
         } catch (IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
