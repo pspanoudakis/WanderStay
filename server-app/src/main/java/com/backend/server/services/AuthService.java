@@ -13,9 +13,15 @@ import com.backend.server.controllers.requests.LoginRequestDto;
 import com.backend.server.controllers.requests.RegisterRequestDto;
 import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.entities.users.Guest;
+import com.backend.server.entities.users.Host;
+import com.backend.server.entities.users.RoleEntityId;
 import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
+// import com.backend.server.repositories.AdminRepository;
+import com.backend.server.repositories.GuestRepository;
+import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.UserRepository;
 
 import lombok.Builder;
@@ -45,6 +51,9 @@ class AuthResponseDto extends ApiResponseDto {
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final GuestRepository guestRepository;
+    private final HostRepository hostRepository;
+    // private final AdminRepository adminRepository;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -94,9 +103,27 @@ public class AuthService {
             .mobileNumber(request.getMobileNumber())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(roleService.getRequiredRoles(request.getRoles()))
-            .isActive(/* true */!isHost)
+            .isActive(true/* !isHost */)
             .build();
         userRepository.save(user);
+
+        if (request.getRoles().contains(RoleType.GUEST.toString())) {
+            guestRepository.save(
+                Guest.builder()
+                    .user(user)
+                    .id(new RoleEntityId())
+                    .build()
+            );
+        }
+        if (isHost) {
+            hostRepository.save(
+                Host.builder()
+                    .user(user)
+                    .id(new RoleEntityId())
+                    .build()
+            );
+        }
+
         return createAuthResponse(user);
     }
 
