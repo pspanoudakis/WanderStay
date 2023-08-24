@@ -8,17 +8,19 @@ export function TestPage() {
     const [items, setItems] = useState<number[]>([]);
 
     return (
-        <div className="flex flex-col justify-center items-center relative">
-        {
-            loading ?
-            <LoadingSpinner
-                coverParent={true}
-            />
-            : undefined
-        }
-        {
-            items.map(i => <span>{i}</span>)
-        }
+        <div
+            className="flex flex-col justify-start items-center relative"
+            style={{
+                minHeight: '8rem'
+            }}
+        >
+            {
+                loading ?
+                <LoadingSpinner
+                    coverParent={true}
+                />
+                : undefined
+            }
             <ImgUploadButton
                 onError={() => {}}
                 onStartUpload={() => {
@@ -32,6 +34,9 @@ export function TestPage() {
                 uploadURL={createEndPointUrl(`/images`)}
                 isNewImgMain={true}
             />
+            {
+                items.map(i => <span>{i}</span>)
+            }            
         </div>
         
         

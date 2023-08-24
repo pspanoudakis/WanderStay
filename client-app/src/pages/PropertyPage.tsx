@@ -12,7 +12,7 @@ import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection"
 import { NumericRulesSection } from "../components/NumericRulesSection";
 import { ReviewTile } from "../components/ReviewTile";
 import { ContactHostSection } from "../components/ContactHostSection";
-import { CalendarPickerHost } from "../components/DatePickerHost";
+// import { CalendarPickerHost } from "../components/DatePickerHost";
 
 const IS_EDITABLE = true
 
@@ -146,7 +146,7 @@ export function PropertyPage(){
         <ContactHostSection
             host="Dora"
         />
-        <CalendarPickerHost/>
+        {/* <CalendarPickerHost/> */}
         </div>
     )
 }
