@@ -2,7 +2,7 @@ export type PropertySearchResult = {
     propertyId: number,
     title: string,
     description: string,
-    imgId: number,
+    imgId: number | null,
     numBeds: number,
     reviewsSummary: {
         reviewCount: number,

@@ -112,13 +112,7 @@ export function SearchPropertiesPage() {
                                 propertyId: p.propertyId,
                                 title: p.title,
                                 description: p.description,
-                                imgSrc: (
-                                    p.imgId ?
-                                    createEndPointUrl(`/images/${p.imgId}`)
-                                    :
-                                    'https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg'
-
-                                ),
+                                imgId: p.imgId,
                                 nofBeds: p.numBeds,
                                 nofReviews: p.reviewsSummary.reviewCount,
                                 reviewRate: p.reviewsSummary.avgStars,

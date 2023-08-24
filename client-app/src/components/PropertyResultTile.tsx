@@ -4,11 +4,12 @@ import Card from '@mui/material/Card';
 // import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import { Link } from "react-router-dom";
+import { Img } from './Img';
 
 interface PropertyResultTileProps{
     propertyPreview: {
         propertyId: number,
-        imgSrc: string,
+        imgId: number | null,
         title :string,
         description: string,
         nofBeds: number,
@@ -47,9 +48,9 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                             image={propertyPreview.imgSrc}
                             alt="hotel"
                         /> */}
-                        <img 
+                        <Img 
+                            imgId={propertyPreview.imgId}
                             className='h-40 rounded-lg'
-                            src={propertyPreview.imgSrc} 
                             alt={`img${propertyPreview.propertyId}`} 
                         />
                         <div className="flex flex-col items-start m-2 p-2 w-full h-full">
