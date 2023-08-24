@@ -9,14 +9,24 @@ import { PicturesGuestSection } from "../components/PicturesGuestSection";
 import { TitleSection } from "../components/TitleSection";
 import { AddressSection } from "../components/AddressSection";
 import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection";
+import { NumericRulesSection } from "../components/NumericRulesSection";
+import { ReviewTile } from "../components/ReviewTile";
+import { ContactHostSection } from "../components/ContactHostSection";
+import { CalendarPickerHost } from "../components/DatePickerHost";
 
 const IS_EDITABLE = true
 
 export function PropertyPage(){
     const pictures = [12,13,14]
-    const [markerPosition, setMarkerPosition] = useState({lat: 13.084622, lng: 80.248357});
+    const [markerPosition, setMarkerPosition] = useState({lat: 38.116828199666465, lng: 23.86143414444651});
     const [title, setTitle] = useState("Title")
     const [textField, setTextField] = useState("description")
+    const [review, setReview] = useState({
+        user: "pavlos",
+        date: "24/08/2023",
+        star: 4,
+        text: "It was a beautiful experience."
+    })
     const [address, setAddress] = useState({
         ad: "Kromnis 9",
         city: "Drosia",
@@ -49,7 +59,7 @@ export function PropertyPage(){
     })
     
     return(
-        <div className="flex flex-col w-full gap-2">
+        <div className="flex flex-col w-full gap-8">
         <TitleSection
             editable={IS_EDITABLE}
             setTitle={setTitle}
@@ -68,6 +78,12 @@ export function PropertyPage(){
             editable={IS_EDITABLE}
             field={amenities}
             setAmenityFlags={setAmenities}
+        />
+
+        <NumericRulesSection
+            editable={IS_EDITABLE}
+            field={rules}
+            setAmenityFlags={setRules}
         />
         <div className="flex gap-2">
             <PropertyAmenitiesSection
@@ -115,12 +131,22 @@ export function PropertyPage(){
             country={address.country}
             //setAddress={setAddress}
         />
-        <span className="font-mono">{JSON.stringify(markerPosition)}</span>
+        {/* <span className="font-mono">{JSON.stringify(markerPosition)}</span> */}
         <MapComponent 
             position={markerPosition}
             editable={IS_EDITABLE} 
             setPosition={setMarkerPosition}            
         />
+        <ReviewTile
+            date={review.date}
+            guest={review.user}
+            star={review.star}
+            text={review.text}
+        />
+        <ContactHostSection
+            host="Dora"
+        />
+        <CalendarPickerHost/>
         </div>
     )
 }
