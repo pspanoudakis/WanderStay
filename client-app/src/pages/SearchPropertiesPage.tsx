@@ -7,6 +7,7 @@ import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { useSearchParams } from "react-router-dom";
 import { fetchPropertyResults } from "../api/fetchRoutines/searchAPI";
 import { PropertyResultTile } from "../components/PropertyResultTile";
+import { createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
 
 const MAX_SLIDER_COST = 1000
 const SLIDER_MARKS = [0, 100, 250, 500, MAX_SLIDER_COST];
@@ -103,15 +104,21 @@ export function SearchPropertiesPage() {
                 pageSize={4}
                 idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchProperties}
-                resultRenderer={(p, idx) => {
+                resultRenderer={(p, key) => {
                     return (
                         <PropertyResultTile
-                            key={idx}
+                            key={key}
                             propertyPreview={{
                                 propertyId: p.propertyId,
                                 title: p.title,
                                 description: p.description,
-                                imgSrc: 'https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg',
+                                imgSrc: (
+                                    p.imgId ?
+                                    createEndPointUrl(`/images/${p.imgId}`)
+                                    :
+                                    'https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg'
+
+                                ),
                                 nofBeds: p.numBeds,
                                 nofReviews: p.reviewsSummary.reviewCount,
                                 reviewRate: p.reviewsSummary.avgStars,
