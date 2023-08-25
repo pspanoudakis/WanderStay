@@ -103,6 +103,15 @@ public class PropertyService {
             .getId();
     }
 
+    private void throwIfNotOwner(Host host, Property property) throws BadRequestException {
+        if (property.getHost().getUser().getUsername() != 
+            host.getUser().getUsername()) {
+            throw new BadRequestException(
+                "This Host does not own a property with the given ID."
+            );
+        }
+    }
+
     public PropertyReviewsSummary getPropertyReviewsSummary(Long propertyId) {
         return reviewRepository.getPropertyReviewsSummary(propertyId);
     }
@@ -266,12 +275,7 @@ public class PropertyService {
         Property property = null;
         if (propertyId != null) {
             property = getPropertyFromIdOrElseThrow(propertyId);
-            if (property.getHost().getUser().getUsername() != 
-                host.getUser().getUsername()) {
-                throw new BadRequestException(
-                    "This Host does not own a property with the given ID."
-                );
-            }
+            throwIfNotOwner(host, property);
         }
         Image newImage = imageService.saveImage(file, isMain);
         if (property != null) {
@@ -320,6 +324,8 @@ public class PropertyService {
             propertyRepository.findById(propertyId)
                 .orElse(Property.builder().host(host).build())
         );
+        throwIfNotOwner(host, property);
+
         property.setName(request.getTitle());
         property.setType(request.getPropertyType());
         property.setDescription(request.getDescription());
