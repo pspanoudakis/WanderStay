@@ -2,6 +2,8 @@ package com.backend.server.entities.users;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -21,6 +23,7 @@ public class Role implements GrantedAuthority{
     @Id
     private String name;
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return this.name;

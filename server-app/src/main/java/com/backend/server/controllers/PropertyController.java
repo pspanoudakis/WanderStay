@@ -86,15 +86,32 @@ public class PropertyController {
 
     // @PreAuthorize("hasAuthority('HOST')")
     @PostMapping("/{propertyId}/uploadImage")
-    public ResponseEntity<ApiResponseDto> uploadNewPropertyImage(
+    public ResponseEntity<ApiResponseDto> addPropertyImage(
         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) Long propertyId,
+        @PathVariable Long propertyId,
         @RequestParam("img") MultipartFile img,
         @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
     ) {
         return ControllerResponseUtils.responseFactory(
             () -> propertyService.addPropertyImage(
                     propertyId,
+                    jwt,
+                    img,
+                    Boolean.parseBoolean(isMainStr)
+                )
+        );        
+    }
+
+    // @PreAuthorize("hasAuthority('HOST')")
+    @PostMapping("/uploadImage")
+    public ResponseEntity<ApiResponseDto> addNewPropertyImage(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @RequestParam("img") MultipartFile img,
+        @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
+    ) {
+        return ControllerResponseUtils.responseFactory(
+            () -> propertyService.addPropertyImage(
+                    null,
                     jwt,
                     img,
                     Boolean.parseBoolean(isMainStr)
