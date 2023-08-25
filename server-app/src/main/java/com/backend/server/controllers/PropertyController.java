@@ -1,6 +1,5 @@
 package com.backend.server.controllers;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +18,7 @@ import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.requests.PropertyUpdatedDetailsDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
-import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
-import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.services.PropertyService;
 
@@ -35,12 +32,11 @@ public class PropertyController {
     private final PropertyService propertyService;
     
     @PostMapping("/search")
-    public ResponseEntity<Page<PropertySearchResultDto>> searchProperties(
+    public ResponseEntity<?> searchProperties(
         @RequestBody PropertySearchRequestDto searchRequest
     ) {
-
-        return ResponseEntity.ok(
-            propertyService.searchProperties(searchRequest)
+        return ControllerResponseUtils.genericResponseFactory(
+            () -> propertyService.searchProperties(searchRequest)
         );
     }
 
@@ -112,14 +108,9 @@ public class PropertyController {
         @RequestParam Short numPage,
         @RequestParam Byte pageSize
     ) {
-        try {
-            return ResponseEntity.ok(
-                propertyService.getPropertyReviews(propertyId, numPage, pageSize)
-            );
-        } catch (BadRequestException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        
+        return ControllerResponseUtils.genericResponseFactory(
+            () -> propertyService.getPropertyReviews(propertyId, numPage, pageSize)
+        );
     }
 
     // TODO: delete this

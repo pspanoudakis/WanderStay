@@ -84,29 +84,32 @@ public class ImageService {
         imageRepository.flush();
 
         String uploadName = file.getOriginalFilename();
-        Path newImgPath = this.rootPath.resolve(
-            savedImg.getId().toString() + "." + getImageExtension(uploadName)
-        );
+        String imgRelativePath = savedImg.getId().toString() + "." + getImageExtension(uploadName);
         
         try {
-            Files.copy(file.getInputStream(), newImgPath);
+            Files.copy(
+                file.getInputStream(), 
+                this.rootPath.resolve(imgRelativePath)
+            );
         } catch (IOException e) {
             imageRepository.delete(savedImg);
             throw e;
         }
 
-        savedImg.setPath(newImgPath.toString());
+        savedImg.setPath(imgRelativePath);
         return imageRepository.save(savedImg);
     }
 
-    public Resource retrieveImage(Long imgId) {
+    public Resource retrieveImage(Long imgId) throws BadRequestException{
 
-        Optional<Image> imgEnity = imageRepository.findById(imgId);
-        if (!imgEnity.isPresent()) {
-            return null;
+        Optional<Image> imgEntity = imageRepository.findById(imgId);
+        if (!imgEntity.isPresent()) {
+            throw new BadRequestException(
+                "Image with ID '" + imgId.toString() + "' is not present."
+            );
         }
 
-        Path imgFullPath = Path.of(imgEnity.get().getPath());
+        Path imgFullPath = this.rootPath.resolve(imgEntity.get().getPath());
 
         try {
             Resource img = new UrlResource(imgFullPath.toUri());
@@ -114,10 +117,12 @@ public class ImageService {
             if (img.isReadable()) {
                 return img;
             } else {
-                return null;
+                throw new BadRequestException(
+                    "Cannot read image from path '" + imgFullPath + "'."
+                );
             }            
         } catch (MalformedURLException e) {
-            return null;
+            throw new BadRequestException(e.getMessage());
         }
     }
 }

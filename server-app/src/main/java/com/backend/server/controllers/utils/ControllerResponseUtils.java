@@ -6,7 +6,6 @@ import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.exceptions.BadRequestException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public final class ControllerResponseUtils {
@@ -15,8 +14,14 @@ public final class ControllerResponseUtils {
         if (res.isOk()) {
             return ResponseEntity.ok(res);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+            return ResponseEntity.badRequest().body(res);
         }
+    }
+
+    public static ResponseEntity<ApiResponseDto> errorResponseFactory(Exception e) {
+        return ControllerResponseUtils.responseFactory(
+            new ApiErrorResponseDto(e)
+        );
     }
 
     public static ResponseEntity<ApiResponseDto> responseFactory(ThrowingSupplier<ApiResponseDto> fn) {
@@ -24,11 +29,22 @@ public final class ControllerResponseUtils {
             ApiResponseDto res = fn.get();
             return ControllerResponseUtils.responseFactory(res);
         } catch (BadRequestException e) {
-            return ControllerResponseUtils.responseFactory(
+            return errorResponseFactory(e);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
                 new ApiErrorResponseDto(e)
             );
+        }
+    }
+
+    public static <T> ResponseEntity<?> genericResponseFactory(ThrowingSupplier<T> fn) {
+        try {
+            T res = fn.get();
+            return ResponseEntity.ok().body(res);
+        } catch (BadRequestException e) {
+            return errorResponseFactory(e);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+            return ResponseEntity.internalServerError().body(
                 new ApiErrorResponseDto(e)
             );
         }

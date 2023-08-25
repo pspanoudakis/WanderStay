@@ -283,9 +283,7 @@ public class PropertyService {
     }
 
     @Transactional
-    public PropertyDetailsResponseDto getPropertyDetails(Long propertyId)
-    throws BadRequestException {
-        Property property = getPropertyFromIdOrElseThrow(propertyId);
+    private PropertyDetailsResponseDto mapPropertyToDetailsDto(Property property) {
         return new PropertyDetailsResponseDto(
             initBasicPropertyDtoBuilder(property, PropertyDetailsDto.builder())
                 .hostName(property.getHost().getUser().getUsername())
@@ -301,6 +299,13 @@ public class PropertyService {
                 .longitude(property.getLongitude())
                 .build()
         );
+    }
+
+    @Transactional
+    public PropertyDetailsResponseDto getPropertyDetails(Long propertyId)
+    throws BadRequestException {
+        Property property = getPropertyFromIdOrElseThrow(propertyId);
+        return mapPropertyToDetailsDto(property);
     }
 
     @Transactional
@@ -347,8 +352,8 @@ public class PropertyService {
         imageService.broadcastImageDeletionsToFs(newImages, property.getImages());
         property.setImages(newImages);
 
-        return getPropertyDetails(
-            propertyRepository.save(property).getId()
+        return mapPropertyToDetailsDto(
+            propertyRepository.save(property)
         );
     }
 

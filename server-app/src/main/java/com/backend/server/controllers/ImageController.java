@@ -1,7 +1,5 @@
 package com.backend.server.controllers;
 
-import java.io.IOException;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.backend.server.controllers.utils.ControllerResponseUtils;
+import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.services.ImageService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,23 +29,25 @@ public class ImageController {
         @RequestParam("img") MultipartFile img,
         @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
     ) {
-        try {
-            return ResponseEntity.ok(
-                imageService.saveImage(img, Boolean.parseBoolean("true"/* isMainStr */))
-            );
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        
+        return ControllerResponseUtils.genericResponseFactory(
+            () -> imageService.saveImage(img, Boolean.parseBoolean(isMainStr))
+        );
     }
 
     @GetMapping("/{imgId}")
-    public ResponseEntity<Resource> downloadImage(@PathVariable(required = true) Long imgId) {
-        Resource img = imageService.retrieveImage(imgId);
-        if (img == null) {
-            return ResponseEntity.badRequest().body(null);
+    public ResponseEntity<?> downloadImage(@PathVariable(required = true) Long imgId) {
+        try {
+            Resource img = imageService.retrieveImage(imgId);
+            String mimeType = imageService.getImageExtension(img.getFilename());
+            return (
+                ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/" + mimeType)
+                    .body(img)
+            );
+        } catch (BadRequestException e) {
+            return ControllerResponseUtils.errorResponseFactory(e);
         }
-        String mimeType = imageService.getImageExtension(img.getFilename());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/" + mimeType).body(img);
+        
     }
 }
