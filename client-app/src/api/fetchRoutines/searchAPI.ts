@@ -1,4 +1,4 @@
-import { PropertySearchResult } from "../entities/PropertySearchResult";
+import { PropertySearchResult } from "../responses/PropertySearchResult";
 import { PropertyAmenity, PropertyRule } from "../entities/propertyEnums";
 import { PropertySearchRequest } from "../requests/PropertySearchRequest";
 import { PaginatedResponse, emptyPaginatedResponse } from "../responses/PaginatedResponse";

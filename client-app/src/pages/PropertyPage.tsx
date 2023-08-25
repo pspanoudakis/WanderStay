@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
 import { PropertyAmenity, PropertyAmenityFlags, PropertyDetailedAmenities, PropertyDetailedRules, PropertyRule, PropertyRuleFlags } from "../api/entities/propertyEnums";
@@ -10,8 +9,8 @@ import { TitleSection } from "../components/TitleSection";
 import { AddressSection } from "../components/AddressSection";
 import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection";
 import { NumericRulesSection } from "../components/NumericRulesSection";
-import { ReviewTile } from "../components/ReviewTile";
 import { ContactHostSection } from "../components/ContactHostSection";
+import { ReviewsSection } from "../components/ReviewsSection";
 // import { CalendarPickerHost } from "../components/DatePickerHost";
 
 const IS_EDITABLE = true
@@ -137,11 +136,8 @@ export function PropertyPage(){
             editable={IS_EDITABLE} 
             setPosition={setMarkerPosition}            
         />
-        <ReviewTile
-            date={review.date}
-            guest={review.user}
-            star={review.star}
-            text={review.text}
+        <ReviewsSection
+            propertyId={9}
         />
         <ContactHostSection
             host="Dora"

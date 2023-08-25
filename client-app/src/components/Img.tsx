@@ -6,12 +6,13 @@ type ImgProps = {
 } & React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
 export function Img(props: ImgProps) {
+    const {imgId, ...domProps} = props;
     return (
         <img 
-            {...props}
+            {...domProps}
             src={
-                props.imgId ?
-                createEndPointUrl(`/images/${props.imgId}`)
+                imgId ?
+                createEndPointUrl(`/images/${imgId}`)
                 :
                 "https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg"
             }            
