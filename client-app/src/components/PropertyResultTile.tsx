@@ -50,10 +50,11 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                         /> */}
                         <Img 
                             imgId={propertyPreview.imgId}
-                            className='h-40 rounded-lg'
+                            height={160}
+                            className='rounded-lg'
                             alt={`img${propertyPreview.propertyId}`} 
                         />
-                        <div className="flex flex-col items-start m-2 p-2 w-full h-full">
+                        <div className="flex flex-col items-start m-2 p-2 w-3/5 h-full">
                             <div className="flex w-full justify-between gap-8">
                                 <span className='text-lg font-bold'>
                                     {propertyPreview.title}

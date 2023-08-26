@@ -107,7 +107,7 @@ export function SearchPropertiesPage() {
                 resultRenderer={(p, key) => {
                     return (
                         <PropertyResultTile
-                            key={key}
+                            key={p.propertyId}
                             propertyPreview={{
                                 propertyId: p.propertyId,
                                 title: p.title,
