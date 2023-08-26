@@ -59,10 +59,16 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                                 <span className='text-lg font-bold'>
                                     {propertyPreview.title}
                                 </span>
-                                <h1 className='font-bold text-lg'> 
-                                    <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />
-                                    {propertyPreview.reviewRate}  ({propertyPreview.nofReviews})
-                                </h1>
+                                {
+                                    propertyPreview.nofReviews ?
+                                    <div className='flex items-center gap-1 text-lg'> 
+                                        <span className="font-bold ">{propertyPreview.reviewRate}</span>
+                                        <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />
+                                        <span className='text-base'>({propertyPreview.nofReviews})</span>                                    
+                                    </div>
+                                    :
+                                    null
+                                }
                             </div>
                             <div className='flex-1 w-full flex flex-col justify-between items-start border-l-2 border-main-petrol pl-3 mt-2'>
                                 <span className="text-sm">{propertyPreview.description}</span>

@@ -140,7 +140,8 @@ export function PropertyPage(){
             propertyId={9}
         />
         <ContactHostSection
-            host="Dora"
+            hostUsername="dora"
+            propertyId={9}
         />
         {/* <CalendarPickerHost/> */}
         </div>
