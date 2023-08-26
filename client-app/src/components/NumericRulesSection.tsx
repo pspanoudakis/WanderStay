@@ -5,8 +5,8 @@ import { Box, TextField } from "@mui/material";
 
 interface NumericRulesProps{
     editable: boolean,
-    field?: PropertyDetailedRules
-    setAmenityFlags?: (flags: PropertyDetailedRules) => void,
+    rules: PropertyDetailedRules
+    setRules?: (newRules: PropertyDetailedRules) => void,
 }
 
 export function NumericRulesSection(props: NumericRulesProps){
@@ -26,15 +26,21 @@ export function NumericRulesSection(props: NumericRulesProps){
                             autoComplete="off"
                             >
                             <TextField
-                            inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "15rem"}}
-                            id="standard-basic" 
-                            label="Ελάχιστος αριθμός ημερών" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.minReservationDays} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "15rem"}}
+                                id="standard-basic" 
+                                label="Ελάχιστος αριθμός ημερών" 
+                                variant="standard" 
+                                type="number"
+                                value={props.rules.minReservationDays}
+                                onChange={(e) => {
+                                    props.setRules?.({
+                                        ...props.rules,
+                                        minReservationDays: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faMoneyCheckDollar} size="xl" className="pt-4"/>
@@ -47,15 +53,21 @@ export function NumericRulesSection(props: NumericRulesProps){
                             autoComplete="off"
                             >
                             <TextField
-                            inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "15rem"}}
-                            id="standard-basic" 
-                            label="Κόστος/ημέρα" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.baseDayCost} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "15rem"}}
+                                id="standard-basic" 
+                                label="Κόστος/ημέρα" 
+                                variant="standard" 
+                                type="number"
+                                value={props.rules.baseDayCost}
+                                onChange={(e) => {
+                                    props.setRules?.({
+                                        ...props.rules,
+                                        baseDayCost: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faPersonCirclePlus} size="xl" className="pt-4"/>
@@ -68,30 +80,36 @@ export function NumericRulesSection(props: NumericRulesProps){
                             autoComplete="off"
                             >
                             <TextField
-                             inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "15rem"}}
-                            id="standard-basic" 
-                            label="Επιπλέον κόστος / επισκέπτη" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.perGuestCost} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "15rem"}}
+                                id="standard-basic" 
+                                label="Επιπλέον κόστος / επισκέπτη" 
+                                variant="standard" 
+                                type="number"
+                                value={props.rules.perGuestCost}
+                                onChange={(e) => {
+                                    props.setRules?.({
+                                        ...props.rules,
+                                        perGuestCost: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                 </div> 
                 :
                 <div className="flex flex-col gap-2 items-start text-lg">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                         <FontAwesomeIcon icon={faCalendarDays}/>
-                        <span>{`${props.field?.minReservationDays + " " + "Ελάχιστος αριθμός ημερών,"}`} </span>
+                        <span>{"Ελάχιστη Διάρκεια Ενοικίασης: " + props.rules?.minReservationDays} </span>
                     </div>
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2 items-center ">
                         <FontAwesomeIcon icon={faMoneyCheckDollar}/>
-                        <span>{`${props.field?.baseDayCost + " " + "Κόστος/ημέρα,"}`} </span>
+                        <span>{`${props.rules?.baseDayCost + " " + "Κόστος/ημέρα,"}`} </span>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                         <FontAwesomeIcon icon={faPersonCirclePlus}/>
-                        <span>{`${props.field?.perGuestCost + " " + "Επιπλέον κόστος / επισκέπτη"}`} </span>
+                        <span>{`${props.rules?.perGuestCost + " " + "Επιπλέον κόστος / επισκέπτη"}`} </span>
                     </div>
                 </div>
             }

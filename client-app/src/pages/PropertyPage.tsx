@@ -75,14 +75,14 @@ export function PropertyPage(){
 
         <NumericAmentitiesSection
             editable={IS_EDITABLE}
-            field={amenities}
-            setAmenityFlags={setAmenities}
+            amenities={amenities}
+            setAmenities={setAmenities}
         />
 
         <NumericRulesSection
             editable={IS_EDITABLE}
-            field={rules}
-            setAmenityFlags={setRules}
+            rules={rules}
+            setRules={setRules}
         />
         <div className="flex gap-2">
             <PropertyAmenitiesSection

@@ -5,8 +5,8 @@ import { Box, TextField } from "@mui/material";
 
 interface NumericAmenitiesProps{
     editable: boolean,
-    field?: PropertyDetailedAmenities
-    setAmenityFlags?: (flags: PropertyDetailedAmenities) => void,
+    amenities: PropertyDetailedAmenities
+    setAmenities?: (newAmenities: PropertyDetailedAmenities) => void,
 }
 
 export function NumericAmentitiesSection(props: NumericAmenitiesProps){
@@ -24,17 +24,23 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                             }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
-                            inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "5rem"}}
-                            id="standard-basic" 
-                            label="Κρεβάτια" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.numBeds} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "5rem"}}
+                                id="standard-basic" 
+                                label="Κρεβάτια" 
+                                variant="standard" 
+                                type="number"
+                                value={props.amenities.numBeds}
+                                onChange={(e) => {
+                                    props.setAmenities?.({
+                                        ...props.amenities,
+                                        numBeds: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faDoorOpen} size="xl" className="pt-4"/>
@@ -45,17 +51,23 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                             }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
-                            inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "5rem"}}
-                            id="standard-basic" 
-                            label="Δωμάτια" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.numBedrooms} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "5rem"}}
+                                id="standard-basic" 
+                                label="Δωμάτια" 
+                                variant="standard" 
+                                type="number"
+                                value={props.amenities.numBedrooms}
+                                onChange={(e) => {
+                                    props.setAmenities?.({
+                                        ...props.amenities,
+                                        numBedrooms: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faBathtub} size="xl" className="pt-4"/>
@@ -66,27 +78,33 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                             }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
-                             inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                            style={{width: "5rem"}}
-                            id="standard-basic" 
-                            label="Μπάνια" 
-                            variant="standard" 
-                            type="number"
-                            defaultValue={props.field?.numBathrooms} 
+                                inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                                style={{width: "5rem"}}
+                                id="standard-basic" 
+                                label="Μπάνια" 
+                                variant="standard" 
+                                type="number"
+                                value={props.amenities.numBathrooms}
+                                onChange={(e) => {
+                                    props.setAmenities?.({
+                                        ...props.amenities,
+                                        numBathrooms: Number(e.target.value)
+                                    })
+                                }}
                             />
-                            </Box>
+                        </Box>
                     </div>
                 </div> 
                 :
                 <div className="flex gap-2 items-center text-lg">
                     <FontAwesomeIcon icon={faBed}/>
-                    <span>{`${props.field?.numBeds + " " + "κρεβάτια,"}`} </span>
+                    <span>{`${props.amenities.numBeds + " " + "κρεβάτια,"}`} </span>
                     <FontAwesomeIcon icon={faDoorOpen}/>
-                    <span>{`${props.field?.numBedrooms + " " + "δωμάτια,"}`} </span>
+                    <span>{`${props.amenities.numBedrooms + " " + "δωμάτια,"}`} </span>
                     <FontAwesomeIcon icon={faBathtub}/>
-                    <span>{`${props.field?.numBathrooms + " " + "μπάνια"}`} </span>
+                    <span>{`${props.amenities.numBathrooms + " " + "μπάνια"}`} </span>
                 </div>
             }
         </div>
