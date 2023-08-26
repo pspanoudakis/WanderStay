@@ -2,9 +2,10 @@ import {} from '@fortawesome/free-solid-svg-icons';
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { CustomSlider } from "./CustomSlider";
 import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
-import { PropertyAmenity, PropertyRule, PropertyType } from "../api/entities/propertyEnums";
-import { PropertyAmenityLabels, PropertyRuleLabels, PropertyTypeLabels } from './utils/propertyFieldLabels';
+import { PropertyType } from "../api/entities/propertyEnums";
+import { PropertyTypeLabels } from './utils/propertyFieldLabels';
 import { PropertyFlagsCheckList } from './PropertyFlagsCheckList';
+import { PrimaryButton } from './PrimaryButton';
 
 export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
     filters: PropertySearchFilters,
@@ -17,16 +18,11 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
         <div className="flex flex-col w-1/3 border-2 border-main-petrol rounded-md h-full items-center divide-y divide-main-petrol">
             <div className="flex flex-row w-full justify-center items-center py-2 gap-2">
                 <b>Επιλογές Αναζήτησης</b>
-                <button
-                    className='
-                        rounded-xl px-4 py-0.5
-                        bg-main-petrol duration-300 hover:bg-dark-petrol
-                        text-white font-semibold
-                    '
+                <PrimaryButton
                     onClick={onSearch}
                 >
                     Εφαρμογή
-                </button>
+                </PrimaryButton>
             </div>
             <div className="flex flex-col justify-center px-3 w-full">
                 <span className='font-semibold pt-1'>Ο ημερήσιος προϋπολογισμός σας</span>

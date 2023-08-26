@@ -7,7 +7,7 @@ export function NavBar() {
         <div className="flex justify-between p-2 items-center px-8  border-b-2 border-light-petrol">
             <Link
                 to="/" 
-                className="text-main-petrol font-bold text-2xl hover:text-main-petrol font-sans"
+                className="text-main-petrol font-bold text-2xl hover:text-main-petrol"
                 style={{
                     fontFamily: 'Pacifico'
                 }}

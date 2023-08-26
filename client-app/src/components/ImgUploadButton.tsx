@@ -1,4 +1,5 @@
 import { fetchData } from "../api/fetchRoutines/fetchAPI";
+import { PrimaryButton } from "./PrimaryButton";
 
 const SUPPORTED_IMG_EXTENSIONS = [
     'image/*'
@@ -42,22 +43,15 @@ export function ImgUploadButton(props: ImgUploadButtonProps) {
                 
             }).catch(error => {
                 props.onError(error);
-            })
+            });
         }
     };
 
     return (
         <div className="flex flex-row justify-center items-center">
-            <button
-                className='
-                    rounded-xl px-4 py-0.5
-                    bg-main-petrol duration-300 hover:bg-dark-petrol
-                    text-white font-semibold
-                    cursor-pointer
-                '
-            >
+            <PrimaryButton>
                 <label className="cursor-pointer" htmlFor="imgInput">Ανέβασμα Εικόνας</label>                
-            </button>
+            </PrimaryButton>
             <input 
                 id="imgInput" name="img"
                 className="hidden" 

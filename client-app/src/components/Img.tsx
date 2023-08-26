@@ -8,7 +8,7 @@ type ImgProps = {
 } & React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>;
 
 export function Img(props: ImgProps) {
-    const {imgId} = props;
+    const {imgId, ...domProps} = props;
 
     const cache = useRef<HTMLImageElement>(new Image());
     const [loading, setLoading] = useState(true);
@@ -23,6 +23,7 @@ export function Img(props: ImgProps) {
     }, [imgId]);
 
     useEffect(() => {
+        setLoading(true)
         const imgElement = new Image(undefined, props.height);
         imgElement.src = imgSrc ?? '';
 
@@ -45,7 +46,7 @@ export function Img(props: ImgProps) {
                 />
                 :
                 <img
-                    {...props}
+                    {...domProps}
                     className={`${props.className ?? ''} h-full`}
                     src={imgSrc}
                 />

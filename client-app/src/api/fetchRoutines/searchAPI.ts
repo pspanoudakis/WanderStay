@@ -1,8 +1,8 @@
 import { PropertySearchResult } from "../responses/PropertySearchResult";
 import { PropertyAmenity, PropertyRule } from "../entities/propertyEnums";
 import { PropertySearchRequest } from "../requests/PropertySearchRequest";
-import { PaginatedResponse, emptyPaginatedResponse } from "../responses/PaginatedResponse";
-import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
+import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
+import { createEndPointUrl, fetchData } from "./fetchAPI";
 
 function createSearchRequestBody(searchOptions: PropertySearchRequest) {
     const filtersInfo = searchOptions.filtersInfo;
@@ -48,13 +48,5 @@ export async function fetchPropertyResults(searchOptions: PropertySearchRequest)
         method: "POST",
         body: createSearchRequestBody(searchOptions)
     });
-    return (
-        response.ok ?
-            response
-            :
-            {
-                content: emptyPaginatedResponse,
-                ok: false
-            }
-    ) as FetchDataResponse<PaginatedResponse<PropertySearchResult>>
+    return convertToPaginatedResponse<PropertySearchResult>(response);
 }
