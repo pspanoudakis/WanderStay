@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.3
--- Dumped by pg_dump version 15.3
+-- Dumped from database version 15.4
+-- Dumped by pg_dump version 15.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1320,6 +1320,7 @@ admin
 
 COPY public._host (username) FROM stdin;
 admin
+host1
 \.
 
 
@@ -1328,6 +1329,11 @@ admin
 --
 
 COPY public._image (id, is_main, path) FROM stdin;
+2	f	2.PNG
+3	f	3.JPG
+4	f	4.png
+5	t	5.png
+40	t	40.JPG
 \.
 
 
@@ -1380,6 +1386,10 @@ COPY public._property_amenities (property_id, has_elevator, has_heating, has_kit
 --
 
 COPY public._property_image (property_id, image_id) FROM stdin;
+5	3
+5	4
+5	5
+4	40
 \.
 
 
@@ -1457,7 +1467,7 @@ HOST
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
 admin	\N	\N	t	f	\N	\N	$2a$10$BxQnaglUv1IptBPrIjySiun8uEssBD9fjG7MctLxk5AbyVATTVNle	\N
-host1	h@h.h	\N	t	f	\N		$2a$10$TNdjIy1i37cZq6fQBS0uT.nq/W.mDrreag5k9uNHcxyLLc/Tlu5q2	\N
+host1	h@h.h	\N	t	f	\N		$2a$10$0rZwuotrsEilXU8EE4CsOOiW4pWndJJ866Xm6EsXuwd1Zttf8QHX.	\N
 \.
 
 
@@ -1505,7 +1515,7 @@ SELECT pg_catalog.setval('public._country_id_seq', 120, true);
 -- Name: _image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._image_id_seq', 1, true);
+SELECT pg_catalog.setval('public._image_id_seq', 40, true);
 
 
 --
