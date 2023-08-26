@@ -14,24 +14,25 @@ export function TitleSection(props: TitleProps){
             {
                 props.editable ?
                 <Box
-                component="form"
-                sx={{
-                  '& > :not(style)': { m: 1, fontSize: '20', fontWeight: 'bold'},
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField 
-                fullWidth
-                id="standard-basic" 
-                label="Τίτλος" 
-                variant="standard" 
-                defaultValue={props.title} 
-                inputProps={{ style: {fontWeight: 'bold', fontSize: '2em'} }}
-                />
+                    component="form"
+                    sx={{
+                    '& > :not(style)': { m: 1, fontSize: '20', fontWeight: 'bold'},
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField 
+                        fullWidth
+                        id="standard-basic" 
+                        label="Τίτλος" 
+                        variant="standard" 
+                        inputProps={{ style: {fontWeight: 'bold', fontSize: '2em'} }}
+                        value={props.title}
+                        onChange={(e) => props.setTitle?.(e.target.value)}
+                    />
                 </Box>
                 :
-                <span>{props.title}</span>
+                <span className='text-2xl font-bold'>{props.title}</span>
             }
         </div>
         

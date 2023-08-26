@@ -6,11 +6,12 @@ import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { PicturesGuestSection } from "../components/PicturesGuestSection";
 import { TitleSection } from "../components/TitleSection";
-import { AddressSection } from "../components/AddressSection";
+// import { LocationSection } from "../components/LocationSection";
 import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection";
 import { NumericRulesSection } from "../components/NumericRulesSection";
 import { ContactHostSection } from "../components/ContactHostSection";
 import { ReviewsSection } from "../components/ReviewsSection";
+import { LocationEntity } from "../api/entities/LocationEntity";
 // import { CalendarPickerHost } from "../components/DatePickerHost";
 
 const IS_EDITABLE = true
@@ -26,10 +27,20 @@ export function PropertyPage(){
         star: 4,
         text: "It was a beautiful experience."
     })
-    const [address, setAddress] = useState({
-        ad: "Kromnis 9",
-        city: "Drosia",
-        country: "Greece"
+    const [location, setLocation] = useState({
+        address: "Kromnis 9",
+        city: {
+            "id": 5,
+            "name": "Antipolo"
+        },
+        country: {
+            "id": 5,
+            "name": "Philippines"
+        },
+    } as {
+        address?: string,
+        city?: LocationEntity,
+        country?: LocationEntity,
     })
     const [rules, setRules] = useState({
         ...Object.values(PropertyRule).reduce(
@@ -123,13 +134,13 @@ export function PropertyPage(){
             />
         </div>
        
-        <AddressSection
+        {/* <LocationSection
             editable={IS_EDITABLE}
-            address={address.ad}
-            city={address.city}
-            country={address.country}
-            //setAddress={setAddress}
-        />
+            address={location.address}
+            city={location.city}
+            country={location.country}
+            setLocation={setLocation}
+        /> */}
         {/* <span className="font-mono">{JSON.stringify(markerPosition)}</span> */}
         <MapComponent 
             position={markerPosition}
