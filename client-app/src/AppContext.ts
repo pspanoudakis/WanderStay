@@ -101,6 +101,15 @@ export function setUserContext(currentCtx: AppContextType, newUserCtx: UserConte
         }
     });
 }
+export function clearUserContext(currentCtx: AppContextType) {
+    currentCtx.setState?.({
+        ...currentCtx.state,
+        businessContext: {
+            ...currentCtx.state.businessContext,
+            userContext: undefined
+        }
+    });
+}
 
 export function setSearchContext(currentCtx: AppContextType, newSearchCtx: SearchContext) {
     currentCtx.setState?.({

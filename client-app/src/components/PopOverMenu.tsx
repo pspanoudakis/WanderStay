@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -6,33 +6,44 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket, faBars, faUserPlus, faHouse, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faBars, faUserPlus, faHouse, faCircleInfo, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
+import { APP_PALLETE } from './utils/colorConstants';
+import { AppContext, clearUserContext } from '../AppContext';
+import { clearJwt } from '../api/jwt/jwt';
 
 const subMenuItems = [
     {
         textChoice: "Σύνδεση",
-        icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color: "#6fb69e", }} />,
+        icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color: APP_PALLETE['main-petrol'], }} />,
         url: "/signIn"
     },
     {
         textChoice: "Εγγραφή",
-        icon: <FontAwesomeIcon icon={faUserPlus} style={{color: "#6fb69e"}}/>,
+        icon: <FontAwesomeIcon icon={faUserPlus} style={{color: APP_PALLETE['main-petrol']}}/>,
         url: "/signUp"
     },
     {
         textChoice: "Προσθέστε το κατάλυμά σας",
-        icon: <FontAwesomeIcon icon={faHouse} style={{color: "#6fb69e"}}/>,
+        icon: <FontAwesomeIcon icon={faHouse} style={{color: APP_PALLETE['main-petrol']}}/>,
         url: "/"
     },
     {
         textChoice: "Βοήθεια",
-        icon: <FontAwesomeIcon icon={faCircleInfo} style={{color: "#6fb69e"}}/>,
+        icon: <FontAwesomeIcon icon={faCircleInfo} style={{color: APP_PALLETE['main-petrol']}}/>,
         url: "/"
     }
 ]
 
 export function PopOverMenu() {
+
+    const ctx = useContext(AppContext);
+    const userCtx = ctx.state.businessContext.userContext;
+    const logOut = () => {
+        clearJwt();
+        clearUserContext(ctx);
+    }    
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,7 +66,14 @@ export function PopOverMenu() {
                     >
                         <div className='flex gap-2 items-center border-2 border-main-petrol rounded-full px-2 py-1'>
                             <FontAwesomeIcon icon={faBars} className='text-main-petrol'/>
-                            <Avatar sx={{ width: 32, height: 32, bgcolor: "#6fb69e" }} />
+                            {
+                                userCtx ?
+                                <div className="rounded-full bg-main-petrol text-white font-semibold px-3 py-1">
+                                    {userCtx.username.charAt(0).toUpperCase()}
+                                </div>
+                                :
+                                <Avatar sx={{ width: 32, height: 32, bgcolor: APP_PALLETE['main-petrol'] }} />
+                            }
                         </div>
                     </IconButton>
                 </Tooltip>
@@ -79,6 +97,12 @@ export function PopOverMenu() {
                         </MenuItem>
                     )
                 }
+                <MenuItem>
+                    <button onClick={() => logOut()} className='flex gap-2 items-center w-full'>
+                        <FontAwesomeIcon icon={faRightFromBracket} style={{ color: APP_PALLETE['main-petrol'], }} />
+                        Αποσύνδεση
+                    </button>
+                </MenuItem>
             </Menu>
         </>
     );

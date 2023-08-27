@@ -1,7 +1,7 @@
 import { updateJwt } from "../jwt/jwt";
 import { RegisterUserRequest, AuthRequest } from "../requests/authRequests";
 import { UserResponse } from "../responses/UserResponse";
-import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
+import { FetchDataResponse, createEndPointUrl, fetchData, wait } from "./fetchAPI";
 
 function authPreReturnHandler(renewJwt: boolean) {
     return (response: FetchDataResponse<unknown>) => {
@@ -27,7 +27,9 @@ async function sendAuthRequest({
         extractJwt: true,
         body: request ?? {},
         useJwt
-    }).then(authPreReturnHandler(true))
+    }).then(response => {
+        return authPreReturnHandler(true)(response);
+    })
 }
 
 export async function signUp(request: RegisterUserRequest) {
@@ -45,6 +47,7 @@ export async function loginWithCredentials(request: AuthRequest) {
 }
 
 export async function loginWithJwt() {
+    await wait(650);
     return await sendAuthRequest({
         authRelativeEndpoint: '/tokenLogin',
         useJwt: true

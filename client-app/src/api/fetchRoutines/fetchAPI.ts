@@ -7,7 +7,7 @@ export function createEndPointUrl(postfix: string){
     return SERVER_DOMAIN_URL + postfix;
 }
 
-function wait(ms: number) {
+export function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -40,7 +40,7 @@ export async function fetchData({
 
     let response: FetchDataResponse<unknown> = {
         content: {},
-        ok: false
+        ok: false,
     }
     await fetch(
         endpoint,
@@ -65,7 +65,7 @@ export async function fetchData({
                 response = {
                     content,
                     ok: true,
-                    jwt: extractJwt && res.headers.get('Authorization') || undefined
+                    jwt: (extractJwt && res.headers.get('Authorization')) || undefined
                 };
             }).catch(err => {
                 console.error('FETCH ERROR: Cannot parse response as JSON.');
