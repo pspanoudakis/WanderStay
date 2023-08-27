@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.backend.server.config.jwt.JwtService;
 import com.backend.server.controllers.requests.LoginRequestDto;
 import com.backend.server.controllers.requests.RegisterRequestDto;
-import com.backend.server.controllers.responses.ApiErrorResponseDto;
-import com.backend.server.controllers.responses.ApiResponseDto;
+import com.backend.server.controllers.responses.AuthResponseDto;
 import com.backend.server.entities.users.Guest;
 import com.backend.server.entities.users.Host;
 import com.backend.server.entities.users.RoleEntityId;
@@ -24,27 +23,7 @@ import com.backend.server.repositories.GuestRepository;
 import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.UserRepository;
 
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@Builder
-class AuthResponseDto extends ApiResponseDto {
-
-    private User user;
-    private String jwt;
-
-    @Builder
-    public AuthResponseDto(User user, String jwt) {
-        super(true);
-        this.user = user;
-        this.jwt = jwt;
-    }
-
-}
 
 @Service
 @RequiredArgsConstructor
@@ -85,14 +64,14 @@ public class AuthService {
         );
     }
     
-    public ApiResponseDto register(RegisterRequestDto request) {
+    public AuthResponseDto register(RegisterRequestDto request) throws BadRequestException {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            return new ApiErrorResponseDto(
+            throw new BadRequestException(
                 "Username '" + request.getUsername() + "' already exists."
             );
         }
         if (request.getRoles().contains(RoleType.ADMIN.toString())) {
-            return new ApiErrorResponseDto(
+            throw new BadRequestException(
                 "Cannot register user with role '" + RoleType.ADMIN.toString() + "'"
             );
         }
@@ -130,7 +109,7 @@ public class AuthService {
         return createAuthResponse(user);
     }
 
-    public ApiResponseDto login(LoginRequestDto request) throws NoSuchElementException{
+    public AuthResponseDto login(LoginRequestDto request) throws NoSuchElementException{
         try {
             authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -139,7 +118,7 @@ public class AuthService {
                 )
             );            
         } catch (AuthenticationException e) {
-            return new ApiErrorResponseDto(e);
+            throw new BadRequestException(e.getMessage());
         }
         // We know the user is authenticated by now
         User user = userRepository.findByUsername(
@@ -153,7 +132,7 @@ public class AuthService {
         return createAuthResponse(user);
     }
 
-    public ApiResponseDto loginWithToken(String token) throws BadRequestException {
+    public AuthResponseDto loginWithToken(String token) throws BadRequestException {
         return createAuthResponse(
             getUserFromTokenOrElseThrow(token),
             token

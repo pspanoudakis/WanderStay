@@ -25,16 +25,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponseDto> register(@RequestBody RegisterRequestDto request) {
-        return ControllerResponseUtils.responseFactory(authService.register(request));
+        return ControllerResponseUtils.authResponseFactory(
+            () -> authService.register(request)
+        );
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequestDto request) {
-        return ControllerResponseUtils.responseFactory(() -> authService.login(request));
+        return ControllerResponseUtils.authResponseFactory(
+            () -> authService.login(request)
+        );
     }
 
     @PostMapping("/tokenLogin")
     public ResponseEntity<ApiResponseDto> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return ControllerResponseUtils.responseFactory(() -> authService.loginWithToken(token));
+        return ControllerResponseUtils.authResponseFactory(
+            () -> authService.loginWithToken(token)
+        );
     }
 }
