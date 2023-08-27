@@ -105,11 +105,11 @@ export function NumericRulesSection(props: NumericRulesProps){
                     </div>
                     <div className="flex gap-2 items-center ">
                         <FontAwesomeIcon icon={faMoneyCheckDollar}/>
-                        <span>{`${props.rules?.baseDayCost + " " + "Κόστος/ημέρα,"}`} </span>
+                        <span>{"Κόστος/ημέρα: " + props.rules?.baseDayCost}</span>
                     </div>
                     <div className="flex gap-2 items-center">
                         <FontAwesomeIcon icon={faPersonCirclePlus}/>
-                        <span>{`${props.rules?.perGuestCost + " " + "Επιπλέον κόστος / επισκέπτη"}`} </span>
+                        <span>{"Επιπλέον κόστος / επισκέπτη: " + props.rules?.perGuestCost}</span>
                     </div>
                 </div>
             }

@@ -16,7 +16,7 @@ interface MapProps {
  
 export function MapComponent(props: MapProps){
   
-  const ZOOM_LEVEL = 9; 
+  const ZOOM_LEVEL = 13; 
   
   function DraggableMarker() {
     // https://react-leaflet.js.org/docs/example-draggable-marker/

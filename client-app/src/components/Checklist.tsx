@@ -74,7 +74,6 @@ export function Checklist<T>({
     }
 
     const selectAllItems = () => {
-        console.log(items);
         setItemsCheckState(items.map(_ => true));
     }
 

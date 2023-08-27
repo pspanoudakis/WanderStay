@@ -32,7 +32,7 @@ export function TitleSection(props: TitleProps){
                     />
                 </Box>
                 :
-                <span className='text-2xl font-bold'>{props.title}</span>
+                <span className='text-4xl font-bold'>{props.title}</span>
             }
         </div>
         

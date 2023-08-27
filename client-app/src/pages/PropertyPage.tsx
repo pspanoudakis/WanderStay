@@ -6,14 +6,13 @@ import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { PicturesGuestSection } from "../components/PicturesGuestSection";
 import { TitleSection } from "../components/TitleSection";
-// import { LocationSection } from "../components/LocationSection";
 import { NumericAmentitiesSection } from "../components/NumericAmenitiesSection";
 import { NumericRulesSection } from "../components/NumericRulesSection";
 import { ContactHostSection } from "../components/ContactHostSection";
 import { ReviewsSection } from "../components/ReviewsSection";
 import { LocationEntity } from "../api/entities/LocationEntity";
 import { CalendarPickerHost } from "../components/DatePickerHost";
-// import { CalendarPickerHost } from "../components/DatePickerHost";
+import { LocationSection } from "../components/LocationSection";
 
 const IS_EDITABLE = true
 
@@ -28,21 +27,15 @@ export function PropertyPage(){
         star: 4,
         text: "It was a beautiful experience."
     })
-    const [location, setLocation] = useState({
-        address: "Kromnis 9",
-        city: {
-            "id": 5,
-            "name": "Antipolo"
-        },
-        country: {
-            "id": 5,
-            "name": "Philippines"
-        },
-    } as {
-        address?: string,
-        city?: LocationEntity,
-        country?: LocationEntity,
+    const [address, setAddress] = useState("Kromnis 9");
+    const [city, setCity] = useState<LocationEntity | null>({
+        "id": 304,
+        "name": "Athens"
     })
+    const [country, setCountry] = useState<LocationEntity | null>({
+        "id": 109,
+        "name": "Greece"
+    });
     const [rules, setRules] = useState({
         ...Object.values(PropertyRule).reduce(
             (filters, rule) => {
@@ -70,7 +63,7 @@ export function PropertyPage(){
     })
     
     return(
-        <div className="flex flex-col w-full gap-8">
+        <div className="flex flex-col w-full gap-7">
         <TitleSection
             editable={IS_EDITABLE}
             setTitle={setTitle}
@@ -135,13 +128,15 @@ export function PropertyPage(){
             />
         </div>
        
-        {/* <LocationSection
+        <LocationSection
             editable={IS_EDITABLE}
-            address={location.address}
-            city={location.city}
-            country={location.country}
-            setLocation={setLocation}
-        /> */}
+            address={address}
+            city={city}
+            country={country}
+            setAddress={setAddress}
+            setCountry={setCountry}
+            setCity={setCity}
+        />
         {/* <span className="font-mono">{JSON.stringify(markerPosition)}</span> */}
         <MapComponent 
             position={markerPosition}
