@@ -1,6 +1,8 @@
 import { GetPropertyReviewsRequest } from "../requests/GetPropertyReviewsRequest";
+import { PropertyReviewRequest } from "../requests/PropertyReviewRequest";
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
-import { createEndPointUrl, fetchData } from "./fetchAPI";
+import { PropertyReviewResponse } from "../responses/PropertyReviewResponse";
+import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 
 export async function fetchPropertyReviews(request: GetPropertyReviewsRequest) {
     const response = await fetchData({
@@ -12,4 +14,15 @@ export async function fetchPropertyReviews(request: GetPropertyReviewsRequest) {
         method: "GET"
     });
     return convertToPaginatedResponse<PropertyReviewResult>(response);
+}
+
+export async function submitPropertyReview(request: PropertyReviewRequest){
+    return await fetchData({
+        endpoint: createEndPointUrl(
+            `/property/${request.propertyId}/review`
+        ),
+        method: "POST",
+        body: request,
+        useJwt: true
+    }) as FetchDataResponse<PropertyReviewResponse>
 }

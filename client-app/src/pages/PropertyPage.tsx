@@ -13,6 +13,7 @@ import { ReviewsSection } from "../components/ReviewsSection";
 import { LocationEntity } from "../api/entities/LocationEntity";
 import { CalendarPickerHost } from "../components/DatePickerHost";
 import { LocationSection } from "../components/LocationSection";
+import { WriteReview } from "../components/WriteReview";
 
 const IS_EDITABLE = true
 
@@ -163,6 +164,8 @@ export function PropertyPage(){
             ]}
             onSelect={() => {}}
         />}
+
+        <WriteReview propertyId={10}/>
         </div>
     )
 }
