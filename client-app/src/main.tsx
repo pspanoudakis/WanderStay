@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { App } from './App'
 import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SignIn } from './pages/SignIn';
-import { SignUp } from './pages/SignUp';
+import { SignInForm } from './pages/SignInForm';
+import { SignUpForm } from './pages/SignUpForm';
 import { MyProfile } from './pages/MyProfile';
 import { UserInfo } from './pages/UserInfo';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
@@ -16,8 +16,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
-					<Route path='signIn' element={<SignIn />} />
-					<Route path='signUp' element={<SignUp />} />
+					<Route path='signIn' element={<SignInForm />} />
+					<Route path='signUp' element={<SignUpForm />} />
 					<Route path="profile">
 						<Route index element={<MyProfile />} />
 						<Route path='userInfo' element={<UserInfo />} />

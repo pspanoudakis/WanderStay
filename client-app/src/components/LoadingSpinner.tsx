@@ -1,12 +1,14 @@
 import { CircularProgress } from "@mui/material"
 
-export function LoadingSpinner({text, coverParent, customTwBgColor}: {
+export function LoadingSpinner({text, coverParent, customTwBgColor, visible}: {
     text?: string,
     coverParent?: boolean,
-    customTwBgColor?: string
+    customTwBgColor?: string,
+    visible?: boolean
 }) {
     
     return (
+        (visible ?? true) ?
         <div
             className={`
                 flex flex-col gap-3 justify-center items-center text-lg z-10
@@ -26,5 +28,7 @@ export function LoadingSpinner({text, coverParent, customTwBgColor}: {
             }
             </span>
         </div>
+        :
+        null
     )
 }

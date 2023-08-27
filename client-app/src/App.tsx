@@ -25,8 +25,9 @@ const muiTheme = createTheme({
 
 export function App() {
 
-	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState)
-
+	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState);
+    console.log(`Context:`);
+    console.log(appContext);
 	return (
 		<AppContext.Provider 
 			value={{

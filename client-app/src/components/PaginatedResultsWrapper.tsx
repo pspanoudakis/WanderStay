@@ -91,12 +91,11 @@ export function PaginatedResultsWrapper<T>({
                         {results.map((r, i) => resultRenderer?.(r, `${currentPage}_${i}`))}
                     </div>
             }
-            {
-                loading ?
-                <LoadingSpinner coverParent={results.length > 0} customTwBgColor="bg-white/75"/>
-                :
-                null
-            }
+            <LoadingSpinner 
+                coverParent={results.length > 0} 
+                customTwBgColor="bg-white/75"
+                visible={loading}
+            />
         </div>
     );
 

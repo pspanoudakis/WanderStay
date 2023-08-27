@@ -2,23 +2,26 @@ import React, { ReactNode } from "react"
 
 type PrimaryButtonProps = {
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
-    disabled?: boolean
-    children?: ReactNode
+    disabled?: boolean,
+    classExtras?: string,
+    children?: ReactNode,
 }
 
 export function PrimaryButton({
     onClick,
     disabled,
+    classExtras,
     children
 }: PrimaryButtonProps) {
     return (
         <button
-            className='
-                rounded-xl px-4 py-0.5
+            type='button'
+            className={`
                 bg-main-petrol duration-300 enabled:hover:bg-dark-petrol
                 disabled:bg-light-petrol
                 text-white font-semibold
-            '
+                ${classExtras ?? 'rounded-xl px-4 py-0.5'}
+            `}
             onClick={onClick}
             disabled={disabled}
         >

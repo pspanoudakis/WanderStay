@@ -337,6 +337,9 @@ public class PropertyService {
                     return s;
                 })
                 .toList()
+            // request.getAvailableSlots().forEach(
+            //     s -> s.setProperty(property)
+            // )
         );
 
         request.getAmenities().setProperty(property);

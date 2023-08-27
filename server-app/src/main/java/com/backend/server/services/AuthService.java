@@ -99,11 +99,14 @@ public class AuthService {
         boolean isHost = request.getRoles().contains(RoleType.HOST.toString());
         User user = User.builder()
             .username(request.getUsername())
+            .firstName(request.getFirstName())
+            .lastName(request.getLastName())
             .email(request.getEmail())
             .mobileNumber(request.getMobileNumber())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(roleService.getRequiredRoles(request.getRoles()))
-            .isActive(true/* !isHost */)
+            .isActive(true)
+            //.isActive(!isHost)
             .build();
         userRepository.save(user);
 
