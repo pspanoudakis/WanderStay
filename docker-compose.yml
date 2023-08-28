@@ -12,8 +12,6 @@ services:
   #     - /app/client-app/node_modules
   #   ports:
   #     - '3000:3000'
-  #   # env_file:
-  #   #   - ./google-project-key.env
 
   database:
     image: postgres:15-alpine
