@@ -3,6 +3,7 @@ package com.backend.server.entities.properties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -26,7 +27,7 @@ public class PropertyRules {
     private Long id;
 
     @MapsId
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "property_id")
     @JsonIgnore
     private Property property;
@@ -38,4 +39,14 @@ public class PropertyRules {
     private short minReservationDays;
     private int baseDayCost;
     private int perGuestCost;
+
+    public void update(PropertyRules other) {
+        smokingAllowed = other.smokingAllowed;
+        petsAllowed = other.petsAllowed;
+        eventsAllowed = other.eventsAllowed;
+
+        minReservationDays = other.minReservationDays;
+        baseDayCost = other.baseDayCost;
+        perGuestCost = other.perGuestCost;
+    }
 }

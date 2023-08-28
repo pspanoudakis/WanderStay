@@ -3,6 +3,7 @@ package com.backend.server.entities.properties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -26,7 +27,7 @@ public class PropertyAmenities {
     private Long id;
 
     @MapsId
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "property_id")
     @JsonIgnore
     private Property property;
@@ -43,4 +44,18 @@ public class PropertyAmenities {
     private byte numBeds;
     private byte numBedrooms;
     private byte numBathrooms;
+
+    public void update(PropertyAmenities other) {
+        hasWifi = other.hasWifi;
+        hasRefrigerator = other.hasRefrigerator;
+        hasHeating = other.hasHeating;
+        hasKitchen = other.hasKitchen;
+        hasTv = other.hasTv;
+        hasElevator = other.hasElevator;
+        hasLounge = other.hasLounge;
+        hasParking = other.hasParking;
+        numBeds = other.numBeds;
+        numBedrooms = other.numBedrooms;
+        numBathrooms = other.numBathrooms;
+    }
 }

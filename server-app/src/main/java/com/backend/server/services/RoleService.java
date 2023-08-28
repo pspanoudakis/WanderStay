@@ -1,6 +1,7 @@
 package com.backend.server.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class RoleService {
                 roleNames
                     .stream()
                     .map(name -> new Role(name))
-                    .toList()
+                    .collect(Collectors.toList())
             );
         }
     }

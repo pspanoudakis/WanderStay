@@ -3,6 +3,7 @@ package com.backend.server.services;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -319,8 +320,7 @@ public class PropertyService {
     ) throws BadRequestException {
         Host host = hostService.getHostFromTokenOrElseThrow(jwt);
 
-        // TODO: is `final ok`? (needed for lambda)
-        final Property property = (
+        Property property = (
             propertyRepository.findById(propertyId)
                 .orElse(Property.builder().host(host).build())
         );
@@ -330,22 +330,18 @@ public class PropertyService {
         property.setType(request.getPropertyType());
         property.setDescription(request.getDescription());
 
-        property.setAvailableSlots(
+        property.getAvailableSlots().clear();
+        property.getAvailableSlots().addAll(
             request.getAvailableSlots().stream()
                 .map(s -> {
                     s.setProperty(property);
                     return s;
                 })
-                .toList()
-            // request.getAvailableSlots().forEach(
-            //     s -> s.setProperty(property)
-            // )
+                .collect(Collectors.toList())
         );
 
-        request.getAmenities().setProperty(property);
-        property.setAmenities(request.getAmenities());
-        request.getRules().setProperty(property);
-        property.setRules(request.getRules());
+        property.getAmenities().update(request.getAmenities());
+        property.getRules().update(request.getRules());
 
         property.setSpaceArea(request.getSpaceArea());
         property.setCity(
@@ -357,9 +353,10 @@ public class PropertyService {
 
         List<Image> newImages = request.getImageSelections().stream().map(
             (n) -> imageService.getImageFromIdOrElseThrow(n.getImgId())
-        ).toList();
+        ).collect(Collectors.toList());
         imageService.broadcastImageDeletionsToFs(newImages, property.getImages());
-        property.setImages(newImages);
+        property.getImages().clear();
+        property.getImages().addAll(newImages);
 
         return mapPropertyToDetailsDto(
             propertyRepository.save(property)
