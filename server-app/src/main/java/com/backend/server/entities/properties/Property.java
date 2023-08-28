@@ -52,7 +52,7 @@ public class Property {
     @Builder.Default
     private List<AvailableTimeSlot> availableSlots = new LinkedList<AvailableTimeSlot>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private City city;
     
     @OneToMany(
