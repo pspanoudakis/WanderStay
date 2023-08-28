@@ -7,7 +7,7 @@ import { AppContext, appContextInitState, AppContextState, setUserContext } from
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { APP_PALLETE } from './components/utils/colorConstants';
 import { Modal } from './components/Modal';
-import { getJwt } from './api/jwt/jwt';
+import { clearJwt, getJwt } from './api/jwt/jwt';
 import { loginWithJwt } from './api/fetchRoutines/authAPI';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { wait } from './api/fetchRoutines/fetchAPI';
@@ -37,6 +37,7 @@ export function App() {
 		setPendingLogin(true);
 		debugger;
 		if (!appContext.businessContext.userContext && getJwt()) {
+
 			loginWithJwt()
 			.then(response => {
 				if (response.ok) {
@@ -48,11 +49,15 @@ export function App() {
 						}
 					})
 				}
-				setPendingLogin(false);
+				else {
+					console.error('JWT LOGIN failed. The existing token will be deleted.')
+					clearJwt();
+					setPendingLogin(false);
+				}
 			})
 		}
 		else {
-			wait(650).then(() => setPendingLogin(false));
+			wait(750).then(() => setPendingLogin(false));
 		}
 	}, [appContext.businessContext.userContext?.username])
 
