@@ -6,42 +6,105 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket, faBars, faUserPlus, faHouse, faCircleInfo, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-import { Link } from "react-router-dom";
+import { faRightToBracket, faBars, faUserPlus, faHouse, faCircleInfo, faRightFromBracket, faAddressCard, faHouseMedical, faGlasses, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { Link, useNavigate } from "react-router-dom";
 import { APP_PALLETE } from './utils/colorConstants';
-import { AppContext, clearUserContext } from '../AppContext';
+import { AppContext, UserContext, clearUserContext } from '../AppContext';
 import { clearJwt } from '../api/jwt/jwt';
+import { RoleType } from '../api/entities/RoleType';
+import { getBaseNavigationPath } from './utils/getBaseNavigationPath';
+import { ORDERED_BASE_ROLE_PATHS } from '../pages/pathConstants';
 
-const subMenuItems = [
-    {
-        textChoice: "Σύνδεση",
-        icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color: APP_PALLETE['main-petrol'], }} />,
-        url: "/signIn"
-    },
-    {
-        textChoice: "Εγγραφή",
-        icon: <FontAwesomeIcon icon={faUserPlus} style={{color: APP_PALLETE['main-petrol']}}/>,
-        url: "/signUp"
-    },
-    {
-        textChoice: "Προσθέστε το κατάλυμά σας",
-        icon: <FontAwesomeIcon icon={faHouse} style={{color: APP_PALLETE['main-petrol']}}/>,
-        url: "/"
-    },
-    {
-        textChoice: "Βοήθεια",
-        icon: <FontAwesomeIcon icon={faCircleInfo} style={{color: APP_PALLETE['main-petrol']}}/>,
-        url: "/"
+function getMenuItems(userCtx: UserContext | undefined) {
+    const color = APP_PALLETE['main-petrol'];
+    if (!userCtx) {
+        return [
+            {
+                textChoice: "Σύνδεση",
+                icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color }} />,
+                url: "/signIn"
+            },
+            {
+                textChoice: "Εγγραφή",
+                icon: <FontAwesomeIcon icon={faUserPlus} style={{ color }}/>,
+                url: "/signUp"
+            },
+        ];
     }
-]
+    const items = [{
+        textChoice: "Το Προφίλ μου",
+        icon: <FontAwesomeIcon icon={faAddressCard} style={{ color }} />,
+        url: `${getBaseNavigationPath(userCtx.roles)}/profile`
+    }];
+    
+    switch (true) {
+        case userCtx?.roles.includes(RoleType.ADMIN):
+            items.push(...[
+                {
+                    textChoice: "Διαχείριση Χρηστών",
+                    icon: <FontAwesomeIcon icon={faUsers} style={{ color }}/>,
+                    url: `${ORDERED_BASE_ROLE_PATHS.ADMIN}`
+                },
+            ]);
+        case userCtx?.roles.includes(RoleType.HOST):
+            items.push(...[
+                {
+                    textChoice: "Διαχείριση Καταλύματος",
+                    icon: <FontAwesomeIcon icon={faHouse} style={{ color }}/>,
+                    url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+                },
+                {
+                    textChoice: "Καταχώρηση νέου Καταλύματος",
+                    icon: <FontAwesomeIcon icon={faHouseMedical} style={{ color }}/>,
+                    url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+                },
+                
+            ]);
+        case userCtx?.roles.includes(RoleType.GUEST):
+            items.push(...[
+                {
+                    textChoice: "Οι Κρατήσεις μου",
+                    icon: <FontAwesomeIcon icon={faGlasses} style={{color: APP_PALLETE['main-petrol']}}/>,
+                    url: `${ORDERED_BASE_ROLE_PATHS.GUEST}`
+                },
+            ]);
+    }
+    return items;
+}
+
+// const subMenuItems = [
+//     {
+//         textChoice: "Σύνδεση",
+//         icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color: APP_PALLETE['main-petrol'], }} />,
+//         url: "/signIn"
+//     },
+//     {
+//         textChoice: "Εγγραφή",
+//         icon: <FontAwesomeIcon icon={faUserPlus} style={{color: APP_PALLETE['main-petrol']}}/>,
+//         url: "/signUp"
+//     },
+//     {
+//         textChoice: "Προσθέστε το κατάλυμά σας",
+//         icon: <FontAwesomeIcon icon={faHouse} style={{color: APP_PALLETE['main-petrol']}}/>,
+//         url: "/"
+//     },
+//     {
+//         textChoice: "Βοήθεια",
+//         icon: <FontAwesomeIcon icon={faCircleInfo} style={{color: APP_PALLETE['main-petrol']}}/>,
+//         url: "/"
+//     }
+// ]
 
 export function PopOverMenu() {
+
+    const navigate = useNavigate();
 
     const ctx = useContext(AppContext);
     const userCtx = ctx.state.businessContext.userContext;
     const logOut = () => {
         clearJwt();
         clearUserContext(ctx);
+        navigate("/");
     }    
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -88,7 +151,7 @@ export function PopOverMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 {
-                    subMenuItems.map((item,index) =>
+                    getMenuItems(userCtx).map((item,index) =>
                         <MenuItem key={index}>
                             <Link to={item.url} className='flex gap-2 items-center w-full'>
                                 {item.icon}
@@ -97,12 +160,16 @@ export function PopOverMenu() {
                         </MenuItem>
                     )
                 }
-                <MenuItem>
-                    <button onClick={() => logOut()} className='flex gap-2 items-center w-full'>
-                        <FontAwesomeIcon icon={faRightFromBracket} style={{ color: APP_PALLETE['main-petrol'], }} />
-                        Αποσύνδεση
-                    </button>
-                </MenuItem>
+                {
+                    userCtx ?
+                    <MenuItem>
+                        <button onClick={() => logOut()} className='flex gap-2 items-center w-full'>
+                            <FontAwesomeIcon icon={faRightFromBracket} style={{ color: APP_PALLETE['main-petrol'], }} />
+                            Αποσύνδεση
+                        </button>
+                    </MenuItem>
+                    : null
+                }
             </Menu>
         </>
     );

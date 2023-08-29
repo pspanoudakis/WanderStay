@@ -4,7 +4,7 @@ import { dateToStr } from './api/entities/dates'
 import { UserResponse } from './api/responses/UserResponse'
 
 // TODO: fix me (maybe?)
-type UserContext = UserResponse['user'];
+export type UserContext = UserResponse['user'];
 
 export type SearchContext = {
     countryId: number | null,

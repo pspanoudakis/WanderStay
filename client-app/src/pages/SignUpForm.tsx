@@ -9,7 +9,7 @@ import { LoadingSpinner } from "../components/LoadingSpinner";
 import { AppContext } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { useNavigate } from "react-router-dom";
-import { getLoginNavigationPath } from "./navigationHandler";
+import { getBaseNavigationPath } from "../components/utils/getBaseNavigationPath";
 
 type SignUpFormState = {
     confirmPwd: string,
@@ -58,7 +58,7 @@ export function SignUpForm() {
                     }
                 })
                 if (response.ok) {
-                    navigate(getLoginNavigationPath(response.content.user.roles));
+                    navigate(getBaseNavigationPath(response.content.user.roles));
                 }
                 setLoading(false);                
             });
