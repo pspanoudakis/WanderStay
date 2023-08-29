@@ -14,11 +14,13 @@ import { LocationEntity } from "../api/entities/LocationEntity";
 import { CalendarPickerHost } from "../components/DatePickerHost";
 import { LocationSection } from "../components/LocationSection";
 import { WriteReview } from "../components/WriteReview";
+import PropertyType from "../components/PropertyType";
 
 const IS_EDITABLE = true
 
 export function PropertyPage(){
     const pictures = [12,13,14]
+    const types = ["room","house","public house"]
     const [markerPosition, setMarkerPosition] = useState({lat: 38.116828199666465, lng: 23.86143414444651});
     const [title, setTitle] = useState("Title")
     const [textField, setTextField] = useState("description")
@@ -37,6 +39,7 @@ export function PropertyPage(){
         "id": 109,
         "name": "Greece"
     });
+    const [propertyTypes, setPropertyTypes] = useState("")
     const [rules, setRules] = useState({
         ...Object.values(PropertyRule).reduce(
             (filters, rule) => {
@@ -70,6 +73,14 @@ export function PropertyPage(){
             setTitle={setTitle}
             title={title}
         />
+
+        <PropertyType
+            editable={true}
+            choices={types}
+            setType={setPropertyTypes}
+            type="house"
+        />
+
         <PicturesGuestSection
             pictureList={pictures}
         />

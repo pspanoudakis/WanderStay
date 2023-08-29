@@ -5,7 +5,7 @@ import { Box, TextField } from "@mui/material";
 
 interface NumericAmenitiesProps{
     editable: boolean,
-    amenities: PropertyDetailedAmenities
+    amenities: PropertyDetailedAmenities,
     setAmenities?: (newAmenities: PropertyDetailedAmenities) => void,
 }
 
