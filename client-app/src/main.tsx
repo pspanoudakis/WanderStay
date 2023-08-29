@@ -28,6 +28,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					{Object.values(BASE_ROLE_PATHS).map(
 						basePath => <Route path={`${basePath + '/'}profile`} element={<UserInfo />} />
 					)}
+					<Route path={BASE_ROLE_PATHS.ADMIN}>
+						<Route index element={<span>Admin Home</span>}/>
+					</Route>
+					<Route path={BASE_ROLE_PATHS.HOST}>
+						<Route index element={<span>Host Home</span>}/>
+					</Route>
 				</Route>
 			</Routes>
 		</BrowserRouter>
