@@ -79,12 +79,13 @@ export function SearchBar() {
     }
 
     const canTriggerSearch = useMemo(
-        () => Boolean(
-            searchOptions.countryId &&
-            searchOptions.cityId &&
-            (compareDatesStr(searchOptions.dateFrom, searchOptions.dateTo) > 0) &&
-            searchOptions.numPersons
-        ), 
+        // () => Boolean(
+        //     searchOptions.countryId &&
+        //     searchOptions.cityId &&
+        //     (compareDatesStr(searchOptions.dateFrom, searchOptions.dateTo) > 0) &&
+        //     searchOptions.numPersons
+        // ),
+        ()  => true,
         [
             searchOptions.countryId,
             searchOptions.cityId,

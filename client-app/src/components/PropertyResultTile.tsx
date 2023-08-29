@@ -1,30 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import Card from '@mui/material/Card';
-// import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import { Link } from "react-router-dom";
 import { Img } from './Img';
+import { PropertySearchResult } from '../api/responses/PropertySearchResult';
+import { PropertyTypeLabels } from './utils/propertyFieldLabels';
 
 interface PropertyResultTileProps{
-    propertyPreview: {
-        propertyId: number,
-        imgId: number | null,
-        title :string,
-        description: string,
-        nofBeds: number,
-        pricePerNight: number,
-        totalPrice: number,
-        reviewRate: number,
-        nofReviews: number,
-    },
+    propertyPreview: PropertySearchResult,
 }
 
 export function PropertyResultTile(props: PropertyResultTileProps){
    
     const propertyPreview = props.propertyPreview;
 
-    function nofBedsFunction(nof : number){
+    function createNumBedsLabel(nof : number){
         if (nof === 1){
             return nof + " " + "κρεβάτι";
         }
@@ -42,12 +33,6 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                     }}
                 >
                     <CardActionArea sx={{ display: "flex", justifyContent:"start"}}>
-                        {/* <CardMedia
-                            component="img"
-                            height="50"
-                            image={propertyPreview.imgSrc}
-                            alt="hotel"
-                        /> */}
                         <Img 
                             imgId={propertyPreview.imgId}
                             height={160}
@@ -60,22 +45,23 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                                     {propertyPreview.title}
                                 </span>
                                 {
-                                    propertyPreview.nofReviews ?
+                                    propertyPreview.reviewsSummary.reviewCount ?
                                     <div className='flex items-center gap-1 text-lg'> 
-                                        <span className="font-bold ">{propertyPreview.reviewRate}</span>
+                                        <span className="font-bold ">{propertyPreview.reviewsSummary.avgStars}</span>
                                         <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />
-                                        <span className='text-base'>({propertyPreview.nofReviews})</span>                                    
+                                        <span className='text-base'>({propertyPreview.reviewsSummary.reviewCount})</span>                                    
                                     </div>
                                     :
                                     null
                                 }
                             </div>
                             <div className='flex-1 w-full flex flex-col justify-between items-start border-l-2 border-main-petrol pl-3 mt-2'>
-                                <span className="text-sm">{propertyPreview.description}</span>
-                                <span className="text-sm">{nofBedsFunction(propertyPreview.nofBeds)}</span>
+                                {/* <span className="text-sm">{propertyPreview.description}</span> */}
+                                <span className="text-sm">{PropertyTypeLabels[propertyPreview.propertyType].label}</span>
+                                <span className="text-sm">{createNumBedsLabel(propertyPreview.numBeds)}</span>
                                 <div className="flex w-full justify-between">
                                     <span className="text-sm font-semibold">{propertyPreview.pricePerNight}€/διανυκτέρευση</span>
-                                    <b><h1 className='text-2xl'>{propertyPreview.totalPrice}$ </h1></b>
+                                    <b><h1 className='text-2xl'>{propertyPreview.totalPrice}€ </h1></b>
                                 </div>
                             </div>
                         </div>

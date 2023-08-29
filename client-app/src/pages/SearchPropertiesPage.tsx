@@ -7,10 +7,10 @@ import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { useSearchParams } from "react-router-dom";
 import { fetchPropertyResults } from "../api/fetchRoutines/searchAPI";
 import { PropertyResultTile } from "../components/PropertyResultTile";
-import { createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
 
 const MAX_SLIDER_COST = 1000
 const SLIDER_MARKS = [0, 100, 250, 500, MAX_SLIDER_COST];
+const PAGE_SIZE = 4;
 export function SearchPropertiesPage() {
 
     const appCtx = useContext(AppContext);
@@ -101,24 +101,14 @@ export function SearchPropertiesPage() {
                 onSearch={() => setTriggerSearchHelper(triggerSearchHelper !== true)}
             />
             <PaginatedResultsWrapper
-                pageSize={4}
+                pageSize={PAGE_SIZE}
                 idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchProperties}
-                resultRenderer={(p, key) => {
+                resultRenderer={(p) => {
                     return (
                         <PropertyResultTile
                             key={p.propertyId}
-                            propertyPreview={{
-                                propertyId: p.propertyId,
-                                title: p.title,
-                                description: p.description,
-                                imgId: p.imgId,
-                                nofBeds: p.numBeds,
-                                nofReviews: p.reviewsSummary.reviewCount,
-                                reviewRate: p.reviewsSummary.avgStars,
-                                pricePerNight: p.pricePerNight,
-                                totalPrice: p.totalPrice
-                            }}
+                            propertyPreview={p}
                         />
                     )
                 }}
