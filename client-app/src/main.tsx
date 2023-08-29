@@ -10,7 +10,7 @@ import { UserInfo } from './pages/UserInfo';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
 import { PropertyPage } from './pages/PropertyPage';
 import { TestPage } from './pages/Test';
-import { BASE_ROLE_PATHS } from './pages/pathConstants';
+import { ORDERED_BASE_ROLE_PATHS } from './pages/pathConstants';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -25,13 +25,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 						<Route path=':propertyId' element={<PropertyPage/>} />
 					</Route>
 					<Route path='test' element={<TestPage/>}/>
-					{Object.values(BASE_ROLE_PATHS).map(
+					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
 						basePath => <Route path={`${basePath + '/'}profile`} element={<UserInfo />} />
 					)}
-					<Route path={BASE_ROLE_PATHS.ADMIN}>
+					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<span>Admin Home</span>}/>
 					</Route>
-					<Route path={BASE_ROLE_PATHS.HOST}>
+					<Route path={ORDERED_BASE_ROLE_PATHS.HOST}>
 						<Route index element={<span>Host Home</span>}/>
 					</Route>
 				</Route>

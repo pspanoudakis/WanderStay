@@ -28,6 +28,7 @@ const muiTheme = createTheme({
 })
 
 export function App() {
+
 	const [pendingLogin, setPendingLogin] = useState(true);
 	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState);
     console.log(`Context:`);

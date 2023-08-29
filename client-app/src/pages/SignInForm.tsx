@@ -4,9 +4,10 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { loginWithCredentials } from "../api/fetchRoutines/authAPI";
-import { AppContext, openModal, setUserContext } from "../AppContext";
+import { AppContext } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { getLoginNavigationPath } from "./navigationHandler";
 
 export function SignInForm() {
 
@@ -50,7 +51,7 @@ export function SignInForm() {
                 }
             })
             if (response.ok) {
-                navigate("/");
+                navigate(getLoginNavigationPath(response.content.user.roles));
             }
         });
     }
