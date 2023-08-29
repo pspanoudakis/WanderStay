@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { NavBar } from './components/NavBar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './components/Footer';
 import { AppContext, appContextInitState, AppContextState, setUserContext } from './AppContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -29,10 +29,12 @@ const muiTheme = createTheme({
 
 export function App() {
 
+	const location = useLocation();
+
 	const [pendingLogin, setPendingLogin] = useState(true);
 	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState);
-    console.log(`Context:`);
-    console.log(appContext);
+    // console.log(`Context:`);
+    // console.log(appContext);
 
 	useEffect(() => {
 		setPendingLogin(true);
@@ -89,7 +91,9 @@ export function App() {
 						</>
 						:
 						<>
-							<NavBar/>
+							<NavBar
+								location={location}
+							/>
 							<div
 								className='
 									rounded-md border-2 border-main-petrol 
