@@ -1,6 +1,7 @@
 package com.backend.server.entities.images;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,5 +25,6 @@ public class Image {
     @JsonIgnore
     private String path;
 
+    @JsonProperty("isMain")
     private boolean isMain = false;
 }

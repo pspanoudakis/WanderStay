@@ -49,7 +49,7 @@ public class PropertyController {
         );
     }
 
-    @PostMapping("/{propertyId}")
+    @PostMapping({"/{propertyId}", "/"})
     public ResponseEntity<ApiResponseDto> createOrUpdateProperty(
         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
         @PathVariable(required = false) Long propertyId,

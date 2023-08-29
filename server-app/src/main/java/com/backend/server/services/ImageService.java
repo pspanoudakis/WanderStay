@@ -51,7 +51,7 @@ public class ImageService {
 
     public void deleteImage(Image image) {
         try {
-            Files.deleteIfExists(Path.of(image.getPath()));
+            Files.deleteIfExists(rootPath.resolve(image.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }

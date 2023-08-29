@@ -10,6 +10,7 @@ import { UserInfo } from './pages/UserInfo';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
 import { PropertyPage } from './pages/PropertyPage';
 import { TestPage } from './pages/Test';
+import { ORDERED_BASE_ROLE_PATHS } from './pages/pathConstants';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -18,15 +19,21 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				<Route path="/" element={<App />}>
 					<Route path='signIn' element={<SignInForm />} />
 					<Route path='signUp' element={<SignUpForm />} />
-					<Route path="profile">
-						<Route index element={<MyProfile />} />
-						<Route path='userInfo' element={<UserInfo />} />
-					</Route>
+					{/* <Route path="profile" element={<MyProfile />}/> */}
 					<Route path='searchProperties' element={<SearchPropertiesPage/>} />
 					<Route path='property'>
 						<Route path=':propertyId' element={<PropertyPage/>} />
 					</Route>
 					<Route path='test' element={<TestPage/>}/>
+					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
+						basePath => <Route path={`${basePath + '/'}profile`} element={<UserInfo />} />
+					)}
+					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
+						<Route index element={<span>Admin Home</span>}/>
+					</Route>
+					<Route path={ORDERED_BASE_ROLE_PATHS.HOST}>
+						<Route index element={<span>Host Home</span>}/>
+					</Route>
 				</Route>
 			</Routes>
 		</BrowserRouter>

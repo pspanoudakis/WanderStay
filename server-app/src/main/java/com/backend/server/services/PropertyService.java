@@ -1,8 +1,10 @@
 package com.backend.server.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import com.backend.server.controllers.responses.PropertyBasicInfoDto.PropertyBas
 import com.backend.server.entities.images.Image;
 import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
+import com.backend.server.entities.properties.PropertyAmenities;
+import com.backend.server.entities.properties.PropertyRules;
 import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
@@ -313,39 +317,59 @@ public class PropertyService {
     }
 
     @Transactional
+    private Property buildNewProperty(Host host) {
+        Property property = propertyRepository.save(
+            Property.builder()
+                .host(host)
+                .name("New Property")
+                .images(new ArrayList<>())
+                .availableSlots(new ArrayList<>())
+                .spaceArea((short)1)
+                .build()
+        );
+        property.setAmenities(
+            PropertyAmenities.builder()
+                .property(property)
+                .build()
+        );
+        property.setRules(
+            PropertyRules.builder()
+                .property(property)  
+                .build()
+        );
+
+        return propertyRepository.save(property);
+    }
+
+    @Transactional
     public PropertyDetailsResponseDto createOrUpdateProperty(
         Long propertyId, String jwt,
         PropertyUpdatedDetailsDto request
     ) throws BadRequestException {
         Host host = hostService.getHostFromTokenOrElseThrow(jwt);
 
-        // TODO: is `final ok`? (needed for lambda)
-        final Property property = (
+        Property property = propertyId != null ? (
             propertyRepository.findById(propertyId)
-                .orElse(Property.builder().host(host).build())
-        );
+                .orElseThrow(() -> new BadRequestException("No property found with id: " + propertyId.toString()))
+        ) : buildNewProperty(host);
         throwIfNotOwner(host, property);
 
         property.setName(request.getTitle());
         property.setType(request.getPropertyType());
         property.setDescription(request.getDescription());
-
-        property.setAvailableSlots(
+        
+        property.getAvailableSlots().clear();
+        property.getAvailableSlots().addAll(
             request.getAvailableSlots().stream()
                 .map(s -> {
                     s.setProperty(property);
                     return s;
                 })
-                .toList()
-            // request.getAvailableSlots().forEach(
-            //     s -> s.setProperty(property)
-            // )
+                .collect(Collectors.toList())
         );
 
-        request.getAmenities().setProperty(property);
-        property.setAmenities(request.getAmenities());
-        request.getRules().setProperty(property);
-        property.setRules(request.getRules());
+        property.getAmenities().update(request.getAmenities());
+        property.getRules().update(request.getRules());
 
         property.setSpaceArea(request.getSpaceArea());
         property.setCity(
@@ -357,9 +381,10 @@ public class PropertyService {
 
         List<Image> newImages = request.getImageSelections().stream().map(
             (n) -> imageService.getImageFromIdOrElseThrow(n.getImgId())
-        ).toList();
+        ).collect(Collectors.toList());
         imageService.broadcastImageDeletionsToFs(newImages, property.getImages());
-        property.setImages(newImages);
+        property.getImages().clear();
+        property.getImages().addAll(newImages);
 
         return mapPropertyToDetailsDto(
             propertyRepository.save(property)
