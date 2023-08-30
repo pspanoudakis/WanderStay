@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
-import { PropertyAmenity, PropertyAmenityFlags, PropertyDetailedAmenities, PropertyDetailedRules, PropertyRule, PropertyRuleFlags } from "../api/entities/propertyEnums";
+import { PropertyAmenity, PropertyAmenityFlags, PropertyDetailedAmenities, PropertyDetailedRules, PropertyRule, PropertyRuleFlags, PropertyType } from "../api/entities/propertyEnums";
 import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { PicturesGuestSection } from "../components/PicturesGuestSection";
@@ -14,22 +14,15 @@ import { LocationEntity } from "../api/entities/LocationEntity";
 import { CalendarPickerHost } from "../components/DatePickerHost";
 import { LocationSection } from "../components/LocationSection";
 import { WriteReview } from "../components/WriteReview";
-import PropertyType from "../components/PropertyType";
+import PropertyTypeSection from "../components/PropertyTypeSection";
 
-const IS_EDITABLE = true
+const IS_EDITABLE = true;
 
 export function PropertyPage(){
     const pictures = [12,13,14]
-    const types = ["room","house","public house"]
     const [markerPosition, setMarkerPosition] = useState({lat: 38.116828199666465, lng: 23.86143414444651});
     const [title, setTitle] = useState("Title")
     const [textField, setTextField] = useState("description")
-    const [review, setReview] = useState({
-        user: "pavlos",
-        date: "24/08/2023",
-        star: 4,
-        text: "It was a beautiful experience."
-    })
     const [address, setAddress] = useState("Kromnis 9");
     const [city, setCity] = useState<LocationEntity | null>({
         "id": 304,
@@ -39,7 +32,7 @@ export function PropertyPage(){
         "id": 109,
         "name": "Greece"
     });
-    const [propertyTypes, setPropertyTypes] = useState("")
+    const [propertyType, setPropertyType] = useState(PropertyType.PRIVATE_PROPERTY);
     const [rules, setRules] = useState({
         ...Object.values(PropertyRule).reduce(
             (filters, rule) => {
@@ -74,11 +67,10 @@ export function PropertyPage(){
             title={title}
         />
 
-        <PropertyType
-            editable={true}
-            choices={types}
-            setType={setPropertyTypes}
-            type="house"
+        <PropertyTypeSection
+            editable={IS_EDITABLE}
+            setType={setPropertyType}
+            type={propertyType}
         />
 
         <PicturesGuestSection

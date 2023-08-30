@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PropertyAmenity, PropertyRule, PropertyType } from "../../api/entities/propertyEnums";
-import { faBirthdayCake, faCouch, faDog, faElevator, faKitchenSet, faParking, faSmoking, faSnowflake, faTemperatureArrowUp, faTv, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons";
+import { faBirthdayCake, faCouch, faDog, faElevator, faHouseLock, faKitchenSet, faParking, faPeopleRoof, faPersonShelter, faSmoking, faSnowflake, faTemperatureArrowUp, faTv, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons";
 
 export type PropertyFieldLabelsType<T extends PropertyRule | PropertyAmenity | PropertyType> = { 
     [field in T]: {
@@ -11,13 +11,16 @@ export type PropertyFieldLabelsType<T extends PropertyRule | PropertyAmenity | P
 
 export const PropertyTypeLabels:PropertyFieldLabelsType<PropertyType> = {
     [PropertyType.PRIVATE_ROOM]: {
-        label: 'Ιδιωτικό Δωμάτιο'
+        label: 'Ιδιωτικό Δωμάτιο',
+        icon: <FontAwesomeIcon icon={faPersonShelter}/>
     },
     [PropertyType.SHARED_ROOM]: {
-        label: 'Κοινόχρηστο Δωμάτιο'
+        label: 'Κοινόχρηστο Δωμάτιο',
+        icon: <FontAwesomeIcon icon={faPeopleRoof}/>
     },
     [PropertyType.PRIVATE_PROPERTY]: {
-        label: 'Ολόκληρη Κατοικία'
+        label: 'Ολόκληρη Κατοικία',
+        icon: <FontAwesomeIcon icon={faHouseLock}/>
     },
 };
 
