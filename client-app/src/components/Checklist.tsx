@@ -16,6 +16,7 @@ type ChecklistProps<T> = {
     title: string,
     placeholder: string,
     itemRenderer: (item: T) => ReactNode,
+    itemSerializer?: (item: T) => string,
     items: T[],
     setItems: (newItems: T[]) => void,
 }
@@ -51,6 +52,7 @@ export function Checklist<T>({
     title,
     placeholder,
     itemRenderer,
+    itemSerializer,
     items,
     setItems
 }: ChecklistProps<T>) {
@@ -58,7 +60,7 @@ export function Checklist<T>({
 
     useEffect(() => {
         setItemsCheckState(items.map(_ => false));
-    }, [JSON.stringify(items)]);
+    }, [JSON.stringify(items.map(i => itemSerializer ? itemSerializer(i) : String(i)))]);
 
     const deleteItem = (itemIdx: number) => {
         setItems(
@@ -103,7 +105,7 @@ export function Checklist<T>({
             {
                 items.length?
                 <div
-                    className="w-full flex flex-col gap-1 overflow-y-scroll"
+                    className="w-full flex flex-col gap-1 overflow-y-scroll p-1"
                     style={{
                         minHeight: '5rem',
                         maxHeight: '12rem',

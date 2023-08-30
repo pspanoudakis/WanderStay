@@ -4,33 +4,48 @@ import { ImgUploadButton } from "../components/ImgUploadButton";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { Checklist } from "../components/Checklist";
 import { Img } from "../components/Img";
+import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
+import { ImageEntity } from "../api/entities/ImageEntity";
 
 type ImgListItemProps = {
-    imgId: number,
+    img: ImageEntity,
     isSelected: boolean,
-    onClick: (imgId: number) => void,
+    onClick: (img: ImageEntity) => void,
+    onIsMainChange: (isMain: boolean, img: ImageEntity) => void
 }
 
 function ImgListItem(props: ImgListItemProps) {
     return (
         <button
-            className={`px-4 border-2 rounded-xl flex-1 text-start ${props.isSelected ? 'bg-dark-petrol text-white' : 'hover:bg-light-petrol'}`}
-            onClick={() => props.onClick(props.imgId)}
+            className={`
+                duration-200 px-4 border-2 rounded-xl 
+                flex-1 text-start hover:bg-light-petrol 
+                ${props.isSelected ? 'border-4 border-dark-petrol ' : ''}
+                flex flex-row items-center justify-between
+            `}
+            onClick={() => {debugger; props.onClick(props.img)}}
         >
-            Εικόνα {props.imgId}
+            Εικόνα {props.img.imgId}
+            <CheckboxWithLabel 
+                label="Χρήση ως Κύρια"
+                isChecked={props.img.isMain}
+                setIsChecked={(isChecked) => props.onIsMainChange(isChecked, props.img)}
+            />
         </button>
     )
 }
 
 export function TestPage() {
     const [loading, setLoading] = useState(false);
-    const [imgIds, setImgIds] = useState<number[]>([]);
+    const [imgs, setImgs] = useState<ImageEntity[]>([]);
 
     const [selectedImgId, setSelectedImgId] = useState(-1);
 
     useEffect(() => {
-        setSelectedImgId(imgIds.length ? imgIds[0] : -1);
-    }, [JSON.stringify(imgIds)])
+        setSelectedImgId(imgs.length ? imgs[0].imgId : -1);
+    }, [imgs.length])
+
+    console.log(imgs)
 
     return (
         <div
@@ -46,12 +61,12 @@ export function TestPage() {
                 />
                 : undefined
             }
-            <div className="h-60">
+            <div className="h-96">
             {
-                imgIds.length ?
+                imgs.length ?
                 <Img
                     imgId={selectedImgId >= 0 ? selectedImgId : undefined}
-                    height={240}
+                    height={384}
                     className="rounded-xl"
                 />
                 :
@@ -63,23 +78,32 @@ export function TestPage() {
                 onStartUpload={() => {
                     setLoading(true)
                 }}
-                onSuccess={(id) => {
-                    setImgIds([...imgIds, id])
+                onSuccess={(img) => {
+                    setImgs([...imgs, img])
                     setLoading(false);
-                    console.log(id);
+                    console.log(img);
                 }}
-                uploadURL={createEndPointUrl(`/images`)}
-                isNewImgMain={true}
+                uploadURL={createEndPointUrl(`/property/uploadImage`)}
+                isNewImgMain={false}
             />
             <Checklist
-                items={imgIds}
-                setItems={setImgIds}
-                itemRenderer={(imgId) => 
-                    <ImgListItem
-                        imgId={imgId}
-                        isSelected={selectedImgId === imgId}
-                        onClick={(id) => setSelectedImgId(id)}
-                    />
+                items={imgs}
+                setItems={setImgs}
+                itemSerializer={img => img.imgId.toString()}
+                itemRenderer={(img) => {
+                    return <ImgListItem
+                        img={img}
+                        isSelected={selectedImgId === img.imgId}
+                        onClick={(img) => setSelectedImgId(img.imgId)}
+                        onIsMainChange={(isMain, targetImg) => {
+                            setImgs(
+                                imgs.map(img => ({
+                                    imgId: img.imgId,
+                                    isMain: (targetImg.imgId === img.imgId) ? isMain : false
+                                }))
+                            )
+                        }}
+                    />}
                 }
                 title="Αποθηκευμένες Εικόνες"
                 placeholder="Δεν υπάρχουν αποθηκευμένες εικόνες."

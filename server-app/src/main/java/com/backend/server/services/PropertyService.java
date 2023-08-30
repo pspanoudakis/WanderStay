@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.backend.server.controllers.requests.ImageSelectionDto;
 import com.backend.server.controllers.requests.PropertyReservationRequestDto;
 import com.backend.server.controllers.requests.PropertyReviewRequestDto;
 import com.backend.server.controllers.requests.PropertySearchRequestDto;
@@ -270,7 +271,7 @@ public class PropertyService {
         return new ApiResponseDto(true);
     }
 
-    public SavedImageResponseDto addPropertyImage(
+    public ImageSelectionDto addPropertyImage(
         Long propertyId, String jwt,
         MultipartFile file, boolean isMain
     ) throws BadRequestException, IOException{
@@ -287,7 +288,12 @@ public class PropertyService {
             propertyRepository.save(property);
         }
 
-        return new SavedImageResponseDto(newImage.getId());
+        return (
+            ImageSelectionDto.builder()
+                .imgId(newImage.getId())
+                .isMain(newImage.isMain())
+                .build()
+        );
     }
 
     @Transactional

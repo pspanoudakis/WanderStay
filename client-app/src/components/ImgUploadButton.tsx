@@ -1,3 +1,4 @@
+import { ImageEntity } from "../api/entities/ImageEntity";
 import { fetchData } from "../api/fetchRoutines/fetchAPI";
 import { PrimaryButton } from "./PrimaryButton";
 
@@ -5,15 +6,10 @@ const SUPPORTED_IMG_EXTENSIONS = [
     'image/*'
 ]
 
-type SavedImgResponse = {
-    id: number,
-    main: boolean,
-};
-
 type ImgUploadButtonProps = {
     uploadURL: string
     onStartUpload: () => void,
-    onSuccess: (newImgId: number) => void,
+    onSuccess: (newImg: ImageEntity) => void,
     onError: (obj: any) => void,
     isNewImgMain?: boolean, 
 };
@@ -30,13 +26,14 @@ export function ImgUploadButton(props: ImgUploadButtonProps) {
             fetchData({
                 endpoint: props.uploadURL,
                 method: 'POST',
+                useJwt: true,
                 omitContentType: true,
                 body: formData,
                 useRawBody: true
             }).then(response => {
                 if (response.ok) {
-                    const savedImgResponse = response.content as SavedImgResponse;
-                    props.onSuccess(savedImgResponse.id);
+                    const savedImgResponse = response.content as ImageEntity;
+                    props.onSuccess(savedImgResponse);
                 } else {
                     props.onError(response);
                 }
