@@ -11,7 +11,7 @@ import { NumericRulesSection } from "../components/NumericRulesSection";
 import { ContactHostSection } from "../components/ContactHostSection";
 import { ReviewsSection } from "../components/ReviewsSection";
 import { LocationEntity } from "../api/entities/LocationEntity";
-import { CalendarPickerHost } from "../components/DatePickerHost";
+import { PropertyAvailableSlotsSelectorSection } from "../components/PropertyAvailableSlotsSelectorSection";
 import { LocationSection } from "../components/LocationSection";
 import { WriteReview } from "../components/WriteReview";
 import PropertyTypeSection from "../components/PropertyTypeSection";
@@ -154,19 +154,19 @@ export function PropertyPage(){
             hostUsername="dora"
             propertyId={9}
         />
-        {<CalendarPickerHost
-            dateRangesToDisable={[
+        {/* {<PropertyAvailableSlotsSelectorSection
+            selectedSlots={[
                 {
-                    dateFrom: "2023-08-08",
-                    dateTo: "2023-08-28"
+                    startDate: "2023-08-08",
+                    endDate: "2023-08-28"
                 },
                 {
-                    dateFrom: "2023-09-08",
-                    dateTo: "2023-09-18"
+                    startDate: "2023-09-08",
+                    endDate: "2023-09-18"
                 }
             ]}
-            onSelect={() => {}}
-        />}
+            setSelectedSlots={}
+        />} */}
 
         <WriteReview propertyId={10}/>
         </div>

@@ -7,8 +7,8 @@ export function ImagesCarousel({images}: {
 }) {
     return (
         <Carousel
-            className="w-full h-320"
-            duration={750}
+            className="flex-1 h-96"
+            duration={600}
             interval={5000}
             stopAutoPlayOnHover={true}
         >
@@ -17,7 +17,7 @@ export function ImagesCarousel({images}: {
                     className="rounded-xl"
                     imgId={img.imgId}
                     style={{
-                        height: 360,
+                        height: 350,
                     }}
                 />
             ))}
