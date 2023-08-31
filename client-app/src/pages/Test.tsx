@@ -6,6 +6,7 @@ import { Checklist } from "../components/Checklist";
 import { Img } from "../components/Img";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { ImageEntity } from "../api/entities/ImageEntity";
+import { ImagesCarousel } from "../components/ImagesCarousel";
 
 type ImgListItemProps = {
     img: ImageEntity,
@@ -20,9 +21,15 @@ function ImgListItem(props: ImgListItemProps) {
             className={`
                 duration-200 px-4 border-2 rounded-xl 
                 flex-1 text-start hover:bg-light-petrol 
-                ${props.isSelected ? 'border-4 border-dark-petrol ' : ''}
+                ${props.isSelected ? 'border-dark-petrol ' : ''}
                 flex flex-row items-center justify-between
             `}
+            style={
+                props.isSelected ?
+                {
+                    borderWidth: '3px',
+                } : {}
+            }
             onClick={() => {debugger; props.onClick(props.img)}}
         >
             Εικόνα {props.img.imgId}
@@ -107,6 +114,9 @@ export function TestPage() {
                 }
                 title="Αποθηκευμένες Εικόνες"
                 placeholder="Δεν υπάρχουν αποθηκευμένες εικόνες."
+            />
+            <ImagesCarousel
+                images={imgs}
             />
         </div>        
     )
