@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SignInForm } from './pages/SignInForm';
 import { SignUpForm } from './pages/SignUpForm';
 import { MyProfile } from './pages/MyProfile';
-import { UserInfo } from './pages/UserInfo';
+import { UserProfilePage } from './pages/UserProfilePage';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
 import { PropertyPage } from './pages/PropertyPage';
 import { TestPage } from './pages/Test';
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					</Route>
 					<Route path='test' element={<TestPage/>}/>
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
-						basePath => <Route path={`${basePath + '/'}profile`} element={<UserInfo />} />
+						basePath => <Route path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
 					)}
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<span>Admin Home</span>}/>
