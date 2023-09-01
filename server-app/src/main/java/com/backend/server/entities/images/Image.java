@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("imgId")
     private Long id;
 
     @JsonIgnore

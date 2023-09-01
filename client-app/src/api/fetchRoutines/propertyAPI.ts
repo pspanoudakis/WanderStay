@@ -1,6 +1,7 @@
 import { GetPropertyReviewsRequest } from "../requests/GetPropertyReviewsRequest";
 import { PropertyReviewRequest } from "../requests/PropertyReviewRequest";
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
+import { PropertyDetailsResponse } from "../responses/PropertyDetailsResponse";
 import { PropertyReviewResponse } from "../responses/PropertyReviewResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 
@@ -24,5 +25,12 @@ export async function submitPropertyReview(request: PropertyReviewRequest){
         method: "POST",
         body: request,
         useJwt: true
-    }) as FetchDataResponse<PropertyReviewResponse>
+    }) as FetchDataResponse<PropertyReviewResponse>;
+}
+
+export async function getPropertyDetails(propertyId: number) {
+    return await fetchData({
+        endpoint: createEndPointUrl(`/property/${propertyId}`),
+        method: "GET",
+    }) as FetchDataResponse<PropertyDetailsResponse>;
 }

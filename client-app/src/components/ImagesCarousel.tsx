@@ -8,6 +8,7 @@ export function ImagesCarousel({images}: {
     return (
         <Carousel
             className="flex-1 h-96"
+            navButtonsAlwaysVisible
             duration={600}
             interval={5000}
             stopAutoPlayOnHover={true}

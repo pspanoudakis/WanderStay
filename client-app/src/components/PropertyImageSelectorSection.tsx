@@ -41,7 +41,8 @@ function ImgListItem(props: ImgListItemProps) {
     );
 }
 
-export function PropertyImageSelectorSection({images, setImages}: {
+export function PropertyImageSelectorSection({propertyId, images, setImages}: {
+    propertyId?: number,
     images: ImageEntity[],
     setImages: (imgs: ImageEntity[]) => void
 }) {
@@ -51,7 +52,7 @@ export function PropertyImageSelectorSection({images, setImages}: {
 
     return (
         <div
-            className="flex flex-col justify-start items-center relative gap-1 w-5/12"
+            className="flex flex-col justify-start items-center relative gap-1 flex-1"
             style={{
                 minHeight: '8rem'
             }}
@@ -85,7 +86,7 @@ export function PropertyImageSelectorSection({images, setImages}: {
                     setLoading(false);
                     console.log(img);
                 }}
-                uploadURL={createEndPointUrl(`/property/uploadImage`)}
+                uploadURL={createEndPointUrl(`/property/${propertyId ? (propertyId + '/') : ''}uploadImage`)}
                 isNewImgMain={false}
             />
             <Checklist

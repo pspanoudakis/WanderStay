@@ -15,7 +15,7 @@ interface PropertyTypeProps{
 
 export default function PropertyTypeSection(props: PropertyTypeProps) {
   return (
-    <div className='flex items-start'>
+    <div className='flex items-start w-full'>
       {
         props.editable ?         
         <div className='flex flex-col items-start'>

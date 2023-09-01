@@ -90,7 +90,7 @@ export function PropertyAvailableSlotsSelectorSection({ selectedSlots, setSelect
                     onClick={onSelect}
                     disabled={!(dateRange.dateFrom && dateRange.dateTo)}
                 >
-                    Επιλογή Διαστήματος
+                    Προσθήκη Διαστήματος
                 </PrimaryButton>
             </div>
             <Checklist

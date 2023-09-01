@@ -27,7 +27,15 @@ export function ReviewsSection(props: ReviewsSectionProps){
             <div className="w-2/3 flex flex-col gap-4">
                 <PaginatedResultsWrapper
                     pageSize={4}
-                    idleTitleBuilder={(n) => `${n} Κριτικές`}
+                    idleTitleBuilder={(n) => {
+                        if (n > 1) {
+                            return `${n} Κριτικές`
+                        }
+                        if (n == 0) {
+                            return "Καμία Κριτική"
+                        }
+                        return `${n} Κριτική`
+                    }}
                     resultFetcher={fetchReviews}
                     resultRenderer={(r, key) => {
                         return (

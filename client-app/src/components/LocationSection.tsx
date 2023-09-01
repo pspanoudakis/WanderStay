@@ -49,7 +49,7 @@ export function LocationSection({
     const getLocationLabel = (location: LocationEntity) => location.name;
 
     return (
-        <div className='flex flex-col gap-3 items-start'>
+        <div className='flex flex-col gap-3 items-start w-full'>
             <div className='text-xl font-bold'>Τοποθεσία</div>
             <div className='flex items-start gap-3 w-3/5'>
                 {

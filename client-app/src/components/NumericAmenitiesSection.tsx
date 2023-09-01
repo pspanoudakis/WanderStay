@@ -11,23 +11,19 @@ interface NumericAmenitiesProps{
 
 export function NumericAmentitiesSection(props: NumericAmenitiesProps){
     return(
-        <div>
+        <div className="col-span-1">
             {
                 props.editable?
-                <div className="flex gap-3 items-center">
-                    <div className="flex gap-3 ml-3 items-center">
+                <div className="flex gap-3 items-end justify-center flex-col w-full">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faBed} size="xl" className="pt-4"/>
                         <Box
                             component="form"
-                            sx={{
-                            '& > :not(style)': { m: 1},
-                            }}
                             noValidate
                             autoComplete="off"
                         >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "5rem"}}
                                 id="standard-basic" 
                                 label="Κρεβάτια" 
                                 variant="standard" 
@@ -42,19 +38,18 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                             />
                         </Box>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faDoorOpen} size="xl" className="pt-4"/>
                         <Box
                             component="form"
                             sx={{
-                            '& > :not(style)': { m: 1,fontSize: '16', fontWeight: 'bold'},
+                            '& > :not(style)': { fontSize: '16', fontWeight: 'bold'},
                             }}
                             noValidate
                             autoComplete="off"
                         >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "5rem"}}
                                 id="standard-basic" 
                                 label="Δωμάτια" 
                                 variant="standard" 
@@ -69,19 +64,15 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                             />
                         </Box>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faBathtub} size="xl" className="pt-4"/>
                         <Box
                             component="form"
-                            sx={{
-                            '& > :not(style)': { m: 1},
-                            }}
                             noValidate
                             autoComplete="off"
                         >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "5rem"}}
                                 id="standard-basic" 
                                 label="Μπάνια" 
                                 variant="standard" 
@@ -98,13 +89,19 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                     </div>
                 </div> 
                 :
-                <div className="flex gap-2 items-center text-lg">
-                    <FontAwesomeIcon icon={faBed}/>
-                    <span>{`${props.amenities.numBeds + " " + "κρεβάτια,"}`} </span>
-                    <FontAwesomeIcon icon={faDoorOpen}/>
-                    <span>{`${props.amenities.numBedrooms + " " + "δωμάτια,"}`} </span>
-                    <FontAwesomeIcon icon={faBathtub}/>
-                    <span>{`${props.amenities.numBathrooms + " " + "μπάνια"}`} </span>
+                <div className="flex flex-col gap-2 items-start text-lg ">
+                    <div className="flex gap-2 items-center">
+                        <FontAwesomeIcon icon={faBed}/>
+                        <span>{`${props.amenities.numBeds + " " + "κρεβάτια"}`} </span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <FontAwesomeIcon icon={faDoorOpen}/>
+                        <span>{`${props.amenities.numBedrooms + " " + "δωμάτια"}`} </span>                    
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <FontAwesomeIcon icon={faBathtub}/>
+                        <span>{`${props.amenities.numBathrooms + " " + "μπάνια"}`} </span>
+                    </div>
                 </div>
             }
         </div>

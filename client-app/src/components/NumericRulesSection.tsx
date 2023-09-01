@@ -11,23 +11,19 @@ interface NumericRulesProps{
 
 export function NumericRulesSection(props: NumericRulesProps){
     return(
-        <div>
+        <div className="col-span-1">
             {
                 props.editable?
-                <div className="flex gap-3 items-start flex-col">
-                    <div className="flex items-center">
+                <div className="flex gap-3 items-start flex-col w-full">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faCalendarDays} size="xl" className="pt-4"/>
                         <Box
                             component="form"
-                            sx={{
-                            '& > :not(style)': { m: 1},
-                            }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "15rem"}}
                                 id="standard-basic" 
                                 label="Ελάχιστος αριθμός ημερών" 
                                 variant="standard" 
@@ -42,19 +38,15 @@ export function NumericRulesSection(props: NumericRulesProps){
                             />
                         </Box>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faMoneyCheckDollar} size="xl" className="pt-4"/>
                         <Box
                             component="form"
-                            sx={{
-                            '& > :not(style)': { m: 1,fontSize: '16', fontWeight: 'bold'},
-                            }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "15rem"}}
                                 id="standard-basic" 
                                 label="Κόστος/ημέρα" 
                                 variant="standard" 
@@ -69,19 +61,15 @@ export function NumericRulesSection(props: NumericRulesProps){
                             />
                         </Box>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faPersonCirclePlus} size="xl" className="pt-4"/>
                         <Box
                             component="form"
-                            sx={{
-                            '& > :not(style)': { m: 1},
-                            }}
                             noValidate
                             autoComplete="off"
-                            >
+                        >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
-                                style={{width: "15rem"}}
                                 id="standard-basic" 
                                 label="Επιπλέον κόστος / επισκέπτη" 
                                 variant="standard" 
@@ -98,7 +86,7 @@ export function NumericRulesSection(props: NumericRulesProps){
                     </div>
                 </div> 
                 :
-                <div className="flex flex-col gap-2 items-start text-lg">
+                <div className="flex flex-col gap-2 items-start text-lg w-full">
                     <div className="flex gap-2 items-center">
                         <FontAwesomeIcon icon={faCalendarDays}/>
                         <span>{"Ελάχιστη Διάρκεια Ενοικίασης: " + props.rules?.minReservationDays} </span>
