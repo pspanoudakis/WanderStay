@@ -23,6 +23,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
+import { useNavigate } from "react-router-dom";
+import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
+import { RoleType } from "../api/entities/RoleType";
 
 type PropertyDetailsProps = {
     isEditable: boolean,
@@ -32,6 +35,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
 
     const ctx = useContext(AppContext);
     const searchContext = ctx.state.businessContext.searchContext;
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
 
@@ -118,10 +122,13 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
     const saveProperty = () => {
         setLoading(true);
         if (property) {
-            createOrUpdateProperty(property, propertyId)
+            createOrUpdateProperty(property, property.propertyId > 0 ? property.propertyId : propertyId)
             .then(response => {
                 if (response.ok) {
                     setProperty(response.content.propertyDetails)
+                    if (!propertyId) {
+                        navigate(`${ORDERED_BASE_ROLE_PATHS[RoleType.HOST]}/property/${response.content.propertyDetails.propertyId}`)
+                    }
                 }
                 openModal(ctx, {
                     content: () => (
