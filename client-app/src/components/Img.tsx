@@ -16,7 +16,7 @@ export function Img(props: ImgProps) {
     const imgSrc = useMemo(() => {
         if (!imgId) {
             return (
-                props.src ?? "https://media.cntraveler.com/photos/5d112d50c4d7bd806dbc00a4/16:9/w_1280,c_limit/airbnb%20luxe.jpg"
+                props.src ?? "./src/assets/placeholder.png"
             );
         }
         return createEndPointUrl(`/images/${imgId}`);
