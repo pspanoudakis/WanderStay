@@ -24,11 +24,11 @@ import { faBookmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 
-type PropertyPageProps = {
+type PropertyDetailsProps = {
     isEditable: boolean,
     propertyId: number
 }
-export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
+export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsProps){
 
     const ctx = useContext(AppContext);
     const searchContext = ctx.state.businessContext.searchContext;

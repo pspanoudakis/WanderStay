@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { PropertyPage } from "./PropertyPage";
+import { PropertyDetailsView } from "../components/PropertyDetailsView";
 
 export function PropertyGuestViewPage() {
     const {propertyId} = useParams();
     
     return (
-        <PropertyPage
+        <PropertyDetailsView
             isEditable={false}
             propertyId={Number(propertyId)}
         />
