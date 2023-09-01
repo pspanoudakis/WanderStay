@@ -34,6 +34,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 						<Route index element={<span>Host Home</span>}/>
 						<Route path='property'>
 							<Route path=':propertyId' element={<PropertyHostViewPage/>} />
+							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>
 					</Route>
 				</Route>

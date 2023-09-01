@@ -7,7 +7,7 @@ export function PropertyHostViewPage() {
     return (
         <PropertyDetailsView
             isEditable={true}
-            propertyId={Number(propertyId)}
+            propertyId={propertyId ? Number(propertyId) : undefined}
         />
     );
 }

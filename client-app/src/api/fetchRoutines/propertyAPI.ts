@@ -47,7 +47,7 @@ export async function makePropertyReservation(propertyId: number, request: Prope
 
 export async function createOrUpdateProperty(propertyDetails: PropertyDetails, propertyId?: number) {
     return await fetchData({
-        endpoint: createEndPointUrl(`/property${propertyId ? `/${propertyId}` : ''}`),
+        endpoint: createEndPointUrl(`/property${propertyId ? `/${propertyId}` : '/'}`),
         method: "POST",
         useJwt: true,
         body: {

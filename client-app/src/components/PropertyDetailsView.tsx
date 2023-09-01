@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
-import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags } from "../api/entities/propertyEnums";
+import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags, PropertyType } from "../api/entities/propertyEnums";
 import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { TitleSection } from "../components/TitleSection";
@@ -26,7 +26,7 @@ import { ModalActionResultTemplate } from "../components/ModalActionResultTempla
 
 type PropertyDetailsProps = {
     isEditable: boolean,
-    propertyId: number
+    propertyId?: number
 }
 export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsProps){
 
@@ -38,13 +38,58 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
     const [property, setProperty] = useState<PropertyDetails>();
 
     useEffect(() => {
-        getPropertyDetails(propertyId)
-        .then(response => {
-            if (response.ok) {
-                setProperty(response.content.propertyDetails);
-            }
+        if (propertyId) {
+            getPropertyDetails(propertyId)
+            .then(response => {
+                if (response.ok) {
+                    setProperty(response.content.propertyDetails);
+                }
+                setLoading(false);
+            });
+        }
+        else {
+            setProperty({
+                propertyId: -1,
+                address: '',
+                amenities: {
+                    hasElevator: false,
+                    hasHeating: false,
+                    hasKitchen: false,
+                    hasLounge: false,
+                    hasParking: false,
+                    hasRefrigerator: false,
+                    hasTv: false,
+                    hasWifi: false,
+                    numBathrooms: 0,
+                    numBedrooms: 0,
+                    numBeds: 0
+                },
+                availableSlots: [],
+                city: null,
+                country: null,
+                description: '',
+                hostName: '',
+                images: [],
+                propertyType: PropertyType.PRIVATE_PROPERTY,
+                rules: {
+                    baseDayCost: 0,
+                    eventsAllowed: false,
+                    minReservationDays: 1,
+                    perGuestCost: 0,
+                    petsAllowed: false,
+                    smokingAllowed: false,
+                },
+                spaceArea: 1,
+                title: 'Νέο Κατάλυμα',
+                latitude: 38.116828199666465, 
+                longitude: 23.86143414444651,
+                reviewsSummary: {
+                    avgStars: 0,
+                    reviewCount: 0
+                }
+            });
             setLoading(false);
-        })
+        }
     }, [propertyId])
 
     const makeReservation = () => {
@@ -245,20 +290,25 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                             }}            
                         />
                     }
-                    <ReviewsSection
-                        propertyId={propertyId}
-                    />
                     {
-                        !isEditable && (
-                            <>
-                            <ContactHostSection
-                                hostUsername={property.hostName}
-                                propertyId={propertyId}
-                            />
-                            <WriteReview propertyId={propertyId}/>                        
-                            </>
-                        )
-                    }    
+                        propertyId &&
+                        <>
+                        <ReviewsSection
+                            propertyId={propertyId}
+                        />
+                        {
+                            !isEditable && (
+                                <>
+                                <ContactHostSection
+                                    hostUsername={property.hostName}
+                                    propertyId={propertyId}
+                                />
+                                <WriteReview propertyId={propertyId}/>                        
+                                </>
+                            )
+                        }                       
+                        </>
+                    }
                 </div>
             )
             :
