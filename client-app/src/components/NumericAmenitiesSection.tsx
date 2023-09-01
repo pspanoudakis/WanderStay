@@ -89,18 +89,18 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                     </div>
                 </div> 
                 :
-                <div className="flex flex-col gap-2 items-start text-lg ">
+                <div className="flex flex-col gap-2 items-start w-full">
                     <div className="flex gap-2 items-center">
-                        <FontAwesomeIcon icon={faBed}/>
-                        <span>{`${props.amenities.numBeds + " " + "κρεβάτια"}`} </span>
+                        <FontAwesomeIcon icon={faBed} size="lg"/>
+                        <span className="font-bold text-lg">{props.amenities.numBeds}</span> κρεβάτια
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <FontAwesomeIcon icon={faDoorOpen}/>
-                        <span>{`${props.amenities.numBedrooms + " " + "δωμάτια"}`} </span>                    
+                    <div className="flex items-center" style={{gap: '0.65rem'}}>
+                        <FontAwesomeIcon icon={faDoorOpen} size="lg"/>
+                        <span className="font-bold text-lg">{props.amenities.numBedrooms}</span> δωμάτια          
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <FontAwesomeIcon icon={faBathtub}/>
-                        <span>{`${props.amenities.numBathrooms + " " + "μπάνια"}`} </span>
+                    <div className="flex items-center" style={{gap: '0.8rem'}}>
+                        <FontAwesomeIcon icon={faBathtub} size="lg"/>
+                        <span className="font-bold text-lg">{props.amenities.numBathrooms}</span> μπάνια
                     </div>
                 </div>
             }

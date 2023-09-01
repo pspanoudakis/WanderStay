@@ -71,7 +71,7 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
                         type={property.propertyType}
                     />
         
-                    <div className="flex flex-row w-full gap-2">
+                    <div className={`flex flex-row ${isEditable ? 'w-full' : 'w-2/3'} gap-2`}>
                         {
                             isEditable ?
                             <>

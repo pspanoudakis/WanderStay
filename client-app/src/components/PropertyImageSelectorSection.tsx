@@ -64,7 +64,7 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                 />
                 : undefined
             }
-            <div className="h-96">
+            <div className="h-96 max-w-2xl">
             {
                 images.length ?
                 <Img

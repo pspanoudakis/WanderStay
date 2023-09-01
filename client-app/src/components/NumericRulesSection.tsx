@@ -86,18 +86,24 @@ export function NumericRulesSection(props: NumericRulesProps){
                     </div>
                 </div> 
                 :
-                <div className="flex flex-col gap-2 items-start text-lg w-full">
+                <div className="flex flex-col gap-2 items-start w-full">
                     <div className="flex gap-2 items-center">
-                        <FontAwesomeIcon icon={faCalendarDays}/>
-                        <span>{"Ελάχιστη Διάρκεια Ενοικίασης: " + props.rules?.minReservationDays} </span>
+                        <FontAwesomeIcon icon={faCalendarDays} size="lg"/>
+                        <span>Ελάχιστες Μέρες Ενοικίασης: 
+                            <span className="font-bold text-lg"> {props.rules?.minReservationDays}</span>
+                        </span>
                     </div>
                     <div className="flex gap-2 items-center ">
-                        <FontAwesomeIcon icon={faMoneyCheckDollar}/>
-                        <span>{"Κόστος/ημέρα: " + props.rules?.baseDayCost}</span>
+                        <FontAwesomeIcon icon={faMoneyCheckDollar} size="lg"/>
+                        <span>Κόστος/ημέρα:
+                            <span className="font-bold text-lg"> {props.rules?.baseDayCost}€</span>
+                        </span>
                     </div>
                     <div className="flex gap-2 items-center">
-                        <FontAwesomeIcon icon={faPersonCirclePlus}/>
-                        <span>{"Επιπλέον κόστος / επισκέπτη: " + props.rules?.perGuestCost}</span>
+                        <FontAwesomeIcon icon={faPersonCirclePlus} size="lg"/>
+                        <span>Επιπλέον κόστος / επισκέπτη: 
+                            <span className="font-bold text-lg"> {props.rules?.perGuestCost}€</span>
+                        </span>
                     </div>
                 </div>
             }
