@@ -386,7 +386,11 @@ public class PropertyService {
         property.setLatitude(request.getLatitude());
 
         List<Image> newImages = request.getImageSelections().stream().map(
-            (n) -> imageService.getImageFromIdOrElseThrow(n.getImgId())
+            (n) -> {
+                Image img = imageService.getImageFromIdOrElseThrow(n.getImgId());
+                img.setMain(n.isMain());
+                return img;
+            }
         ).collect(Collectors.toList());
         imageService.broadcastImageDeletionsToFs(newImages, property.getImages());
         property.getImages().clear();
