@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					</Route>
 					<Route path='test' element={<TestPage/>}/>
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
-						basePath => <Route path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
+						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
 					)}
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<span>Admin Home</span>}/>

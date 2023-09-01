@@ -46,7 +46,6 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
     images: ImageEntity[],
     setImages: (imgs: ImageEntity[]) => void
 }) {
-    debugger;
     const [loading, setLoading] = useState(false);
     const [selectedImgId, setSelectedImgId] = useState(
         images.length ? 
@@ -89,7 +88,7 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                 }}
                 onSuccess={(img) => {
                     setImages([...images, img]);
-                    setSelectedImgId(images.length - 1);
+                    setSelectedImgId(img.imgId);
                     setLoading(false);
                     console.log(img);
                 }}

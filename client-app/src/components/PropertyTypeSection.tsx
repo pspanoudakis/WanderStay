@@ -31,7 +31,7 @@ export default function PropertyTypeSection(props: PropertyTypeProps) {
           >
           {
             Object.values(PropertyType).map(type => (
-              <FormControlLabel value={type} control={<Radio />} label={PropertyTypeLabels[type].label} />
+              <FormControlLabel key={type} value={type} control={<Radio />} label={PropertyTypeLabels[type].label} />
             ))
           }
           </RadioGroup>

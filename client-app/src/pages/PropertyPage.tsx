@@ -71,7 +71,6 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
     }
 
     const saveProperty = () => {
-        debugger;
         setLoading(true);
         if (property) {
             createOrUpdateProperty(property, propertyId)
@@ -95,7 +94,6 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
 
     function updatePropertyState<K extends keyof PropertyDetails>
     (key: K, value: PropertyDetails[K]) {
-        debugger;
         if (property) {
             setProperty({
                 ...property,
@@ -233,17 +231,20 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
                         setCountry={c => updatePropertyState("country", c)}
                         setCity={c => updatePropertyState("city", c)}
                     />
-                    <MapComponent 
-                        position={{lat: property.latitude, lng: property.longitude}}
-                        editable={isEditable} 
-                        setPosition={pos => {
-                            setProperty({
-                                ...property,
-                                latitude: pos.lat,
-                                longitude: pos.lng
-                            })
-                        }}            
-                    />
+                    {
+                        ((property.latitude && property.longitude) || isEditable) &&
+                        <MapComponent 
+                            position={{lat: property.latitude, lng: property.longitude}}
+                            editable={isEditable} 
+                            setPosition={pos => {
+                                setProperty({
+                                    ...property,
+                                    latitude: pos.lat,
+                                    longitude: pos.lng
+                                })
+                            }}            
+                        />
+                    }
                     <ReviewsSection
                         propertyId={propertyId}
                     />

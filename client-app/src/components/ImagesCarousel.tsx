@@ -15,6 +15,7 @@ export function ImagesCarousel({images}: {
         >
             {images.map(img => (
                 <Img
+                    key={img.imgId}
                     className="rounded-xl"
                     imgId={img.imgId}
                     style={{

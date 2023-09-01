@@ -3,6 +3,11 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import { Marker as MarkerRefType } from 'leaflet'
 import "leaflet/dist/leaflet.css"
 
+const DEFAULT_POSITION = {
+  lat: 38.116828199666465, 
+  lng: 23.86143414444651
+};
+
 type PositionCoordinates = {
   lat: number,
   lng: number,
@@ -15,6 +20,13 @@ interface MapProps {
 }
  
 export function MapComponent(props: MapProps){
+
+  const propsPosition: PositionCoordinates = (
+    (props.position.lat && props.position.lng) ?
+    {...props.position}
+    :
+    DEFAULT_POSITION
+  );
   
   const ZOOM_LEVEL = 13; 
   
@@ -28,10 +40,10 @@ export function MapComponent(props: MapProps){
         dragend() {
           const marker = markerRef.current
            if (props.editable && marker) {
-             props.setPosition?.({
-              lat: marker.getLatLng().lat,
-              lng: marker.getLatLng().lng,
-             })
+              props.setPosition?.({
+                lat: marker.getLatLng().lat,
+                lng: marker.getLatLng().lng,
+              })
            }
         },
       }),
@@ -49,12 +61,12 @@ export function MapComponent(props: MapProps){
       <Marker
         draggable={draggable}
         eventHandlers={eventHandlers}
-        position={props.position}
+        position={propsPosition}
         ref={markerRef}>
         <Popup minWidth={90}>
           <span onClick={toggleDraggable}>
             {draggable
-              ? props.position.lat.toString() + "," + props.position.lng.toString()
+              ? propsPosition.lat.toString() + "," + propsPosition.lng.toString()
               : 'Click here to make marker draggable'}
           </span>
         </Popup>
@@ -67,7 +79,7 @@ export function MapComponent(props: MapProps){
                 style={{
                   flex: "1 1 0%"
                 }}
-                center={[props.position.lat, props.position.lng]}
+                center={[propsPosition.lat, propsPosition.lng]}
                 zoom={ZOOM_LEVEL}>
                     <TileLayer 
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
@@ -76,9 +88,9 @@ export function MapComponent(props: MapProps){
                     {
                         props.editable ?
                         <DraggableMarker/> :
-                        <Marker position={[props.position.lat, props.position.lng]}>
+                        <Marker position={[propsPosition.lat, propsPosition.lng]}>
                           <Popup>
-                          {props.position.lat} , {props.position.lng}
+                          {propsPosition.lat} , {propsPosition.lng}
                           </Popup>
                         </Marker>
                     }

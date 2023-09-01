@@ -38,7 +38,7 @@ export function App() {
 
 	useEffect(() => {
 		setPendingLogin(true);
-		debugger;
+		// debugger;
 		if (!appContext.businessContext.userContext && getJwt()) {
 
 			loginWithJwt()

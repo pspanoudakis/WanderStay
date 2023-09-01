@@ -33,8 +33,8 @@ export function PropertyFlagsCheckList<T extends PropertyRule | PropertyAmenity>
                             }
                         />
                         :
-                        <div className="flex flex-row gap-2 items-center">
-                            <FontAwesomeIcon 
+                        <div key={i} className="flex flex-row gap-2 items-center">
+                            <FontAwesomeIcon
                                 icon={props.fieldFlags[key] ? faCircleCheck: faCircleXmark}
                                 color={props.fieldFlags[key] ? "green" : "red"}
                                 size="xl"
