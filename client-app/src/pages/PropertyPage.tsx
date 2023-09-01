@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
 import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags } from "../api/entities/propertyEnums";
@@ -15,18 +15,24 @@ import { WriteReview } from "../components/WriteReview";
 import PropertyTypeSection from "../components/PropertyTypeSection";
 import { ImagesCarousel } from "../components/ImagesCarousel";
 import { PropertyImageSelectorSection } from "../components/PropertyImageSelectorSection";
-import { PropertyDetailsResponse } from "../api/responses/PropertyDetailsResponse";
-import { getPropertyDetails } from "../api/fetchRoutines/propertyAPI";
+import { PropertyDetails } from "../api/responses/PropertyDetailsResponse";
+import { createOrUpdateProperty, getPropertyDetails, makePropertyReservation } from "../api/fetchRoutines/propertyAPI";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { PrimaryButton } from "../components/PrimaryButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { AppContext, openModal } from "../AppContext";
+import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 
 type PropertyPageProps = {
     isEditable: boolean,
     propertyId: number
 }
-
-type PropertyDetails = PropertyDetailsResponse["propertyDetails"]
-
 export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
+
+    const ctx = useContext(AppContext);
+    const searchContext = ctx.state.businessContext.searchContext;
+
     const [loading, setLoading] = useState(true);
 
     const [property, setProperty] = useState<PropertyDetails>();
@@ -41,8 +47,55 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
         })
     }, [propertyId])
 
+    const makeReservation = () => {
+        setLoading(true);
+        if (property) {
+            makePropertyReservation(property.propertyId, {
+                dateFrom: searchContext.dateFrom ?? '',
+                dateTo: searchContext.dateTo ?? '',
+                numPersons: searchContext.numPersons
+            })
+            .then(response => {
+                openModal(ctx, {
+                    content: () => (
+                        <ModalActionResultTemplate
+                            success={response.ok}
+                            successText="H Κράτησή σας ολοκληρώθηκε επιτυχώς"
+                            errorText="Σφάλμα καταχώρησης Κράτησης"
+                        />
+                    )
+                })
+                setLoading(false);
+            })
+        }
+    }
+
+    const saveProperty = () => {
+        debugger;
+        setLoading(true);
+        if (property) {
+            createOrUpdateProperty(property, propertyId)
+            .then(response => {
+                if (response.ok) {
+                    setProperty(response.content.propertyDetails)
+                }
+                openModal(ctx, {
+                    content: () => (
+                        <ModalActionResultTemplate
+                            success={response.ok}
+                            successText="Επιτυχής ενημέρωση Καταλύματος"
+                            errorText="Σφάλμα ενημέρωσης Καταλύματος"
+                        />
+                    )
+                })
+                setLoading(false);
+            })
+        }
+    }
+
     function updatePropertyState<K extends keyof PropertyDetails>
     (key: K, value: PropertyDetails[K]) {
+        debugger;
         if (property) {
             setProperty({
                 ...property,
@@ -59,12 +112,24 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
             property ? (
 
                 <div className="flex flex-col w-full gap-7 items-center">
-                    <TitleSection
-                        editable={isEditable}
-                        setTitle={t => updatePropertyState("title", t)}
-                        title={property.title}
-                    />
-        
+                    <div className="w-full flex justify-between items-center">
+                        <TitleSection
+                            editable={isEditable}
+                            setTitle={t => updatePropertyState("title", t)}
+                            title={property.title}
+                        />
+                        <PrimaryButton 
+                            classExtras="rounded-xl py-2 px-4 text-xl"
+                            onClick={isEditable ? saveProperty : makeReservation}
+                        >
+                        {
+                            isEditable ?
+                            <><FontAwesomeIcon className="pr-2" icon={faCheck}/>Αποθήκευση Αλλαγών</>
+                            :
+                            <><FontAwesomeIcon className="pr-2" icon={faBookmark}/>Κάνε Κράτηση</>
+                        }
+                        </PrimaryButton>
+                    </div>
                     <PropertyTypeSection
                         editable={isEditable}
                         setType={t => updatePropertyState("propertyType", t)}
@@ -85,12 +150,12 @@ export function PropertyPage({ isEditable, propertyId }: PropertyPageProps){
                                     setSelectedSlots={slots => updatePropertyState("availableSlots", slots)}
                                 />
                             </>
-                            :
-                            <>
+                            : (
+                                (property.images.length > 0) &&
                                 <ImagesCarousel
                                     images={property.images}
-                                />                    
-                            </>
+                                />
+                            )
                         }
                     </div>
                     <div className="flex w-full gap-5 items-start">

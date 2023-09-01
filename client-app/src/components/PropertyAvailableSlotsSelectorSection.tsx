@@ -1,5 +1,3 @@
-import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateRangePicker, LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
@@ -68,6 +66,7 @@ export function PropertyAvailableSlotsSelectorSection({ selectedSlots, setSelect
                         localeText={{ start: 'Check-in', end: 'Check-out' }}
                         shouldDisableDate={(d) => {
                             for (const slot of selectedSlots) {
+                                // TODO: insufficient check
                                 if ((d.isAfter(slot.startDate) || d.isSame(slot.startDate)) &&
                                     (d.isBefore(slot.endDate) || d.isSame(slot.endDate))) {
                                     return true;

@@ -24,3 +24,5 @@ export type PropertyDetailsResponse = {
         longitude: number,
     }
 };
+
+export type PropertyDetails = PropertyDetailsResponse["propertyDetails"];

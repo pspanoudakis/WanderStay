@@ -46,9 +46,13 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
     images: ImageEntity[],
     setImages: (imgs: ImageEntity[]) => void
 }) {
-
+    debugger;
     const [loading, setLoading] = useState(false);
-    const [selectedImgId, setSelectedImgId] = useState(-1);
+    const [selectedImgId, setSelectedImgId] = useState(
+        images.length ? 
+        (images.find(img => img.isMain)?.imgId ?? images[0].imgId)
+        : -1
+    );
 
     return (
         <div
@@ -68,12 +72,14 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
             {
                 images.length ?
                 <Img
-                    imgId={selectedImgId >= 0 ? selectedImgId : undefined}
+                    imgId={selectedImgId}
                     height={384}
                     className="rounded-xl"
                 />
                 :
-                null
+                <div className="flex justify-center items-center h-full">
+                    Δεν υπάρχουν αποθηκευμένες εικόνες.
+                </div>
             }
             </div>
             <ImgUploadButton
@@ -82,7 +88,8 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                     setLoading(true)
                 }}
                 onSuccess={(img) => {
-                    setImages([...images, img])
+                    setImages([...images, img]);
+                    setSelectedImgId(images.length - 1);
                     setLoading(false);
                     console.log(img);
                 }}

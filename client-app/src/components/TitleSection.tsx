@@ -10,7 +10,7 @@ interface TitleProps{
 export function TitleSection(props: TitleProps){
 
     return (
-        <div className='flex flex-col items-start gap-2 w-full text-2xl font-bold'>
+        <div className='flex flex-col items-start gap-2 flex-1 text-2xl font-bold'>
             {
                 props.editable ?
                 <Box
