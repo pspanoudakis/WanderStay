@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { AppContext, UserContext, openModal } from "../AppContext";
+import { useContext, useEffect, useState } from "react";
+import { AppContext, openModal } from "../AppContext";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { EditableTextField } from "../components/EditableTextField";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
@@ -8,13 +8,15 @@ import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { RoleTypeLabels } from "../components/utils/userRoleLabels";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle} from '@fortawesome/free-solid-svg-icons'
+import { UserDetailsRequest } from "../api/requests/UserDetailsRequest";
+import { updateUserDetails } from "../api/fetchRoutines/userAPI";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export function UserProfilePage(){
     const ctx = useContext(AppContext);
     const businessContext = ctx.state.businessContext;
 
-    const [userInfo, setUserInfo] = useState({
-        username: businessContext.userContext?.username ?? '',
+    const [userInfo, setUserInfo] = useState<UserDetailsRequest>({
         firstName: businessContext.userContext?.firstName ?? '',
         lastName: businessContext.userContext?.lastName ?? '',
         email: businessContext.userContext?.email ?? '',
@@ -24,16 +26,62 @@ export function UserProfilePage(){
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if (businessContext.userContext) {
+            setUserInfo({
+                ...businessContext.userContext
+            })
+        }
+    }, [JSON.stringify(businessContext.userContext)])
+
     function saveUserInfo() {
-        setIsEditing(false);
+        setLoading(true);
+        updateUserDetails(userInfo)
+        .then(response => {
+            if (response.ok) {
+                ctx.setState?.({
+                    businessContext: {
+                        ...businessContext,
+                        userContext: response.content.user
+                    },
+                    modalContext: {
+                        showModal: true,
+                        modalProps: {
+                            content: () => (
+                                <ModalActionResultTemplate
+                                    success={true}
+                                    successText="Τα στοιχεία σας ενημερώθηκαν επιτυχώς."
+                                />
+                            )
+                        }
+                    }
+                })
+                setIsEditing(false);
+            }
+            else {
+                openModal(ctx, {
+                    content: () => (
+                        <ModalActionResultTemplate
+                            success={false}
+                            errorText="Σφάλμα ενημέρωσης στοιχείων"
+                        />
+                    )
+                })
+            }
+            setLoading(false);
+        })
     }
     
     return(
-        <div className="flex flex-col ml-10 h-2/3 gap-y-10">
-            
+        <div className="flex flex-col ml-10 h-2/3 gap-y-10 relative">
+            <LoadingSpinner
+                visible={loading}
+                coverParent={true}
+                text="Ενημέρωση των στοιχείων σας"
+            />
             <div className="flex justify-start text-2xl gap-3 items-center">
                 <FontAwesomeIcon icon={faUserCircle} className="text-main-petrol" size="xl"/>
-                <span className="font-bold">{userInfo.username}</span> 
+                <span className="font-bold">{businessContext.userContext?.username}</span> 
                 <span>Προσωπικά Στοιχεία</span>
             </div>
             <div className="flex flex-col items-start">

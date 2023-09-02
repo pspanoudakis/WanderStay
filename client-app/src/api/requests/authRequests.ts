@@ -1,14 +1,8 @@
-import { RoleType } from "../entities/RoleType";
+import { UserDetailsRequest } from "./UserDetailsRequest";
 
 export type AuthRequest = {
     username: string,
     password: string,
 }
 
-export type RegisterUserRequest = {
-    firstName: string,
-    lastName: string,
-    email: string,
-    mobileNumber: string,
-    roles: RoleType[]
-} & AuthRequest;
+export type RegisterUserRequest = UserDetailsRequest & AuthRequest;
