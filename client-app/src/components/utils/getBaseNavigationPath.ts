@@ -7,5 +7,5 @@ export function getBaseNavigationPath(userRoles: RoleType[]) {
             return ORDERED_BASE_ROLE_PATHS[role as RoleType];
         }
     }
-    return "/";
+    return "";
 }

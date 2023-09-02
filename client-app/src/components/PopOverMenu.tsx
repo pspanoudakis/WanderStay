@@ -37,37 +37,38 @@ function getMenuItems(userCtx: UserContext | undefined) {
         url: `${getBaseNavigationPath(userCtx.roles)}/profile`
     }];
     
-    switch (true) {
-        case userCtx?.roles.includes(RoleType.ADMIN):
-            items.push(...[
-                {
-                    textChoice: "Διαχείριση Χρηστών",
-                    icon: <FontAwesomeIcon icon={faUsers} style={{ color }}/>,
-                    url: `${ORDERED_BASE_ROLE_PATHS.ADMIN}`
-                },
-            ]);
-        case userCtx?.roles.includes(RoleType.HOST):
-            items.push(...[
-                {
-                    textChoice: "Διαχείριση Καταλύματος",
-                    icon: <FontAwesomeIcon icon={faHouse} style={{ color }}/>,
-                    url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
-                },
-                {
-                    textChoice: "Καταχώρηση νέου Καταλύματος",
-                    icon: <FontAwesomeIcon icon={faHouseMedical} style={{ color }}/>,
-                    url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
-                },
-                
-            ]);
-        case userCtx?.roles.includes(RoleType.GUEST):
-            items.push(...[
-                {
-                    textChoice: "Οι Κρατήσεις μου",
-                    icon: <FontAwesomeIcon icon={faGlasses} style={{color: APP_PALLETE['main-petrol']}}/>,
-                    url: `${ORDERED_BASE_ROLE_PATHS.GUEST}`
-                },
-            ]);
+    if (userCtx?.roles.includes(RoleType.ADMIN)) {
+        items.push(
+            {
+                textChoice: "Διαχείριση Χρηστών",
+                icon: <FontAwesomeIcon icon={faUsers} style={{ color }}/>,
+                url: `${ORDERED_BASE_ROLE_PATHS.ADMIN}`
+            },
+        );
+    }
+    if (userCtx?.roles.includes(RoleType.HOST)) {
+        items.push(
+            {
+                textChoice: "Διαχείριση Καταλύματος",
+                icon: <FontAwesomeIcon icon={faHouse} style={{ color }}/>,
+                url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+            },
+            {
+                textChoice: "Καταχώρηση νέου Καταλύματος",
+                icon: <FontAwesomeIcon icon={faHouseMedical} style={{ color }}/>,
+                url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+            },
+            
+        );
+    }
+    if (userCtx?.roles.includes(RoleType.GUEST)) {
+        items.push(
+            {
+                textChoice: "Οι Κρατήσεις μου",
+                icon: <FontAwesomeIcon icon={faGlasses} style={{color: APP_PALLETE['main-petrol']}}/>,
+                url: `${ORDERED_BASE_ROLE_PATHS.GUEST}`
+            },
+        );
     }
     return items;
 }
