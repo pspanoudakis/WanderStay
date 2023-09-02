@@ -24,8 +24,6 @@ export function UserProfilePage(){
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    
-    console.log(userInfo);
     function saveUserInfo() {
         setIsEditing(false);
     }

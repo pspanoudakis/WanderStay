@@ -90,7 +90,6 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                     setImages([...images, img]);
                     setSelectedImgId(img.imgId);
                     setLoading(false);
-                    console.log(img);
                 }}
                 uploadURL={createEndPointUrl(`/property/${propertyId ? (propertyId + '/') : ''}uploadImage`)}
                 isNewImgMain={false}

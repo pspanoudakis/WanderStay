@@ -30,8 +30,7 @@ export function WriteReview(props:ReviewProp){
                 stars,
                 text: reviewText
             }).then(
-                (response)=>{
-                    console.log(response)
+                (response) => {
                     openModal(ctx, {
                         content: () => 
                             <ModalActionResultTemplate

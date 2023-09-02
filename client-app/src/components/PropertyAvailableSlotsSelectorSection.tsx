@@ -64,11 +64,20 @@ export function PropertyAvailableSlotsSelectorSection({ selectedSlots, setSelect
                         value={[dayjs(dateRange.dateFrom), dayjs(dateRange.dateTo)]}
                         onChange={(v) => dateRangeOnChange(v)}
                         localeText={{ start: 'Check-in', end: 'Check-out' }}
-                        shouldDisableDate={(d) => {
+                        shouldDisableDate={(d, pos) => {
                             for (const slot of selectedSlots) {
-                                // TODO: insufficient check
                                 if ((d.isAfter(slot.startDate) || d.isSame(slot.startDate)) &&
                                     (d.isBefore(slot.endDate) || d.isSame(slot.endDate))) {
+                                    return true;
+                                }
+                                if (pos === 'end' && (
+                                        (
+                                            dayjs(dateRange.dateFrom).isBefore(slot.startDate) &&
+                                            d.isAfter(slot.startDate)
+                                        ) 
+                                        || 
+                                        d.isSame(dateRange.dateFrom)
+                                    )) {
                                     return true;
                                 }
                             }
