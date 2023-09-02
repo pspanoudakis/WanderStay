@@ -19,7 +19,7 @@ export function ModalActionResultTemplate({
                 color={success ? 'green' : 'red'}
                 size="4x"
             />
-            <span className="text-2xl font-light">
+            <span className="text-2xl font-light text-center">
                 {success ?
                     (successText ?? 'Η ενέργειά σας ολοκληρώθηκε επιτυχώς.')
                     :

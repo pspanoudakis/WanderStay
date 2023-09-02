@@ -26,6 +26,7 @@ export type FetchDataResponse<T> = {
     content: T,
     ok: boolean,
     jwt?: string,
+    error?: string,
 }
 
 export async function fetchData({
@@ -74,7 +75,9 @@ export async function fetchData({
         }
         else {
             console.error('FETCH ERROR: Server returned error response.');
-            console.error(res);
+            res.json().then(content => {
+                response.error = content.error;
+            }).catch(() => {})
         }
     }).catch(err => {
         console.error('FETCH ERROR: Error while invoking `fetch`.');
