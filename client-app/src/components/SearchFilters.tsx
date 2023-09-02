@@ -1,4 +1,3 @@
-import {} from '@fortawesome/free-solid-svg-icons';
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { CustomSlider } from "./CustomSlider";
 import { PropertySearchFilters } from "../api/entities/searchPropertiesCriteria";
@@ -63,25 +62,6 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
             </div>
             <div className="flex flex-col justify-center w-full px-3 mt-2">
                 <span className='font-semibold pt-1'>Παροχές</span>
-                {/* {
-                    Object.values(PropertyAmenity).map((amenity, i) => 
-                        <CheckboxWithLabel 
-                            key={i}
-                            label={PropertyAmenityLabels[amenity].label}
-                            icon={PropertyAmenityLabels[amenity].icon}
-                            isChecked={filters.amenityFilters[amenity]}
-                            setIsChecked={isChecked => 
-                                setFilters({
-                                    ...filters,
-                                    amenityFilters: {
-                                        ...filters.amenityFilters,
-                                        [amenity]: isChecked
-                                    }
-                                })
-                            }
-                        />
-                    )
-                } */}
                 <PropertyFlagsCheckList
                     fieldFlags={filters.amenityFilters}
                     setFieldFlags={amenities => {
@@ -95,25 +75,6 @@ export function SearchFilters({filters, setFilters, sliderMarks, onSearch}: {
             </div>
             <div className="flex flex-col justify-center w-full px-3 mt-2">
                 <span className='font-semibold pt-1'>Κανόνες Ενοικίασης</span>
-                {/* {
-                    Object.values(PropertyRule).map((rule, i) => 
-                        <CheckboxWithLabel 
-                            key={i}
-                            label={PropertyRuleLabels[rule].label}
-                            icon={PropertyRuleLabels[rule].icon}
-                            isChecked={filters.ruleFilters[rule]}
-                            setIsChecked={isChecked => 
-                                setFilters({
-                                    ...filters,
-                                    ruleFilters: {
-                                        ...filters.ruleFilters,
-                                        [rule]: isChecked
-                                    }
-                                })
-                            }
-                        />
-                    )
-                } */}
                 <PropertyFlagsCheckList
                     fieldFlags={filters.ruleFilters}
                     setFieldFlags={rules => {

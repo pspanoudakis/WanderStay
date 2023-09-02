@@ -1,5 +1,5 @@
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
-import { styled } from '@mui/system';
+
 interface DescriptionProps{
     text?: string,
     editable: boolean,

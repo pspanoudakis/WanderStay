@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket, faBars, faUserPlus, faHouse, faCircleInfo, faRightFromBracket, faAddressCard, faHouseMedical, faGlasses, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faBars, faUserPlus, faHouse, faRightFromBracket, faAddressCard, faHouseMedical, faGlasses, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from "react-router-dom";
 import { APP_PALLETE } from './utils/colorConstants';
 import { AppContext, UserContext, clearUserContext } from '../AppContext';

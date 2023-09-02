@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { useContext, useState } from 'react';
-import Button from '@mui/material/Button';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { LoadingSpinner } from './LoadingSpinner';
 import { PrimaryButton } from './PrimaryButton';

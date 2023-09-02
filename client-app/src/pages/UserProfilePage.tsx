@@ -79,42 +79,41 @@ export function UserProfilePage(){
                 coverParent={true}
                 text="Ενημέρωση των στοιχείων σας"
             />
-            <div className="flex justify-start text-2xl gap-3 items-center">
-                <FontAwesomeIcon icon={faUserCircle} className="text-main-petrol" size="xl"/>
-                <span className="font-bold">{businessContext.userContext?.username}</span> 
+            <div className="flex flex-col items-center text-2xl gap-3">
+                <div className="flex gap-3 font-bold">
+                    <FontAwesomeIcon icon={faUserCircle} className="text-main-petrol" size="xl"/>
+                    {businessContext.userContext?.username}
+                </div> 
                 <span>Προσωπικά Στοιχεία</span>
             </div>
-            <div className="flex flex-col items-start">
-                <div className="flex gap-3 items-center">
-                    <span className="text-xl font-bold">Ρόλος:</span>
-                    <div className="flex flex-row">
-                    {
-                        [RoleType.GUEST, RoleType.HOST].map(targetRole => (
-                            <CheckboxWithLabel
-                                key={targetRole}
-                                label={RoleTypeLabels[targetRole]}
-                                isChecked={userInfo.roles.includes(targetRole)}
-                                setIsChecked={(isChecked) => {
-                                    isEditing &&
-                                    setUserInfo({
-                                        ...userInfo,
-                                        roles: userInfo.roles.reduce(
-                                            (newRoles, currRole) => {
-                                                if (currRole !== targetRole) {
-                                                    newRoles.push(currRole);
-                                                }
-                                                return newRoles
-                                            },
-                                            isChecked ? [targetRole] : []
-                                        )
-                                    })
-                                }}
-                            />
-                        ))
-                    }
-                    </div>
+            <div className="flex gap-3 items-center">
+                <span className="text-xl font-bold">Ρόλος:</span>
+                <div className="flex flex-row">
+                {
+                    [RoleType.GUEST, RoleType.HOST].map(targetRole => (
+                        <CheckboxWithLabel
+                            key={targetRole}
+                            label={RoleTypeLabels[targetRole]}
+                            isChecked={userInfo.roles.includes(targetRole)}
+                            setIsChecked={(isChecked) => {
+                                isEditing &&
+                                setUserInfo({
+                                    ...userInfo,
+                                    roles: userInfo.roles.reduce(
+                                        (newRoles, currRole) => {
+                                            if (currRole !== targetRole) {
+                                                newRoles.push(currRole);
+                                            }
+                                            return newRoles
+                                        },
+                                        isChecked ? [targetRole] : []
+                                    )
+                                })
+                            }}
+                        />
+                    ))
+                }
                 </div>
-                
             </div>
             <EditableTextField
                 text={userInfo.firstName}

@@ -3,7 +3,6 @@ import { PropertyReservationRequest } from "../requests/PropertyReservationReque
 import { PropertyReviewRequest } from "../requests/PropertyReviewRequest";
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { PropertyDetails, PropertyDetailsResponse } from "../responses/PropertyDetailsResponse";
-import { PropertyReviewResponse } from "../responses/PropertyReviewResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 
 export async function fetchPropertyReviews(request: GetPropertyReviewsRequest) {
@@ -26,7 +25,7 @@ export async function submitPropertyReview(request: PropertyReviewRequest){
         method: "POST",
         body: request,
         useJwt: true
-    }) as FetchDataResponse<PropertyReviewResponse>;
+    }) as FetchDataResponse<unknown>;
 }
 
 export async function getPropertyDetails(propertyId: number) {

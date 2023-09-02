@@ -3,7 +3,7 @@ import './App.css';
 import { NavBar } from './components/NavBar';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './components/Footer';
-import { AppContext, appContextInitState, AppContextState, setUserContext } from './AppContext';
+import { AppContext, appContextInitState, AppContextState } from './AppContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { APP_PALLETE } from './components/utils/colorConstants';
 import { Modal } from './components/Modal';
