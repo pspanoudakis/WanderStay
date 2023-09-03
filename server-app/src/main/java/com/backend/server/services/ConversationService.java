@@ -2,6 +2,7 @@ package com.backend.server.services;
 
 import org.springframework.stereotype.Service;
 
+import com.backend.server.controllers.requests.MessageDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.ConversationDto;
 import com.backend.server.entities.messages.Conversation;
@@ -57,7 +58,7 @@ public class ConversationService {
     }
 
     public ApiResponseDto sendMessage(
-        String jwt, Long conversationId, String text
+        String jwt, Long conversationId, MessageDto request
     ) throws BadRequestException {
 
         return new ApiResponseDto(true);
