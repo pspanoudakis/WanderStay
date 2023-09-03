@@ -1,5 +1,6 @@
 package com.backend.server.entities.messages;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.server.entities.properties.Property;
@@ -42,5 +43,6 @@ public class Conversation {
         cascade = {CascadeType.ALL},
         mappedBy = "conversation"
     )
-    private List<Message> messages;
+    @Builder.Default
+    private List<Message> messages = new LinkedList<Message>();
 }

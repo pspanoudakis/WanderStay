@@ -10,7 +10,8 @@ import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
 
-public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom{
+public interface ReviewRepository 
+extends JpaRepository<Review, Long>, ReviewRepositoryCustom{
     Page<Review> findAllByPropertyOrderByCreatedOnDesc(
         Property property, 
         Pageable pageable
