@@ -63,7 +63,7 @@ public class Message {
     private User sentBy;
 
     @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Athens"
+        shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Europe/Athens"
     )
     @Temporal(TemporalType.TIMESTAMP)
     private Date sentOn;

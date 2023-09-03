@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.server.controllers.requests.MessageDto;
@@ -24,13 +25,27 @@ public class ConversationController {
     
     private final ConversationService conversationService;
 
-    @GetMapping("")
+    @GetMapping("/guestSide")
     public ResponseEntity<ApiResponseDto> getGuestSideConversation(
         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable Long propertyId
+        @RequestParam Long propertyId
     ) {
         return ControllerResponseUtils.responseFactory(
             () -> conversationService.getOrCreateGuestSideConversation(jwt, propertyId)
+        );
+    }
+
+    @GetMapping("/hostSearch")
+    public ResponseEntity<?> getAllPropertyConversations(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @RequestParam Long propertyId,
+        @RequestParam Short numPage,
+        @RequestParam Byte pageSize
+    ) {
+        return ControllerResponseUtils.genericResponseFactory(
+            () -> conversationService.getAllPropertyConversations(
+                jwt, propertyId, numPage, pageSize
+            )
         );
     }
     

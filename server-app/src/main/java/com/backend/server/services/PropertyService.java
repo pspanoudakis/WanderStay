@@ -77,7 +77,7 @@ public class PropertyService {
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
 
-    private Property getPropertyFromIdOrElseThrow(Long propertyId) throws BadRequestException{
+    public Property getPropertyFromIdOrElseThrow(Long propertyId) throws BadRequestException{
         return propertyRepository.findById(propertyId).orElseThrow(
             () -> new BadRequestException(
                     "No property found with id '" + propertyId.toString() + "'"
@@ -108,9 +108,9 @@ public class PropertyService {
             .getId();
     }
 
-    private void throwIfNotOwner(Host host, Property property) throws BadRequestException {
-        if (property.getHost().getUser().getUsername() != 
-            host.getUser().getUsername()) {
+    public void throwIfNotOwner(Host host, Property property) throws BadRequestException {
+        if (!property.getHost().getUser().getUsername().equals(
+            host.getUser().getUsername())) {
             throw new BadRequestException(
                 "This Host does not own a property with the given ID."
             );
