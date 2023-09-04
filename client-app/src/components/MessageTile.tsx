@@ -6,16 +6,16 @@ import {
   Paper,
 } from "@mui/material";
 import { AppContext } from "../AppContext";
+import { Message } from "../api/entities/Message";
 
-interface MessagesProps{
-    sender: string,
-    text: string
+interface MessageTileProps{
+    msg: Message
 }
 
-export function Messages(props:MessagesProps){
-    const ctx = React.useContext(AppContext)
-    const isNotUser = ctx.state.businessContext.userContext?.username != props.sender
-    return(
+export function MessageTile(props:MessageTileProps){
+    const username = React.useContext(AppContext).state.businessContext.userContext?.username;
+    const isNotUser = username != props.msg.sentBy;
+    return (
         <Box
             sx={{
                 display: "flex",
@@ -31,7 +31,7 @@ export function Messages(props:MessagesProps){
                 }}
             >
                 <Avatar sx={{ bgcolor: isNotUser ? "primary.main" : "secondary.main" }}>
-                {props.sender.toUpperCase().charAt(0)}
+                {props.msg.sentBy.toUpperCase().charAt(0)}
                 </Avatar>
                 <Paper
                 variant="outlined"
@@ -43,7 +43,7 @@ export function Messages(props:MessagesProps){
                     borderRadius: isNotUser ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
                 }}
                 >
-                <Typography variant="body1">{props.text}</Typography>
+                <Typography variant="body1">{props.msg.text}</Typography>
                 </Paper>
             </Box>
             </Box>

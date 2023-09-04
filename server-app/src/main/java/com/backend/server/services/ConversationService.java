@@ -52,6 +52,19 @@ class ConversationResponseDto extends ApiResponseDto {
     
 }
 
+@Getter
+@Setter
+class MessageResponseDto extends ApiResponseDto {
+
+    private Message message;
+
+    public MessageResponseDto(Message m) {
+        super(true);
+        message = m;
+    }
+    
+}
+
 @Service
 @RequiredArgsConstructor
 public class ConversationService {
@@ -140,7 +153,7 @@ public class ConversationService {
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
         ensureRelatedOrElseThrow(user, conversation);
 
-        conversation.getMessages().add(
+        Message message = (
             Message.builder()
                 .conversation(conversation)
                 .sentBy(user)
@@ -148,9 +161,10 @@ public class ConversationService {
                 .text(request.getText())
             .build()
         );
+        conversation.getMessages().add(message);
         conversationRepository.save(conversation);
 
-        return new ApiResponseDto(true);
+        return new MessageResponseDto(message);
     }
 
     @Transactional

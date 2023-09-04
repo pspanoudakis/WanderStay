@@ -11,7 +11,7 @@ import { TestPage } from './pages/Test';
 import { ORDERED_BASE_ROLE_PATHS } from './pages/pathConstants';
 import { PropertyGuestViewPage } from './pages/PropertyGuestViewPage';
 import { PropertyHostViewPage } from './pages/PropertyHostViewPage';
-import { ChatContainer } from './components/ChatContainer';
+import { PropertyGuestSideChatPage } from './pages/PropertyGuestSideChatPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -20,10 +20,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				<Route path="/" element={<App />}>
 					<Route path='signIn' element={<SignInForm />} />
 					<Route path='signUp' element={<SignUpForm />} />
-					<Route path='messages' element={<ChatContainer/>} />
 					<Route path='searchProperties' element={<SearchPropertiesPage/>} />
 					<Route path='property'>
-						<Route path=':propertyId' element={<PropertyGuestViewPage/>} />
+						<Route path=':propertyId'>
+							<Route index element={<PropertyGuestViewPage/>}/>
+							<Route path='chat' element={<PropertyGuestSideChatPage/>}/>
+						</Route>
 					</Route>
 					<Route path='test' element={<TestPage/>}/>
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
