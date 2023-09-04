@@ -1,94 +1,43 @@
 import { useParams } from "react-router-dom";
 import { ChatContainer } from "../components/ChatContainer";
 import { Conversation } from "../api/entities/Conversation";
-import { useContext, useEffect, useState } from "react";
-import { wait } from "../api/fetchRoutines/fetchAPI";
-import { AppContext } from "../AppContext";
+import { useEffect, useState } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import { Message } from "../api/entities/Message";
+import { getGuestSideConversation, sendMessageToConversation } from "../api/fetchRoutines/conversationAPI";
 
 export function PropertyGuestSideChatPage() {
-    const username = useContext(AppContext).state.businessContext.userContext?.username;
     const {propertyId} = useParams();
 
     const [loading, setLoading] = useState(true);
     const [conversation, setConversation] = useState<Conversation>();
 
     function sendMessage(text: string){
-
         if (conversation) {
             setLoading(true);
-    
-            const msg: Message = {
-                sentBy: username ?? '',
-                sentOn: '',
-                text
-            };        
-    
-            wait(1000).then(() => {
-                setConversation({
-                    ...conversation,
-                    messages: [
-                        ...conversation.messages,
-                        msg
-                    ]
-                })
-                setLoading(false)
+
+            sendMessageToConversation(conversation.id, text)
+            .then(response => {
+                if (response.ok) {
+                    setConversation({
+                        ...conversation,
+                        messages: [
+                            ...conversation.messages,
+                            response.content.message
+                        ]
+                    })
+                }
+                setLoading(false);
             });
         }
-
     };
 
     useEffect(() => {
-        wait(1000).then(() => {
-            setConversation({
-                id: 1,
-                guestUsername: 'guest',
-                hostUsername: 'host',
-                propertyName: 'property',
-                messages: [
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:23",
-                        "text": "back"
-                    },
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:23",
-                        "text": "back2"
-                    },
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:23",
-                        "text": "back3"
-                    },
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:23",
-                        "text": "back4"
-                    },
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:23",
-                        "text": "back5"
-                    },
-                    {
-                        "sentBy": "guest",
-                        "sentOn": "2023-09-03 22:18",
-                        "text": "!hello again!"
-                    },
-                    {
-                        "sentBy": username ?? 'admin',
-                        "sentOn": "2023-09-03 22:08",
-                        "text": "hello!"
-                    },
-                    {
-                        "sentBy": "guest",
-                        "sentOn": "2023-09-03 21:45",
-                        "text": "hello world!"
-                    }
-                ]
-            });
+        setLoading(true);
+        getGuestSideConversation(Number(propertyId))
+        .then(response => {
+            if (response.ok) {
+                setConversation(response.content.conversation)
+            }
             setLoading(false);
         });
     }, [propertyId]);

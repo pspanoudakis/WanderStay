@@ -47,6 +47,6 @@ public class Conversation {
         fetch = FetchType.LAZY
     )
     @Builder.Default
-    @OrderBy("sentOn DESC")
+    @OrderBy("sentOn ASC")
     private List<Message> messages = new LinkedList<Message>();
 }

@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 interface ContactHostProps{
     hostUsername: string,
@@ -14,9 +15,15 @@ export function ContactHostSection(props:ContactHostProps){
                 {props.hostUsername.charAt(0).toUpperCase()}</div>
             <div className='flex gap-2 font-bold text-lg flex-col items-start'>
                 <span>Οικοδεσπότης: {props.hostUsername}</span>
-                <Button className="flex max-w-fit rounded-full" variant="outlined">
-                    Επικοινωνήστε με τον οικοδεσπότη {props.hostUsername}
-                </Button>
+                <Link
+                    to={`/property/${props.propertyId}/chat`}
+                >
+                    <Button
+                        className="flex max-w-fit rounded-full" variant="outlined"
+                    >
+                        Επικοινωνήστε με τον οικοδεσπότη {props.hostUsername}
+                    </Button>                
+                </Link>
             </div>
             
         </div>
