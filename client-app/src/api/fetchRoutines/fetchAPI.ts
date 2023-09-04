@@ -11,9 +11,11 @@ export function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export type FetchDataHttpMethod = 'GET' | 'POST';
+
 export interface FetchDataArgs {
     endpoint: string,
-    method: 'GET' | 'POST',
+    method: FetchDataHttpMethod,
     body?: any,
     useJwt?: boolean,
     extractJwt?: boolean,
@@ -22,7 +24,6 @@ export interface FetchDataArgs {
 }
 
 export type FetchDataResponse<T> = {
-    //content?: T,
     content: T,
     ok: boolean,
     jwt?: string,
@@ -76,6 +77,7 @@ export async function fetchData({
         else {
             console.error('FETCH ERROR: Server returned error response.');
             res.json().then(content => {
+                console.error(`HTTP ${res.status}: ${content.error}`)
                 response.error = content.error;
             }).catch(() => {})
         }

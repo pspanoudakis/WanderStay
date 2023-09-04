@@ -38,7 +38,8 @@ FetchDataResponse<PaginatedResponse<T>> {
             :
             {
                 content: getEmptyPaginatedResponse<T>(),
-                ok: false
+                ok: false,
+                error: response.error
             }
     );
 }
