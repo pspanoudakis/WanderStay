@@ -22,7 +22,7 @@ export function MessagesContainer(props:MessagesContainerProps){
         >
             <div 
                 ref={domContainer}
-                className="overflow-y-scroll h-full w-full justify-end bg-slate-200 p-2"
+                className="overflow-y-scroll h-full w-full justify-end bg-slate-100 p-2"
             >
                 {
                     props.messages.map(

@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { AppContext } from "../AppContext";
 import { Message } from "../api/entities/Message";
+import { APP_PALLETE } from "./utils/colorConstants";
 
 interface MessageTileProps{
     msg: Message
@@ -27,23 +28,32 @@ export function MessageTile(props:MessageTileProps){
                 sx={{
                 display: "flex",
                 flexDirection: isNotUser ? "row" : "row-reverse",
-                alignItems: "center",
+                alignItems: "start",
                 }}
             >
-                <Avatar sx={{ bgcolor: isNotUser ? "primary.main" : "secondary.main" }}>
-                {props.msg.sentBy.toUpperCase().charAt(0)}
+                <Avatar 
+                    className="border-2 border-main-petrol"
+                    sx={{
+                        color: isNotUser ? APP_PALLETE["dark-petrol"] : 'white',
+                        bgcolor: isNotUser ? "primary.light" : "primary.main" ,
+                        mt: 0.2
+                    }}
+                >
+                    {props.msg.sentBy.toUpperCase().charAt(0)}
                 </Avatar>
                 <Paper
-                variant="outlined"
-                sx={{
-                    p: 2,
-                    ml: isNotUser ? 1 : 0,
-                    mr: isNotUser ? 0 : 1,
-                    backgroundColor: isNotUser ? "primary.light" : "secondary.light",
-                    borderRadius: isNotUser ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
-                }}
+                    className="max-w-xl text-start"
+                    variant="outlined"
+                    sx={{
+                        py: 1,
+                        px: 1.5,
+                        mx: 1,
+                        color: isNotUser ? "black" : "white",
+                        backgroundColor: isNotUser ? "primary.light" : "primary.main",
+                        borderRadius: isNotUser ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
+                    }}
                 >
-                <Typography variant="body1">{props.msg.text}</Typography>
+                    <Typography variant="body1">{props.msg.text}</Typography>
                 </Paper>
             </Box>
             </Box>
