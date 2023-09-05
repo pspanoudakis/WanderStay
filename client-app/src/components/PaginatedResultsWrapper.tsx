@@ -67,7 +67,9 @@ export function PaginatedResultsWrapper<T>({
             <div className="flex flex-row w-full justify-between">
                 {
                     loading && !results.length ? 
-                        loadingTitle 
+                        <span className="font-bold text-lg">
+                            {loadingTitle }
+                        </span>
                         :
                         <>
                             <span className="font-bold text-lg">
