@@ -194,14 +194,15 @@ public class ConversationService {
         Property property = propertyService.getPropertyFromIdOrElseThrow(propertyId);
         propertyService.throwIfNotOwner(host, property);
 
-        return conversationRepository.findAll(
-            conversationSpecification.findAllPropertyConversationsSpecification(propertyId),
-            PageableRetriever.getPageable(numPage, pageSize)
-        ).map(c -> (
+        return conversationRepository.getPropertyConversations(
+            propertyId, PageableRetriever.getPageable(numPage, pageSize)
+        )
+        .map(c -> (
                 ConversationPreviewDto.builder()
                     .guestUsername(c.getGuestUser().getUser().getUsername())
                     .lastMessage(
-                        c.getMessages().size() > 0 ? c.getMessages().get(0) : null
+                        c.getMessages().size() > 0 ? 
+                        c.getMessages().get(c.getMessages().size() - 1) : null
                     )
                     .id(c.getId())
                 .build()

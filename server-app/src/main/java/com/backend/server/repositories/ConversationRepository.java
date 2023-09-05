@@ -6,4 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.backend.server.entities.messages.Conversation;
 
 public interface ConversationRepository 
-extends JpaRepository<Conversation, Long>, JpaSpecificationExecutor<Conversation> {}
+extends 
+    JpaRepository<Conversation, Long>, 
+    JpaSpecificationExecutor<Conversation>, 
+    ConversationRepositoryCustom 
+{}
