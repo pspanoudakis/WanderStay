@@ -22,13 +22,15 @@ export function MessagesContainer(props:MessagesContainerProps){
         >
             <div 
                 ref={domContainer}
-                className="overflow-y-scroll h-full w-full justify-end bg-slate-100 p-2"
+                className="overflow-y-scroll h-full w-full bg-slate-100 px-2 pt-2"
             >
+                <div className="flex flex-col justify-end w-full min-h-full h-max">
                 {
                     props.messages.map(
                         (msg, i) => msg.text != "" && <MessageTile key={i} msg={msg}/>
                     )
                 }
+                </div>
             </div>
         </div>
     )
