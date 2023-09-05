@@ -41,20 +41,30 @@ export function MessageTile(props:MessageTileProps){
                 >
                     {props.msg.sentBy.toUpperCase().charAt(0)}
                 </Avatar>
-                <Paper
-                    className="max-w-xl text-start"
-                    variant="outlined"
-                    sx={{
-                        py: 1,
-                        px: 1.5,
-                        mx: 1,
-                        color: isNotUser ? "black" : "white",
-                        backgroundColor: isNotUser ? "primary.light" : "primary.main",
-                        borderRadius: isNotUser ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
+                <div 
+                    className={`flex flex-col ${isNotUser ? 'items-start' : 'items-end'}`}
+                    style={{
+                        marginLeft: '0.5rem',
+                        marginRight: '0.5rem',
                     }}
                 >
-                    <Typography variant="body1">{props.msg.text}</Typography>
-                </Paper>
+                    <Paper
+                        className="w-max max-w-xl text-start"
+                        variant="outlined"
+                        sx={{
+                            py: 1,
+                            px: 1.5,
+                            color: isNotUser ? "black" : "white",
+                            backgroundColor: isNotUser ? "primary.light" : "primary.main",
+                            borderRadius: isNotUser ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
+                        }}
+                    >
+                        <Typography variant="body1">{props.msg.text}</Typography>
+                    </Paper>
+                    <span className={`text-xs ${isNotUser ? 'text-start' : 'text-end'} mx-1`}>
+                        {props.msg.sentOn}
+                    </span>
+                </div>
             </Box>
             </Box>
     )
