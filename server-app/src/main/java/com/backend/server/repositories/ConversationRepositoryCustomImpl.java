@@ -52,7 +52,10 @@ public class ConversationRepositoryCustomImpl implements ConversationRepositoryC
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         var criteriaQuery = builder.createQuery(Long.class);
         var conversationRoot = criteriaQuery.from(Conversation.class);
+
+        // This join excludes conversations without messages!
         conversationRoot.join(Conversation_.messages);
+
         prepareConversationCriteriaQuery(
             propertyId, 
             criteriaQuery, 
@@ -70,7 +73,6 @@ public class ConversationRepositoryCustomImpl implements ConversationRepositoryC
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         var criteriaQuery = builder.createQuery(Conversation.class);
         var conversationRoot = criteriaQuery.from(Conversation.class);
-        var messagesJoin = conversationRoot.join(Conversation_.messages);
         prepareConversationCriteriaQuery(
             propertyId, 
             criteriaQuery, 
@@ -82,7 +84,8 @@ public class ConversationRepositoryCustomImpl implements ConversationRepositoryC
             .orderBy(
                 builder.desc(
                     builder.greatest(
-                        messagesJoin.get(Message_.sentOn)
+                        // This join excludes conversations without messages!
+                        conversationRoot.join(Conversation_.messages).get(Message_.sentOn)
                     )
                 )
             );

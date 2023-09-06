@@ -21,7 +21,7 @@ export function PropertyConversationsPage() {
     return (
         <div className="w-2/3">
             <PaginatedResultsWrapper
-                pageSize={2}
+                pageSize={5}
                 resultFetcher={fetchConversationResults}
                 idleTitleBuilder={n => `Βρέθηκαν ${n} Συζητήσεις`}
                 loadingTitle="Ανάκτηση Συζητήσεων..."
