@@ -34,9 +34,9 @@ public class AuthService {
     private final HostRepository hostRepository;
     // private final AdminRepository adminRepository;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
+    private final PasswordEncoder passwordEncoder;
 
     private AuthResponseDto buildAuthResponse(User user, String jwt) {
         return AuthResponseDto.builder()
@@ -55,13 +55,21 @@ public class AuthService {
     }
 
     public User getUserFromTokenOrElseThrow(String token) throws BadRequestException{
-        return userRepository.findByUsername(
-            jwtService.findUsername(token)
-        ).orElseThrow(
-            () -> new BadRequestException(
-                    "The provided JWT is not associated with a User, is Invalid or has Expired."
-                )
+        User user = (
+            userRepository.findByUsername(
+                jwtService.findUsername(token)
+            ).orElseThrow(
+                () -> new BadRequestException(
+                        "The provided JWT is not associated with a User, is Invalid or has Expired."
+                    )
+            )
         );
+        if (!user.isActive()) {
+            throw new BadRequestException(
+                "The user associated with the specified JWT is disabled."
+            );
+        }
+        return user;
     }
     
     public AuthResponseDto register(RegisterRequestDto request) throws BadRequestException {
