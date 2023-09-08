@@ -3,6 +3,11 @@ import { getJwt } from "../jwt/jwt";
 const FETCH_DELAY_MS = 650
 const SERVER_DOMAIN_URL = "https://localhost:8080"
 
+export enum SupportedAcceptType {
+    APPLICATION_JSON = 'application/json',
+    APPLICATION_XML = 'application/xml'
+}
+
 export function createEndPointUrl(postfix: string){
     return SERVER_DOMAIN_URL + postfix;
 }
@@ -13,15 +18,20 @@ export function wait(ms: number) {
 
 export type FetchDataHttpMethod = 'GET' | 'POST';
 
-export interface FetchDataArgs {
+export type FetchWrapperArgs = {
     endpoint: string,
     method: FetchDataHttpMethod,
     body?: any,
     useJwt?: boolean,
-    extractJwt?: boolean,
     useRawBody?: boolean,
-    omitContentType?: boolean
+    omitContentType?: boolean,
+    acceptType?: SupportedAcceptType
 }
+
+export type FetchDataArgs = {
+    extractJwt?: boolean,
+    returnAsText?: boolean,
+} & FetchWrapperArgs
 
 export type FetchDataResponse<T> = {
     content: T,
@@ -30,26 +40,21 @@ export type FetchDataResponse<T> = {
     error?: string,
 }
 
-export async function fetchData({
+function fetchWrapper({
     endpoint,
     method,
     body,
     useJwt,
-    extractJwt,
     useRawBody,
-    omitContentType
-}: FetchDataArgs): Promise<FetchDataResponse<unknown>> {
-
-    let response: FetchDataResponse<unknown> = {
-        content: {},
-        ok: false,
-    }
-    await fetch(
+    omitContentType,
+    acceptType,
+}: FetchWrapperArgs): Promise<Response> {
+    return fetch(
         endpoint,
         {
             method,
             headers: {
-                'Accept': 'application/json',
+                'Accept': acceptType ?? SupportedAcceptType.APPLICATION_JSON,
                 'Authorization': useJwt ? `Bearer ${getJwt()}` : '',
                 ...(!omitContentType && {'Content-Type': 'application/json'}),
             },
@@ -60,19 +65,52 @@ export async function fetchData({
                     undefined
             )
         }
-        ).then(res => {
+    );
+}
+
+function extractFetchDataResponseJwt(res: Response, shouldExtract?: boolean) {
+    return (
+        (shouldExtract && res.headers.get('Authorization')) || undefined
+    );
+}
+
+export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<unknown>> {
+
+    let response: FetchDataResponse<unknown> = {
+        content: {},
+        ok: false,
+    }
+    const {extractJwt, returnAsText, ...fetchWrapperArgs} = args;
+    await fetchWrapper(
+        fetchWrapperArgs
+    )
+    .then(res => {
         if (res.ok) {
-            res.json().then( content => {
-                console.log(content);
-                response = {
-                    content,
-                    ok: true,
-                    jwt: (extractJwt && res.headers.get('Authorization')) || undefined
-                };
-            }).catch(err => {
-                console.error('FETCH ERROR: Cannot parse response as JSON.');
-                console.error(err);
-            })
+            if (returnAsText) {
+                res.text().then(content => {
+                    response = {
+                        content,
+                        ok: true,
+                        jwt: extractFetchDataResponseJwt(res, extractJwt)
+                    };
+                    console.log(response.content);
+                }).catch(err => {
+                    console.error('FETCH ERROR: Cannot parse response as TEXT.');
+                    console.error(err);
+                });
+            } else {
+                res.json().then(content => {
+                    response = {
+                        content,
+                        ok: true,
+                        jwt: (extractJwt && res.headers.get('Authorization')) || undefined
+                    };
+                    console.log(response.content);
+                }).catch(err => {
+                    console.error('FETCH ERROR: Cannot parse response as JSON.');
+                    console.error(err);
+                });
+            }
         }
         else {
             console.error('FETCH ERROR: Server returned error response.');
