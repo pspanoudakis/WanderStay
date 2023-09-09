@@ -1,14 +1,11 @@
 package com.backend.server.entities.messages;
 
-import java.io.IOException;
 import java.util.Date;
 import com.backend.server.entities.users.User;
+import com.backend.server.serializers.UserFieldSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -24,23 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-class MessageSenderSerializer extends StdSerializer<User> {
-    public MessageSenderSerializer() {
-        this(null);
-    }
-
-    public MessageSenderSerializer(Class<User> u) {
-        super(u);
-    }
-
-    @Override
-    public void serialize(
-        User user, JsonGenerator jgen, SerializerProvider provider
-    ) throws IOException {
-        jgen.writeString(user.getUsername());
-    }
-}
 
 @Data
 @NoArgsConstructor
@@ -58,7 +38,7 @@ public class Message {
     @ManyToOne(optional = false)
     private Conversation conversation;
 
-    @JsonSerialize(using = MessageSenderSerializer.class)
+    @JsonSerialize(using = UserFieldSerializer.class)
     @ManyToOne(optional = false)
     private User sentBy;
 

@@ -24,7 +24,7 @@ public class UserService {
     private final UserSpecification userSpecification;
     private final UserRepository userRepository;
 
-    private User getUserByUsernameOrElseThrow(String username) throws BadRequestException {
+    public User getUserByUsernameOrElseThrow(String username) throws BadRequestException {
         return userRepository.findByUsername(username).orElseThrow(
             () -> new BadRequestException("User '" + username + "' does not exist.")
         );

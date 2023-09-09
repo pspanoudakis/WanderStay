@@ -10,4 +10,5 @@ import com.backend.server.entities.users.Guest;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long>{
     List<Reservation> findOneByPropertyAndGuest(Property property, Guest guest);
+    List<Reservation> findAllByGuest(Guest guest);
 }

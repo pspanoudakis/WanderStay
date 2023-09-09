@@ -3,6 +3,8 @@ package com.backend.server.entities.properties;
 import java.util.Date;
 
 import com.backend.server.entities.users.Guest;
+import com.backend.server.serializers.PropertyFieldSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class Reservation {
     @ManyToOne(optional = false)
     private Guest guest;
 
+    @JsonSerialize(using = PropertyFieldSerializer.class)
     @ManyToOne(optional = false)
     private Property property;
 

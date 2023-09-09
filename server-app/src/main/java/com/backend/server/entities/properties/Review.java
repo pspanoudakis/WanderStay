@@ -3,7 +3,8 @@ package com.backend.server.entities.properties;
 import java.util.Date;
 
 import com.backend.server.entities.users.Guest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.backend.server.serializers.PropertyFieldSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +31,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "_review")
 public class Review {
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +38,7 @@ public class Review {
     @ManyToOne(optional = false)
     private Guest guest;
 
-    @JsonIgnore
+    @JsonSerialize(using = PropertyFieldSerializer.class)
     @ManyToOne(
         optional = false, 
         fetch = FetchType.LAZY

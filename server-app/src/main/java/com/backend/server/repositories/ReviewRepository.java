@@ -1,5 +1,6 @@
 package com.backend.server.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -18,4 +19,6 @@ extends JpaRepository<Review, Long>, ReviewRepositoryCustom{
     );
 
     Optional<Review> findOneByPropertyAndGuest(Property property, Guest guest);
+
+    List<Review> findAllByGuest(Guest guest);
 }
