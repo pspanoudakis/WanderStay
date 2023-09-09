@@ -1,28 +1,37 @@
-import { useState } from "react";
-import { ImageEntity } from "../api/entities/ImageEntity";
-import { PropertyImageSelectorSection } from "../components/PropertyImageSelectorSection";
-import { PropertyAvailableSlotsSelectorSection } from "../components/PropertyAvailableSlotsSelectorSection";
-import { AvailableTimeSlot } from "../api/entities/AvailableTimeSlot";
-import { ImagesCarousel } from "../components/ImagesCarousel";
+import { getUserProfile, getUserProfileXML } from "../api/fetchRoutines/adminAPI";
+import { PrimaryButton } from "../components/PrimaryButton";
+import { exportObjAsJSON, exportTextAsXML } from "../utils/exportUtils";
 
 export function TestPage() {
-    const [images, setImages] = useState<ImageEntity[]>([]);
-    const [slots, setSlots] = useState<AvailableTimeSlot[]>([]);
+
+    const exportJSON = () => {
+        getUserProfile('admin')
+        .then(response => exportObjAsJSON({
+            obj: response.content,
+            filenameNoExt: 'admin_profile',
+        }));
+    }
+
+    const exportXML = () => {
+        getUserProfileXML('admin')
+        .then(response => exportTextAsXML({
+            text: response.content,
+            filenameNoExt: 'admin_profile',
+        }));
+    }
+
     return (
         <div className="w-full flex flex-col items-center gap-8">
-            <div className="flex flex-row w-full justify-between">
-                <ImagesCarousel
-                    images={images}
-                />
-                <PropertyImageSelectorSection
-                    images={images}
-                    setImages={setImages}
-                />
-            </div>
-            <PropertyAvailableSlotsSelectorSection
-                selectedSlots={slots}
-                setSelectedSlots={setSlots}
-            />
+            <PrimaryButton
+                onClick={exportXML}
+            >
+                Export XML
+            </PrimaryButton>
+            <PrimaryButton
+                onClick={exportJSON}
+            >
+                Export JSON
+            </PrimaryButton>
         </div>
     );
 }

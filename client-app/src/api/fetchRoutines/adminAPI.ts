@@ -26,6 +26,14 @@ export async function getUserProfile(username: String) {
     });
 }
 
+export async function getUserProfileXML(username: String) {
+    return await sendAdminAPIRequest<string>({
+        controllerRelativeEndpoint: `user/${username}`,
+        method: 'GET',
+        acceptType: SupportedAcceptType.APPLICATION_XML
+    });
+}
+
 export async function setUserIsActive(username: string, isActive: boolean) {
     return await sendAdminAPIRequest<UserResponse>({
         controllerRelativeEndpoint: `user/${username}/setActive?isActive=${isActive}`,
