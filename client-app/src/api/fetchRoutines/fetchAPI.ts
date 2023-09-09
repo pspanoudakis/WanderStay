@@ -30,7 +30,6 @@ export type FetchWrapperArgs = {
 
 export type FetchDataArgs = {
     extractJwt?: boolean,
-    returnAsText?: boolean,
 } & FetchWrapperArgs
 
 export type FetchDataResponse<T> = {
@@ -68,49 +67,39 @@ function fetchWrapper({
     );
 }
 
-function extractFetchDataResponseJwt(res: Response, shouldExtract?: boolean) {
-    return (
-        (shouldExtract && res.headers.get('Authorization')) || undefined
-    );
-}
-
 export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<unknown>> {
 
     let response: FetchDataResponse<unknown> = {
         content: {},
         ok: false,
     }
-    const {extractJwt, returnAsText, ...fetchWrapperArgs} = args;
+    const {extractJwt, ...fetchWrapperArgs} = args;
+    const returnAsText = (
+        fetchWrapperArgs.acceptType &&
+        fetchWrapperArgs.acceptType !== SupportedAcceptType.APPLICATION_JSON
+    );
+
     await fetchWrapper(
         fetchWrapperArgs
     )
     .then(res => {
         if (res.ok) {
-            if (returnAsText) {
-                res.text().then(content => {
-                    response = {
-                        content,
-                        ok: true,
-                        jwt: extractFetchDataResponseJwt(res, extractJwt)
-                    };
-                    console.log(response.content);
-                }).catch(err => {
-                    console.error('FETCH ERROR: Cannot parse response as TEXT.');
-                    console.error(err);
-                });
-            } else {
-                res.json().then(content => {
-                    response = {
-                        content,
-                        ok: true,
-                        jwt: (extractJwt && res.headers.get('Authorization')) || undefined
-                    };
-                    console.log(response.content);
-                }).catch(err => {
-                    console.error('FETCH ERROR: Cannot parse response as JSON.');
-                    console.error(err);
-                });
+            const responseParser = () => {
+                return (
+                    returnAsText ? res.text() : res.json()
+                );
             }
+            responseParser().then(content => {
+                response = {
+                    content,
+                    ok: true,
+                    jwt: (extractJwt && res.headers.get('Authorization')) || undefined
+                }
+                console.log(response.content);
+            }).catch(err => {
+                console.error(`FETCH ERROR: Cannot parse response as ${returnAsText ? 'TEXT' : 'JSON'}.`);
+                console.error(err);
+            })
         }
         else {
             console.error('FETCH ERROR: Server returned error response.');

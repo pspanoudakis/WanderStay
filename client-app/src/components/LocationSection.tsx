@@ -28,22 +28,25 @@ export function LocationSection({
     const [loadingLocations, setLoadingLocations] = useState(false);
 
     useEffect(() => {
-        setLoadingLocations(true);
-        fetchCountries()
-            .then(response => setCountryList(response.content.locations))
-            .finally(() => setLoadingLocations(false));
+        if (editable) {
+            setLoadingLocations(true);
+            fetchCountries()
+                .then(response => setCountryList(response.content.locations))
+                .finally(() => setLoadingLocations(false));
+        }
     }, []);
 
     useEffect(() => {
-        setCityList([]);
-        if (country?.id) {
-            setLoadingLocations(true);
-    
-            fetchCities(country.id)
-                .then(response => setCityList(response.content.locations))
-                .finally(() => setLoadingLocations(false));
+        if (editable) {
+            setCityList([]);
+            if (country?.id) {
+                setLoadingLocations(true);
+        
+                fetchCities(country.id)
+                    .then(response => setCityList(response.content.locations))
+                    .finally(() => setLoadingLocations(false));
+            }
         }
-
     }, [country?.id]);
 
     const getLocationLabel = (location: LocationEntity) => location.name;
@@ -109,7 +112,13 @@ export function LocationSection({
                     :
                     <div className='flex items-start gap-2'>
                         <FontAwesomeIcon icon={faLocationDot} size='xl' />
-                        <span>{[address, city?.name, country?.name].join(", ")}</span>
+                        <span>
+                        {[
+                            address || 'Άγνωστη Διεύθυνση', 
+                            city?.name || 'Άγνωστη Πόλη', 
+                            country?.name || 'Άγνωστη Χώρα',
+                        ].join(", ")}
+                        </span>
                     </div>                    
                 }
             </div>

@@ -176,6 +176,7 @@ public class PropertyService {
         while (slotsIterator.hasNext()) {
             AvailableTimeSlot slot = slotsIterator.next();
             if (
+                request.getDateFrom() != null & request.getDateTo() != null &&
                 slot.getStartDate().compareTo(request.getDateFrom()) <= 0 &&
                 request.getDateTo().compareTo(slot.getEndDate()) <= 0
             ) {
