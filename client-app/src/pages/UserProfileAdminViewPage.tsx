@@ -5,13 +5,41 @@ import { UserDetails } from "../components/UserDetails";
 import { DataExportTypeLabels } from "../components/utils/dataExportTypeLabels";
 import { UserResponse } from "../api/responses/UserResponse";
 import { FetchDataResponse, SupportedAcceptType } from "../api/fetchRoutines/fetchAPI";
-import { exportAllGuestReservations, exportAllGuestReviews, exportAllHostProperties, exportAllHostReviews, getUserProfile } from "../api/fetchRoutines/adminAPI";
+import { 
+    exportAllGuestReservations, 
+    exportAllGuestReviews, 
+    exportAllHostProperties, 
+    exportAllHostReviews, 
+    getUserProfile, 
+    setUserIsActive
+} from "../api/fetchRoutines/adminAPI";
 import { useContext, useEffect, useState } from "react";
 import { AppContext, openModal } from "../AppContext";
 import { exportObjAsJSON, exportTextAsXML } from "../utils/exportUtils";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { useParams } from "react-router-dom";
+
+function AccountStatusSection(props: {
+    isActive: boolean,
+    toggleIsActive: () => void
+}) {
+    return (
+        <>
+        <div className="flex gap-2 justify-start items-center w-full">
+            <span className="font-bold text-xl">Κατάσταση:</span>
+            <span 
+                className={`${props.isActive ? 'text-green-700' : 'text-red-600'} font-bold text-lg`}
+            >
+            {props.isActive ? 'ΕΝΕΡΓΟΣ' : 'ΑΝΕΝΕΡΓΟΣ'}
+            </span>
+        </div>
+        <PrimaryButton onClick={props.toggleIsActive}>
+        {props.isActive ? 'Απενεργοποίηση Λογαριασμού' : 'Ενεργοποίηση Λογαριασμού'}
+        </PrimaryButton>
+        </>
+    )
+}
 
 export function UserProfileAdminViewPage(){
 
@@ -66,10 +94,34 @@ export function UserProfileAdminViewPage(){
                                 errorText="Σφάλμα Εξαγωγής Δεδομένων"
                             />
                         )
-                    })
+                    });
                 }
                 setLoading(false);
             })
+        }
+    }
+
+    const toggleUserIsActive = () => {
+        if (userInfo) {
+            const username = userInfo.user.username;
+            setLoading(true)
+            setUserIsActive(username, !userInfo?.user.active)
+            .then(response => {
+                if (response.ok) {
+                    setUserInfo(response.content);
+                }
+                else {
+                    openModal(ctx, {
+                        content: () => (
+                            <ModalActionResultTemplate
+                                success={false}
+                                errorText="Σφάλμα Επεξεργασίας Λογαριασμού"
+                            />
+                        )
+                    });
+                }
+                setLoading(false);
+            });            
         }
     }
     
@@ -79,15 +131,20 @@ export function UserProfileAdminViewPage(){
                 <LoadingSpinner
                     coverParent
                     visible={loading}
-                    text={`Εξαγωγή Δεδομένων ${DataExportTypeLabels[exportType]}`}
+                    // text={`Εξαγωγή Δεδομένων ${DataExportTypeLabels[exportType]}`}
+                    text={`Φόρτωση`}
                 />
-                <div className="flex flex-col gap-9 items-center w-full">
+                <div className="flex flex-col gap-10 items-center w-full">
                     <UserDetails
                         userInfo={{
                             ...userInfo.user
                         }}
                         editable={false}
                         visibleRoles={[RoleType.GUEST, RoleType.HOST]}
+                    />
+                    <AccountStatusSection 
+                        isActive={userInfo.user.active}
+                        toggleIsActive={toggleUserIsActive}
                     />
                 </div>
                 <div className="w-80 flex flex-col items-center gap-8">
