@@ -14,6 +14,7 @@ import { PropertyHostViewPage } from './pages/PropertyHostViewPage';
 import { PropertyGuestSideChatPage } from './pages/PropertyGuestSideChatPage';
 import { PropertyConversationsPage } from './pages/PropertyConversationsPage';
 import { PropertyHostSideChatPage } from './pages/PropertyHostSideChatPage';
+import { GuestReservationsPage } from './pages/GuestReservationsPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 							<Route path='chat' element={<PropertyGuestSideChatPage/>}/>
 						</Route>
 					</Route>
+					<Route path='myReservations' element={<GuestReservationsPage/>}/>
 					<Route path='test' element={<TestPage/>}/>
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
 						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
