@@ -44,7 +44,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 								<Route path='allChat' element={<PropertyConversationsPage/>}/>
 								<Route path='chat/:conversationId' element={<PropertyHostSideChatPage/>}/>
 							</Route>
-							<Route path='new' element={<PropertyGuestSideChatPage/>} />
+							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>
 					</Route>
 				</Route>

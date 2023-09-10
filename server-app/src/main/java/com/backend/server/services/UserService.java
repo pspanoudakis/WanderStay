@@ -41,7 +41,7 @@ public class UserService {
         user.setMobileNumber(request.getMobileNumber());
 
         user.getRoles().clear();
-        user.setRoles(roleService.getRequiredRoles(request.getRoles()));
+        user.setRoles(roleService.getRequestedRoles(request.getRoles()));
 
         return new UserResponseDto(userRepository.save(user));
     }    
