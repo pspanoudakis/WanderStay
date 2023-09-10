@@ -20,7 +20,7 @@ export function PrimaryButton({
                 bg-main-petrol duration-300 enabled:hover:bg-dark-petrol
                 disabled:bg-light-petrol
                 text-white font-semibold
-                ${classExtras ?? 'rounded-xl px-4 py-0.5'}
+                ${classExtras ?? 'w-max rounded-xl px-4 py-0.5'}
             `}
             onClick={onClick}
             disabled={disabled}

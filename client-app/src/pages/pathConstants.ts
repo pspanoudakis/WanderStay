@@ -5,5 +5,5 @@ export const ORDERED_BASE_ROLE_PATHS:
     // Order is important!
     [RoleType.ADMIN]: '/admin',
     [RoleType.HOST]: '/host',
-    [RoleType.GUEST]: '/',
+    [RoleType.GUEST]: '',
 } as const;
