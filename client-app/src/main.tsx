@@ -15,6 +15,7 @@ import { PropertyGuestSideChatPage } from './pages/PropertyGuestSideChatPage';
 import { PropertyConversationsPage } from './pages/PropertyConversationsPage';
 import { PropertyHostSideChatPage } from './pages/PropertyHostSideChatPage';
 import { GuestReservationsPage } from './pages/GuestReservationsPage';
+import { UserProfileAdminViewPage } from './pages/UserProfileAdminViewPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					)}
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<span>Admin Home</span>}/>
+						<Route path='users/:username' element={<UserProfileAdminViewPage/>}/>
 					</Route>
 					<Route path={ORDERED_BASE_ROLE_PATHS.HOST}>
 						<Route index element={<span>Host Home</span>}/>
@@ -46,7 +48,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 								<Route path='allChat' element={<PropertyConversationsPage/>}/>
 								<Route path='chat/:conversationId' element={<PropertyHostSideChatPage/>}/>
 							</Route>
-							<Route path='new' element={<PropertyGuestSideChatPage/>} />
+							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>
 					</Route>
 				</Route>

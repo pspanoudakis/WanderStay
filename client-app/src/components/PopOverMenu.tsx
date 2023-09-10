@@ -56,7 +56,7 @@ function getMenuItems(userCtx: UserContext | undefined) {
             {
                 textChoice: "Καταχώρηση νέου Καταλύματος",
                 icon: <FontAwesomeIcon icon={faHouseMedical} style={{ color }}/>,
-                url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+                url: `${ORDERED_BASE_ROLE_PATHS.HOST}/property/new`
             },
             
         );
@@ -72,29 +72,6 @@ function getMenuItems(userCtx: UserContext | undefined) {
     }
     return items;
 }
-
-// const subMenuItems = [
-//     {
-//         textChoice: "Σύνδεση",
-//         icon: <FontAwesomeIcon icon={faRightToBracket} style={{ color: APP_PALLETE['main-petrol'], }} />,
-//         url: "/signIn"
-//     },
-//     {
-//         textChoice: "Εγγραφή",
-//         icon: <FontAwesomeIcon icon={faUserPlus} style={{color: APP_PALLETE['main-petrol']}}/>,
-//         url: "/signUp"
-//     },
-//     {
-//         textChoice: "Προσθέστε το κατάλυμά σας",
-//         icon: <FontAwesomeIcon icon={faHouse} style={{color: APP_PALLETE['main-petrol']}}/>,
-//         url: "/"
-//     },
-//     {
-//         textChoice: "Βοήθεια",
-//         icon: <FontAwesomeIcon icon={faCircleInfo} style={{color: APP_PALLETE['main-petrol']}}/>,
-//         url: "/"
-//     }
-// ]
 
 export function PopOverMenu() {
 

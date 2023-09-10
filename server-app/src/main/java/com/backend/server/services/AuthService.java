@@ -91,7 +91,7 @@ public class AuthService {
             .email(request.getEmail())
             .mobileNumber(request.getMobileNumber())
             .password(passwordEncoder.encode(request.getPassword()))
-            .roles(roleService.getRequiredRoles(request.getRoles()))
+            .roles(roleService.getRequestedRoles(request.getRoles()))
             .isActive(true)
             //.isActive(!isHost)
             .build();

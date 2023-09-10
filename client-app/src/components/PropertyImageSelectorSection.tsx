@@ -29,7 +29,7 @@ function ImgListItem(props: ImgListItemProps) {
                     borderWidth: '3px',
                 } : {}
             }
-            onClick={() => {debugger; props.onClick(props.img)}}
+            onClick={() => {props.onClick(props.img)}}
         >
             Εικόνα {props.img.imgId}
             <CheckboxWithLabel

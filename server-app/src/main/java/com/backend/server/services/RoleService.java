@@ -19,10 +19,10 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     private Role getRequiredRole(RoleType roleName) {
-        return this.getRequiredRoles(List.of(roleName.toString())).get(0);
+        return this.getRequestedRoles(List.of(roleName.toString())).get(0);
     }
 
-    public List<Role> getRequiredRoles(List<String> roleNames) {
+    public List<Role> getRequestedRoles(List<String> roleNames) {
         try {
             List<Role> roles = roleRepository.findAllById(roleNames);
             if (roles.size() != roleNames.size()) {

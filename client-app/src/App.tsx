@@ -33,12 +33,9 @@ export function App() {
 
 	const [pendingLogin, setPendingLogin] = useState(true);
 	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState);
-    // console.log(`Context:`);
-    // console.log(appContext);
 
 	useEffect(() => {
 		setPendingLogin(true);
-		// debugger;
 		if (!appContext.businessContext.userContext && getJwt()) {
 
 			loginWithJwt()

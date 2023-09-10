@@ -11,23 +11,21 @@ interface UserProfileProps{
 export function EditableTextField(props: UserProfileProps){
     
     return(
-        <div className="flex items-start">
+        <div className="flex items-start w-full">
         {
             props.edit?
                 <Box
-                component="form"
-                sx={{
-                '& > :not(style)': { m: 1, fontSize: '18', fontWeight: 'bold'},
-                }}
-                noValidate
-                autoComplete="off"
+                    width='100%'
+                    component="form"
+                    noValidate
+                    autoComplete="off"
                 >
                     <TextField 
                         fullWidth
                         id="standard-basic" 
                         label={props.boxType}
                         variant="standard" 
-                        inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
+                        inputProps={{ style: {fontWeight: 'bold', fontSize: '1.125em'} }}
                         value={props.text}
                         onChange={(e) => props.setText?.(e.target.value)}
                     />
@@ -36,11 +34,11 @@ export function EditableTextField(props: UserProfileProps){
             <Box
                 component="form"
                 sx={{
-                '& > :not(style)': { m: 1, fontSize: '18'},
+                '& > :not(style)': {mr: 1, fontSize: '18'},
                 }}
                 noValidate
                 autoComplete="off"
-                >
+            >
                 <span className='text-xl font-bold'>{`${props.boxType + ":"}`}</span>
                 {
                     props.text ?

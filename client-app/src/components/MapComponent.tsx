@@ -53,10 +53,6 @@ export function MapComponent(props: MapProps){
       setDraggable((d) => !d)
     }, [])
 
-    // useEffect(() => {
-    //     console.log("Position:", position);
-    //   }, [position]);
-
     return (
       <Marker
         draggable={draggable}
