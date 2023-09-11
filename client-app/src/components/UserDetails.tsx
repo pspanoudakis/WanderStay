@@ -5,6 +5,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons"
 import { CheckboxWithLabel } from "./CheckboxWithLabel"
 import { RoleTypeLabels } from "./utils/userRoleLabels"
 import { EditableTextField } from "./EditableTextField"
+import { PageTitleSpan } from "./PageTitleSpan"
 
 type UserDetailsProps = {
     userInfo: UserDetailsRequest & {username: string},
@@ -26,9 +27,9 @@ export function UserDetails({
                     <FontAwesomeIcon icon={faUserCircle} className="text-main-petrol" size="xl"/>
                     {userInfo.username}
                 </div> 
-                <span>Προσωπικά Στοιχεία</span>
+                <PageTitleSpan>Προσωπικά Στοιχεία</PageTitleSpan>
             </div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center flex-wrap">
                 <span className="text-xl font-bold">Ρόλος:</span>
                 <div className="flex flex-row">
                 {

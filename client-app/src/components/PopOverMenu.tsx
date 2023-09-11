@@ -42,7 +42,7 @@ function getMenuItems(userCtx: UserContext | undefined) {
             {
                 textChoice: "Διαχείριση Χρηστών",
                 icon: <FontAwesomeIcon icon={faUsers} style={{ color }}/>,
-                url: `${ORDERED_BASE_ROLE_PATHS.ADMIN}`
+                url: `${ORDERED_BASE_ROLE_PATHS.ADMIN}/searchUsers`
             },
         );
     }

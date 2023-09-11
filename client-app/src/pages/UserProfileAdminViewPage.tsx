@@ -19,6 +19,7 @@ import { exportObjAsJSON, exportTextAsXML } from "../utils/exportUtils";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { useParams } from "react-router-dom";
+import { UserAccountStatusIndicator } from "../components/UserAccountStatusIndicator";
 
 function AccountStatusSection(props: {
     isActive: boolean,
@@ -28,11 +29,7 @@ function AccountStatusSection(props: {
         <>
         <div className="flex gap-2 justify-start items-center w-full">
             <span className="font-bold text-xl">Κατάσταση:</span>
-            <span 
-                className={`${props.isActive ? 'text-green-700' : 'text-red-600'} font-bold text-lg`}
-            >
-            {props.isActive ? 'ΕΝΕΡΓΟΣ' : 'ΑΝΕΝΕΡΓΟΣ'}
-            </span>
+            <UserAccountStatusIndicator isActive={props.isActive}/>
         </div>
         <PrimaryButton onClick={props.toggleIsActive}>
         {props.isActive ? 'Απενεργοποίηση Λογαριασμού' : 'Ενεργοποίηση Λογαριασμού'}
@@ -127,7 +124,12 @@ export function UserProfileAdminViewPage(){
     
     return(
         userInfo ?
-            <div className="flex flex-col items-center w-1.3 h-2/3 gap-8 relative">
+            <div 
+                className="flex flex-col items-center h-2/5 gap-8 relative"
+                style={{
+                    width: '35%'
+                }}
+            >
                 <LoadingSpinner
                     coverParent
                     visible={loading}
@@ -140,7 +142,7 @@ export function UserProfileAdminViewPage(){
                             ...userInfo.user
                         }}
                         editable={false}
-                        visibleRoles={[RoleType.GUEST, RoleType.HOST]}
+                        visibleRoles={Object.values(RoleType)}
                     />
                     <AccountStatusSection 
                         isActive={userInfo.user.active}
