@@ -16,6 +16,7 @@ import { PropertyConversationsPage } from './pages/PropertyConversationsPage';
 import { PropertyHostSideChatPage } from './pages/PropertyHostSideChatPage';
 import { GuestReservationsPage } from './pages/GuestReservationsPage';
 import { UserProfileAdminViewPage } from './pages/UserProfileAdminViewPage';
+import { SearchUsersPage } from './pages/SearchUsersPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -27,26 +28,27 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					<Route path='searchProperties' element={<SearchPropertiesPage/>} />
 					<Route path='property'>
 						<Route path=':propertyId'>
-							<Route index element={<PropertyGuestViewPage/>}/>
-							<Route path='chat' element={<PropertyGuestSideChatPage/>}/>
+							<Route index element={<PropertyGuestViewPage/>} />
+							<Route path='chat' element={<PropertyGuestSideChatPage/>} />
 						</Route>
 					</Route>
-					<Route path='myReservations' element={<GuestReservationsPage/>}/>
-					<Route path='test' element={<TestPage/>}/>
+					<Route path='myReservations' element={<GuestReservationsPage/>} />
+					<Route path='test' element={<TestPage/>} />
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
 						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
 					)}
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
-						<Route index element={<span>Admin Home</span>}/>
-						<Route path='users/:username' element={<UserProfileAdminViewPage/>}/>
+						<Route index element={<span>Admin Home</span>} />
+						<Route path='searchUsers' element={<SearchUsersPage/>} />
+						<Route path='users/:username' element={<UserProfileAdminViewPage/>} />
 					</Route>
 					<Route path={ORDERED_BASE_ROLE_PATHS.HOST}>
-						<Route index element={<span>Host Home</span>}/>
+						<Route index element={<span>Host Home</span>} />
 						<Route path='property'>
 							<Route path=':propertyId'>
-								<Route index element={<PropertyHostViewPage/>}/>
-								<Route path='allChat' element={<PropertyConversationsPage/>}/>
-								<Route path='chat/:conversationId' element={<PropertyHostSideChatPage/>}/>
+								<Route index element={<PropertyHostViewPage/>} />
+								<Route path='allChat' element={<PropertyConversationsPage/>} />
+								<Route path='chat/:conversationId' element={<PropertyHostSideChatPage/>} />
 							</Route>
 							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>

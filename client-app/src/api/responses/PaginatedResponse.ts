@@ -30,8 +30,9 @@ function getEmptyPaginatedResponse<T>(): PaginatedResponse<T> {
     }
 };
 
-export function convertToPaginatedResponse<T>(response: FetchDataResponse<unknown>):
-FetchDataResponse<PaginatedResponse<T>> {
+export function convertToPaginatedResponse<T>(
+    response: FetchDataResponse<unknown>
+): FetchDataResponse<PaginatedResponse<T>> {
     return (
         response.ok?
             response as FetchDataResponse<PaginatedResponse<T>>

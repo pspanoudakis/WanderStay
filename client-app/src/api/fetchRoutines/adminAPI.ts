@@ -76,12 +76,17 @@ export async function exportAllHostReviews(username: string, acceptType: Support
 export async function searchUsers(request: UserSearchRequest) {
     const response = await sendAdminAPIRequest<unknown>({
         controllerRelativeEndpoint: (
-            'searchUsers?' +
-            Object.entries(request.searchCriteria).map(
-                ([k, v]) => `${k}=${v ?? 'null'}`
-            ).join('&') +
-            `numPage=${request.paginationInfo.pageNum}&` +
-            `pageSize=${request.paginationInfo.pageSize}`
+            'searchUsers?' + [
+                ...Object.entries(request.searchCriteria).reduce(
+                    (acc, [k, v]) => {
+                        if (v !== null) acc.push(`${k}=${v}`);
+                        return acc;
+                    },
+                    [] as string[]
+                ),
+                `numPage=${request.paginationInfo.pageNum}`,
+                `pageSize=${request.paginationInfo.pageSize}`
+            ].join('&')
         ),
         method: 'GET'
     });
