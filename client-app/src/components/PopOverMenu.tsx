@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket, faBars, faUserPlus, faHouse, faRightFromBracket, faAddressCard, faHouseMedical, faGlasses, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faBars, faUserPlus, faHouse, faRightFromBracket, faAddressCard, faHouseMedical, faGlasses, faUsers, faBellConcierge } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from "react-router-dom";
 import { APP_PALLETE } from './utils/colorConstants';
 import { AppContext, UserContext, clearUserContext } from '../AppContext';
@@ -49,9 +49,14 @@ function getMenuItems(userCtx: UserContext | undefined) {
     if (userCtx?.roles.includes(RoleType.HOST)) {
         items.push(
             {
-                textChoice: "Διαχείριση Καταλύματος",
+                textChoice: "Κρατήσεις Καταλυμάτων",
+                icon: <FontAwesomeIcon icon={faBellConcierge} style={{ color }}/>,
+                url: `${ORDERED_BASE_ROLE_PATHS.HOST}/reservations`
+            },
+            {
+                textChoice: "Διαχείριση Καταλυμάτων",
                 icon: <FontAwesomeIcon icon={faHouse} style={{ color }}/>,
-                url: `${ORDERED_BASE_ROLE_PATHS.HOST}`
+                url: `${ORDERED_BASE_ROLE_PATHS.HOST}/properties`
             },
             {
                 textChoice: "Καταχώρηση νέου Καταλύματος",

@@ -16,7 +16,7 @@ export function Img(props: ImgProps) {
     const imgSrc = useMemo(() => {
         if (!imgId) {
             return (
-                props.src ?? "./src/assets/placeholder.png"
+                props.src ?? "/src/assets/placeholder.png"
             );
         }
         return createEndPointUrl(`/images/${imgId}`);

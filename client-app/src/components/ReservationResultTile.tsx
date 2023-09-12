@@ -3,21 +3,17 @@ import { PropertyReservationResult } from "../api/responses/PropertyReservationR
 import { Card, CardActionArea } from "@mui/material";
 import { Img } from "./Img";
 import { PropertyTypeLabels } from "./utils/propertyFieldLabels";
-import { getBaseNavigationPath } from "./utils/getBaseNavigationPath";
-import { useContext } from "react";
-import { AppContext } from "../AppContext";
 
 interface ReservationResultTile{
     reservationPreview: PropertyReservationResult
+    baseNavPath?: string
 }
 
 export function ReservationResultTile(props: ReservationResultTile){
 
     const reservationPreview = props.reservationPreview;
-    const userContext = useContext(AppContext).state.businessContext.userContext;
-
     return (
-        <Link to={`${getBaseNavigationPath(userContext?.roles)}/property/${reservationPreview.propertyId}`}>
+        <Link to={`${props.baseNavPath ?? ''}/property/${reservationPreview.propertyId}`}>
             <div className="border-2 border-main-petrol rounded-lg">
                 <Card 
                     sx={{ 

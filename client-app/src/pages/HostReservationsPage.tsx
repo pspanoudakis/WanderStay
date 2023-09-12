@@ -1,24 +1,25 @@
 import { ReservationResultTile } from "../components/ReservationResultTile";
 import { useCallback } from "react";
-import { fetchGuestReservations, fetchUpcomingGuestReservations } from "../api/fetchRoutines/guestAPI";
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
+import { fetchHostReservations, fetchUpcomingHostReservations } from "../api/fetchRoutines/hostAPI";
 import { ORDERED_BASE_ROLE_PATHS } from "./pathConstants";
 import { PageTitledSection } from "../components/PageTitledSection";
 
 const PAGE_SIZE = 4;
-export function GuestReservationsPage(){
 
-    const fetchReservationHistory = useCallback(
+export function HostReservationsPage(){
+
+    const fetchUpcomingReservations = useCallback(
         async (pageNum: number, pageSize: number) => {
-            return fetchGuestReservations(pageNum, pageSize)
+            return fetchUpcomingHostReservations(pageNum, pageSize)
             .then(res => {
                 return res.content;
             });
         },[]
     );
-    const fetchUpcomingReservations = useCallback(
+    const fetchReservationHistory = useCallback(
         async (pageNum: number, pageSize: number) => {
-            return fetchUpcomingGuestReservations(pageNum, pageSize)
+            return fetchHostReservations(pageNum, pageSize)
             .then(res => {
                 return res.content;
             });
@@ -26,8 +27,8 @@ export function GuestReservationsPage(){
     );
 
     return (
-        <div className="flex flex-col w-2/3 gap-8">
-            <PageTitledSection title="Επερχόμενες Κρατήσεις">
+        <div className="flex flex-col w-2/3">
+            <PageTitledSection title="Επερχόμενες Κρατήσεις σε Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
                     idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
@@ -37,13 +38,13 @@ export function GuestReservationsPage(){
                             <ReservationResultTile
                                 key={i}
                                 reservationPreview={p}
-                                baseNavPath={ORDERED_BASE_ROLE_PATHS.GUEST}
+                                baseNavPath={ORDERED_BASE_ROLE_PATHS.HOST}
                             />
                         )
                     }}
                 />
             </PageTitledSection>
-            <PageTitledSection title="Ιστορικό Κρατήσεων">
+            <PageTitledSection title="Ιστορικό Κρατήσεων σε Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
                     idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
@@ -53,7 +54,7 @@ export function GuestReservationsPage(){
                             <ReservationResultTile
                                 key={i}
                                 reservationPreview={p}
-                                baseNavPath={ORDERED_BASE_ROLE_PATHS.GUEST}
+                                baseNavPath={ORDERED_BASE_ROLE_PATHS.HOST}
                             />
                         )
                     }}
