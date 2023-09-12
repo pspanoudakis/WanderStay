@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.backend.server.entities.properties.PropertyType;
+import com.backend.server.utils.DateUtils.JsonFormatLocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
@@ -22,13 +23,9 @@ public class PropertyFiltersCriteriaDto {
     )
     private PropertyType type;
 
-    @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd"
-    )
+    @JsonFormatLocalDate
     private Date dateFrom;
-    @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd"
-    )
+    @JsonFormatLocalDate
     private Date dateTo;
 
     private Byte numPersons;

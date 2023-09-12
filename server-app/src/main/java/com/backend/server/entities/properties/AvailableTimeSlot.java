@@ -2,8 +2,7 @@ package com.backend.server.entities.properties;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.backend.server.utils.DateUtils.JsonFormatLocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -34,16 +33,12 @@ public class AvailableTimeSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Athens"
-    )
+    @JsonFormatLocalDate
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date startDate;
 
-    @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Athens"
-    )
+    @JsonFormatLocalDate
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date endDate;

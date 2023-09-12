@@ -3,8 +3,7 @@ package com.backend.server.entities.messages;
 import java.util.Date;
 import com.backend.server.entities.users.User;
 import com.backend.server.serializers.UserFieldSerializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.backend.server.utils.DateUtils.JsonFormatLocalDateTime;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,9 +41,7 @@ public class Message {
     @ManyToOne(optional = false)
     private User sentBy;
 
-    @JsonFormat(
-        shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Europe/Athens"
-    )
+    @JsonFormatLocalDateTime
     @Temporal(TemporalType.TIMESTAMP)
     private Date sentOn;
 
