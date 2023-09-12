@@ -2,8 +2,10 @@ package com.backend.server.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.backend.server.controllers.responses.PropertyReservationDto;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Host;
@@ -11,7 +13,10 @@ import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.PropertyRepository;
+import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
+import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.specifications.ReservationSpecification;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,8 @@ public class HostService {
     private final HostRepository hostRepository;
     private final PropertyRepository propertyRepository;
     private final ReviewRepository reviewRepository;
+    private final ReservationSpecification reservationSpecification;
+    private final ReservationRepository reservationRepository;
 
     public Host getHostFromTokenOrElseThrow(String token) throws BadRequestException {
 
@@ -43,6 +50,30 @@ public class HostService {
         ).orElseThrow(
             () -> new BadRequestException("No Host found with username '" + username + "'")
         );
+    }
+
+    @Transactional
+    public Page<PropertyReservationDto> getHostReservations(
+        String jwt, Short numPage, Byte pageSize
+    ) throws BadRequestException {
+        return reservationRepository.findAll(
+            reservationSpecification.getHostReservations(
+                getHostFromTokenOrElseThrow(jwt)
+            ),
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(r -> PropertyReservationDto.fromReservation(r));
+    }
+    
+    @Transactional
+    public Page<PropertyReservationDto> getUpcomingHostReservations(
+        String jwt, Short numPage, Byte pageSize
+    ) throws BadRequestException {
+        return reservationRepository.findAll(
+            reservationSpecification.getUpcomingHostReservations(
+                getHostFromTokenOrElseThrow(jwt)
+            ),
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(r -> PropertyReservationDto.fromReservation(r));
     }
 
     @Transactional

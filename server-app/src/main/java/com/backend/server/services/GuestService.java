@@ -15,6 +15,7 @@ import com.backend.server.repositories.GuestRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
 import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.specifications.ReservationSpecification;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,10 @@ public class GuestService {
     private final AdminService adminService;
     private final UserService userService;
     private final AuthService authService;
-    private final GuestRepository guestRepository;
+    private final ReservationSpecification reservationSpecification;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
+    private final GuestRepository guestRepository;
 
     private Guest findGuestByUsernameOrElseThrow(String username) throws BadRequestException {
         return guestRepository.findByUser(
@@ -51,9 +53,20 @@ public class GuestService {
     public Page<PropertyReservationDto> getGuestReservations(
         String jwt, Short numPage, Byte pageSize
     ) throws BadRequestException {
-        Guest guest = getGuestFromTokenOrElseThrow(jwt);
         return reservationRepository.findAllByGuestOrderByStartDateDesc(
-            guest,
+            getGuestFromTokenOrElseThrow(jwt),
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(r -> PropertyReservationDto.fromReservation(r));
+    }
+
+    @Transactional
+    public Page<PropertyReservationDto> getUpcomingGuestReservations(
+        String jwt, Short numPage, Byte pageSize
+    ) throws BadRequestException {
+        return reservationRepository.findAll(
+            reservationSpecification.getUpcomingGuestReservations(
+                getGuestFromTokenOrElseThrow(jwt)
+            ),
             PageableRetriever.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }

@@ -85,6 +85,7 @@ public class PropertyService {
         );
     }
 
+    @Transactional
     private <B extends PropertyBasicInfoDtoBuilder<? extends PropertyBasicInfoDto, B>> 
     B initBasicPropertyDtoBuilder(Property p, PropertyBasicInfoDtoBuilder<?, B> builder) {
         return (
@@ -388,6 +389,17 @@ public class PropertyService {
 
         return mapPropertyToDetailsDto(
             propertyRepository.save(property)
+        );
+    }
+
+    public Page<PropertyBasicInfoDto> getHostProperties(
+        String jwt, Short numPage, Byte pageSize
+    ) throws BadRequestException {
+        return propertyRepository.findByHost(
+            hostService.getHostFromTokenOrElseThrow(jwt), 
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(p -> initBasicPropertyDtoBuilder(
+            p, PropertyBasicInfoDto.builder()).build()
         );
     }
 

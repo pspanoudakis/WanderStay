@@ -32,4 +32,14 @@ public class GuestController {
         );
     }
 
+    @GetMapping("/upcomingReservations")
+    public ResponseEntity<?> getUpcomingGuestReservations(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @RequestParam Short numPage, @RequestParam Byte pageSize
+    ) {
+        return ControllerResponseUtils.genericResponseFactory(
+            () -> guestService.getUpcomingGuestReservations(jwt, numPage, pageSize)
+        );
+    }
+
 }

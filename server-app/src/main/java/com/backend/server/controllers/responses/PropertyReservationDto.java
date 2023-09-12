@@ -37,6 +37,7 @@ public class PropertyReservationDto {
                 .propertyType(p.getType())
                 .title(p.getName())
                 .imgId(p.getMainImageId())
+                .guestUsername(r.getGuest().getUser().getUsername())
                 .dateFrom(r.getStartDate())
                 .dateTo(r.getEndDate())
                 .numPersons(r.getNumPersons())

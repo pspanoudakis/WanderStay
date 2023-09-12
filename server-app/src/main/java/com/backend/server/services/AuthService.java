@@ -18,7 +18,6 @@ import com.backend.server.entities.users.RoleEntityId;
 import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
-// import com.backend.server.repositories.AdminRepository;
 import com.backend.server.repositories.GuestRepository;
 import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.UserRepository;
@@ -32,7 +31,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final GuestRepository guestRepository;
     private final HostRepository hostRepository;
-    // private final AdminRepository adminRepository;
     private final RoleService roleService;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
@@ -92,8 +90,7 @@ public class AuthService {
             .mobileNumber(request.getMobileNumber())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(roleService.getRequestedRoles(request.getRoles()))
-            .isActive(true)
-            //.isActive(!isHost)
+            .isActive(!isHost)
             .build();
         userRepository.save(user);
 
