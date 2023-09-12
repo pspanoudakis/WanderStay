@@ -2,8 +2,10 @@ package com.backend.server.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.backend.server.controllers.responses.PropertyReservationDto;
 import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
@@ -12,6 +14,7 @@ import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.GuestRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
+import com.backend.server.services.utils.PageableRetriever;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class GuestService {
-
+    
     private final AdminService adminService;
     private final UserService userService;
     private final AuthService authService;
@@ -45,11 +48,22 @@ public class GuestService {
     }
 
     @Transactional
+    public Page<PropertyReservationDto> getGuestReservations(
+        String jwt, Short numPage, Byte pageSize
+    ) throws BadRequestException {
+        Guest guest = getGuestFromTokenOrElseThrow(jwt);
+        return reservationRepository.findAllByGuestOrderByStartDateDesc(
+            guest,
+            PageableRetriever.getPageable(numPage, pageSize)
+        ).map(r -> PropertyReservationDto.fromReservation(r));
+    }
+
+    @Transactional
     public List<Reservation> getAllGuestReservations(
         String jwt, String username
     ) throws BadRequestException {
         adminService.getAdminFromTokenOrElseThrow(jwt);
-        return reservationRepository.findAllByGuest(
+        return reservationRepository.findAllByGuestOrderByStartDateDesc(
             findGuestByUsernameOrElseThrow(username)
         );
     }

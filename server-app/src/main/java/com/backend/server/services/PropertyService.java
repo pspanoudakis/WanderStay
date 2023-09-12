@@ -97,17 +97,6 @@ public class PropertyService {
         );
     }
 
-    private Long getPropertyMainImageId(Property p) {
-        List<Image> images = p.getImages();
-        if (p.getImages().size() == 0) {
-            return null;
-        }
-        return images.stream()
-            .filter(i -> i.isMain())
-            .findFirst().orElseGet(() -> images.get(0))
-            .getId();
-    }
-
     public void throwIfNotOwner(Host host, Property property) throws BadRequestException {
         if (!property.getHost().getUser().getUsername().equals(
             host.getUser().getUsername())) {
@@ -135,7 +124,7 @@ public class PropertyService {
                 );
                 return (
                     initBasicPropertyDtoBuilder(p, PropertySearchResultDto.builder())
-                        .imgId(getPropertyMainImageId(p))
+                        .imgId(p.getMainImageId())
                         .numBeds(p.getAmenities().getNumBeds())
                         .pricePerNight(pricePerNight)
                         .totalPrice(

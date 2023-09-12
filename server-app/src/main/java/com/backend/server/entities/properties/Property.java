@@ -7,6 +7,7 @@ import java.util.List;
 import com.backend.server.entities.images.Image;
 import com.backend.server.entities.locations.City;
 import com.backend.server.entities.users.Host;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -99,4 +100,16 @@ public class Property {
     @Min(1)
     @Max(30_000)
     private short spaceArea;
+
+    @JsonIgnore
+    public Long getMainImageId() {
+        List<Image> images = this.getImages();
+        if (images.size() == 0) {
+            return null;
+        }
+        return images.stream()
+            .filter(i -> i.isMain())
+            .findFirst().orElseGet(() -> images.get(0))
+            .getId();
+    }
 }
