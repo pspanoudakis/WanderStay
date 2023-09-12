@@ -1,9 +1,7 @@
 import { createContext } from 'react'
-import { RoleType } from './api/entities/RoleType'
 import { dateToStr } from './api/entities/dates'
 import { UserResponse } from './api/responses/UserResponse'
 
-// TODO: fix me (maybe?)
 export type UserContext = UserResponse['user'];
 
 export type SearchContext = {
@@ -45,12 +43,10 @@ export type AppContextState = {
 //                 mobileNumber: string
 //             },
 //             searchContext: {
-//                 location?: {
-//                     id: number,
-//                     name: string
-//                 },
-//                 dayFrom?: Date,
-//                 dayTo?: Date,
+//                 countryId: number | null,
+//                 cityId: number | null,
+//                 dateFrom: string | null,
+//                 dateTo: string | null,
 //                 numPersons: number
 //             }
 //         },

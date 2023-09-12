@@ -66,7 +66,7 @@ function getMenuItems(userCtx: UserContext | undefined) {
             {
                 textChoice: "Οι Κρατήσεις μου",
                 icon: <FontAwesomeIcon icon={faGlasses} style={{color: APP_PALLETE['main-petrol']}}/>,
-                url: `${ORDERED_BASE_ROLE_PATHS.GUEST}/myReservations`
+                url: `${ORDERED_BASE_ROLE_PATHS.GUEST}/reservations`
             },
         );
     }

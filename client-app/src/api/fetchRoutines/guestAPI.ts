@@ -1,12 +1,19 @@
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
-import { createEndPointUrl, fetchData } from "./fetchAPI";
+import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 import { PropertyReservationResult } from "../responses/PropertyReservationResults";
 
-export async function fetchReservationResults(pageNum: number, pageSize: number) {
-    const response = await fetchData({
-        endpoint: createEndPointUrl(""),
+async function sendGuestAPIRequest<T>(controllerRelativeEndpoint: string) {
+    return await fetchData({
+        endpoint: createEndPointUrl(`/guest/${controllerRelativeEndpoint}`),
         method: "GET",
         useJwt: true
-    });
-    return convertToPaginatedResponse<PropertyReservationResult>(response);
+    }) as FetchDataResponse<T>;
+}
+
+export async function fetchGuestReservations(pageNum: number, pageSize: number) {
+    return convertToPaginatedResponse<PropertyReservationResult>(
+        await sendGuestAPIRequest(
+            `reservations?numPage=${pageNum}&pageSize=${pageSize}`
+        )
+    );
 }

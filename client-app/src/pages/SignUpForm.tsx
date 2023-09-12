@@ -58,7 +58,7 @@ export function SignUpForm() {
                     }
                 })
                 if (response.ok) {
-                    navigate(getBaseNavigationPath(response.content.user.roles));
+                    navigate(`${getBaseNavigationPath(response.content.user.roles)}/`);
                 }
                 setLoading(false);                
             });

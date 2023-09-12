@@ -51,7 +51,7 @@ export function SignInForm() {
                 }
             })
             if (response.ok) {
-                navigate(getBaseNavigationPath(response.content.user.roles));
+                navigate(`${getBaseNavigationPath(response.content.user.roles)}/`);
             }
         });
     }

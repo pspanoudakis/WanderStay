@@ -1,6 +1,6 @@
 import { ReservationResultTile } from "../components/ReservationResultTile";
 import { useCallback } from "react";
-import { fetchReservationResults } from "../api/fetchRoutines/guestAPI";
+import { fetchGuestReservations } from "../api/fetchRoutines/guestAPI";
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 
 const PAGE_SIZE = 4;
@@ -9,25 +9,24 @@ export function GuestReservationsPage(){
 
     const fetchReservations = useCallback(
         async (pageNum: number, pageSize: number) => {
-            return fetchReservationResults(pageNum,pageSize)
+            return fetchGuestReservations(pageNum, pageSize)
             .then(res => {
                 return res.content;
             });
-
         },
         []
     );
 
     return (
-        <div className="flex w-full justify-start gap-10 h-full">
+        <div className="flex flex-col w-2/3">
             <PaginatedResultsWrapper
                 pageSize={PAGE_SIZE}
                 idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchReservations}
-                resultRenderer={(p) => {
+                resultRenderer={(p, i) => {
                     return (
                         <ReservationResultTile
-                            key={p.propertyId}
+                            key={i}
                             reservationPreview={p}
                         />
                     )

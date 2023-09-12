@@ -25,18 +25,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				<Route path="/" element={<App />}>
 					<Route path='signIn' element={<SignInForm />} />
 					<Route path='signUp' element={<SignUpForm />} />
-					<Route path='searchProperties' element={<SearchPropertiesPage/>} />
-					<Route path='property'>
-						<Route path=':propertyId'>
-							<Route index element={<PropertyGuestViewPage/>} />
-							<Route path='chat' element={<PropertyGuestSideChatPage/>} />
+					<Route path={ORDERED_BASE_ROLE_PATHS.GUEST}>
+						<Route path='searchProperties' element={<SearchPropertiesPage/>} />
+						<Route path='property'>
+							<Route path=':propertyId'>
+								<Route index element={<PropertyGuestViewPage/>} />
+								<Route path='chat' element={<PropertyGuestSideChatPage/>} />
+							</Route>
 						</Route>
-					</Route>
-					<Route path='myReservations' element={<GuestReservationsPage/>} />
-					<Route path='test' element={<TestPage/>} />
-					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
-						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
-					)}
+						<Route path='reservations' element={<GuestReservationsPage/>} />
+						<Route path='test' element={<TestPage/>} />
+					</Route>					
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<span>Admin Home</span>} />
 						<Route path='searchUsers' element={<SearchUsersPage/>} />
@@ -53,6 +52,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>
 					</Route>
+					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
+						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
+					)}
 				</Route>
 			</Routes>
 		</BrowserRouter>

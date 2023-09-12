@@ -5,8 +5,10 @@ export type PropertyReservationResult = {
     propertyType: PropertyType,
     title: string,
     imgId: number | null,
+
+    guestUsername: string,
     dateFrom: string,
     dateTo: string,
-    nofPeople: number,
-    location: string
+    numPersons: number,
+    totalPrice: number
 };
