@@ -1,6 +1,7 @@
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 import { PropertyReservationResult } from "../responses/PropertyReservationResults";
+import { PropertyHostSidePreview } from "../responses/PropertyHostSidePreview";
 
 async function sendHostAPIRequest<T>(controllerRelativeEndpoint: string) {
     return await fetchData({
@@ -8,6 +9,14 @@ async function sendHostAPIRequest<T>(controllerRelativeEndpoint: string) {
         method: "GET",
         useJwt: true
     }) as FetchDataResponse<T>;
+}
+
+export async function fetchHostProperties(pageNum: number, pageSize: number) {
+    return convertToPaginatedResponse<PropertyHostSidePreview>(
+        await sendHostAPIRequest(
+            `properties?numPage=${pageNum}&pageSize=${pageSize}`
+        )
+    )
 }
 
 export async function fetchHostReservations(pageNum: number, pageSize: number) {

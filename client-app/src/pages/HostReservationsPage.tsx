@@ -27,7 +27,7 @@ export function HostReservationsPage(){
     );
 
     return (
-        <div className="flex flex-col w-2/3">
+        <div className="flex flex-col w-2/3 gap-8">
             <PageTitledSection title="Επερχόμενες Κρατήσεις σε Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}

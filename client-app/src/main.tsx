@@ -18,6 +18,7 @@ import { GuestReservationsPage } from './pages/GuestReservationsPage';
 import { UserProfileAdminViewPage } from './pages/UserProfileAdminViewPage';
 import { SearchUsersPage } from './pages/SearchUsersPage';
 import { HostReservationsPage } from './pages/HostReservationsPage';
+import { HostPropertiesPage } from './pages/HostPropertiesPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -54,6 +55,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 							<Route path='new' element={<PropertyHostViewPage/>} />
 						</Route>
 						<Route path='reservations' element={<HostReservationsPage/>} />
+						<Route path='properties' element={<HostPropertiesPage/>} />
 					</Route>
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
 						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />

@@ -1,14 +1,7 @@
-import { PropertyReviewsSummary } from "../entities/PropertyReviewsSummary";
-import { PropertyType } from "../entities/propertyEnums";
+import { PropertyBasicPreviewInfo } from "./PropertyBasicPreviewInfo";
 
 export type PropertySearchResult = {
-    propertyId: number,
-    propertyType: PropertyType,
-    title: string,
-    description: string,
-    imgId: number | null,
     numBeds: number,
-    reviewsSummary: PropertyReviewsSummary,
     pricePerNight: number,
     totalPrice: number
-};
+} & PropertyBasicPreviewInfo;
