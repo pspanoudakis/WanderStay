@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import com.backend.server.entities.images.Image;
 import com.backend.server.entities.locations.City;
 import com.backend.server.entities.users.Host;
@@ -111,5 +113,18 @@ public class Property {
             .filter(i -> i.isMain())
             .findFirst().orElseGet(() -> images.get(0))
             .getId();
+    }
+
+    @JsonIgnore
+    public String getFullLocationString() {
+        List<String> words = new ArrayList<String>();
+        if (address != null && address.length() > 0) {
+            words.add(address);
+        }
+        if (city != null) {
+            words.add(city.getName());
+            words.add(city.getCountry().getName());
+        }
+        return StringUtils.collectionToDelimitedString(words, ", ");
     }
 }

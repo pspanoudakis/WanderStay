@@ -19,6 +19,7 @@ import com.backend.server.controllers.responses.ApiErrorResponseDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.PropertyBasicInfoDto;
 import com.backend.server.controllers.responses.PropertyDetailsDto;
+import com.backend.server.controllers.responses.PropertyHostSidePreviewDto;
 import com.backend.server.controllers.responses.PropertySearchResultDto;
 import com.backend.server.controllers.responses.ReviewDto;
 import com.backend.server.controllers.responses.PropertyBasicInfoDto.PropertyBasicInfoDtoBuilder;
@@ -392,15 +393,19 @@ public class PropertyService {
         );
     }
 
-    public Page<PropertyBasicInfoDto> getHostProperties(
+    @Transactional
+    public Page<PropertyHostSidePreviewDto> getHostProperties(
         String jwt, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return propertyRepository.findByHost(
             hostService.getHostFromTokenOrElseThrow(jwt), 
             PageableRetriever.getPageable(numPage, pageSize)
-        ).map(p -> initBasicPropertyDtoBuilder(
-            p, PropertyBasicInfoDto.builder()).build()
-        );
+        ).map(p -> (
+            initBasicPropertyDtoBuilder(p, PropertyHostSidePreviewDto.builder())
+                .imgId(p.getMainImageId())
+                .location(p.getFullLocationString())
+            .build()
+        ));
     }
 
 }
