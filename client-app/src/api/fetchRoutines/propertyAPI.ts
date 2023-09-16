@@ -4,13 +4,16 @@ import { PropertyReviewRequest } from "../requests/PropertyReviewRequest";
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { PropertyDetails, PropertyDetailsResponse } from "../responses/PropertyDetailsResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
+import { paginationQueryParamString } from "./fetchUtils";
 
 export async function fetchPropertyReviews(request: GetPropertyReviewsRequest) {
     const response = await fetchData({
         endpoint: createEndPointUrl(
             `/property/${request.propertyId}/reviews?` + 
-            `numPage=${request.paginationInfo.pageNum}&` + 
-            `pageSize=${request.paginationInfo.pageSize}`
+            paginationQueryParamString(
+                request.paginationInfo.pageNum,
+                request.paginationInfo.pageSize
+            )
         ),
         method: "GET"
     });

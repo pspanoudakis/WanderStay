@@ -15,7 +15,11 @@ import { RoleType } from '../api/entities/RoleType';
 import { getBaseNavigationPath } from './utils/getBaseNavigationPath';
 import { ORDERED_BASE_ROLE_PATHS } from '../pages/pathConstants';
 
-function getMenuItems(userCtx: UserContext | undefined) {
+function getMenuItems(userCtx: UserContext | undefined): {
+    textChoice: string,
+    icon: JSX.Element,
+    url: string,
+}[] {
     const color = APP_PALLETE['main-petrol'];
     if (!userCtx) {
         return [
@@ -134,9 +138,14 @@ export function PopOverMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 {
-                    getMenuItems(userCtx).map((item,index) =>
-                        <MenuItem key={index}>
-                            <Link to={item.url} className='flex gap-2 items-center w-full'>
+                    getMenuItems(userCtx).map((item, index) =>
+                        <MenuItem
+                            sx={{
+                                p: 0
+                            }}
+                            key={index}
+                        >
+                            <Link to={item.url} className='flex gap-2 items-center w-full p-2 px-4'>
                                 {item.icon}
                                 {item.textChoice}
                             </Link>

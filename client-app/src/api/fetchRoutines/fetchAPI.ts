@@ -79,17 +79,11 @@ export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<
         fetchWrapperArgs.acceptType !== SupportedAcceptType.APPLICATION_JSON
     );
 
-    await fetchWrapper(
-        fetchWrapperArgs
-    )
+    await fetchWrapper(fetchWrapperArgs)
     .then(res => {
         if (res.ok) {
-            const responseParser = () => {
-                return (
-                    returnAsText ? res.text() : res.json()
-                );
-            }
-            responseParser().then(content => {
+            (returnAsText ? res.text() : res.json())
+            .then(content => {
                 response = {
                     content,
                     ok: true,

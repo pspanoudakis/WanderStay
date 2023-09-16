@@ -3,6 +3,7 @@ import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { UserResponse } from "../responses/UserResponse";
 import { UserSearchResult } from "../responses/UserSearchResult";
 import { FetchDataHttpMethod, FetchDataResponse, SupportedAcceptType, createEndPointUrl, fetchData } from "./fetchAPI";
+import { paginationQueryParamString } from "./fetchUtils";
 
 type AdminAPIDataExportRequest = {
     controllerRelativeEndpoint: string,
@@ -84,8 +85,10 @@ export async function searchUsers(request: UserSearchRequest) {
                     },
                     [] as string[]
                 ),
-                `numPage=${request.paginationInfo.pageNum}`,
-                `pageSize=${request.paginationInfo.pageSize}`
+                paginationQueryParamString(
+                    request.paginationInfo.pageNum,
+                    request.paginationInfo.pageSize
+                )
             ].join('&')
         ),
         method: 'GET'

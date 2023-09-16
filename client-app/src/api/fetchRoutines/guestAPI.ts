@@ -1,6 +1,7 @@
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 import { PropertyReservationResult } from "../responses/PropertyReservationResults";
+import { paginationQueryParamString } from "./fetchUtils";
 
 async function sendGuestAPIRequest<T>(controllerRelativeEndpoint: string) {
     return await fetchData({
@@ -13,7 +14,7 @@ async function sendGuestAPIRequest<T>(controllerRelativeEndpoint: string) {
 export async function fetchGuestReservations(pageNum: number, pageSize: number) {
     return convertToPaginatedResponse<PropertyReservationResult>(
         await sendGuestAPIRequest(
-            `reservations?numPage=${pageNum}&pageSize=${pageSize}`
+            `reservations?${paginationQueryParamString(pageNum, pageSize)}`
         )
     );
 }
@@ -21,7 +22,7 @@ export async function fetchGuestReservations(pageNum: number, pageSize: number) 
 export async function fetchUpcomingGuestReservations(pageNum: number, pageSize: number) {
     return convertToPaginatedResponse<PropertyReservationResult>(
         await sendGuestAPIRequest(
-            `upcomingReservations?numPage=${pageNum}&pageSize=${pageSize}`
+            `upcomingReservations?${paginationQueryParamString(pageNum, pageSize)}`
         )
     );
 }

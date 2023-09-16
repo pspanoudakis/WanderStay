@@ -3,6 +3,7 @@ import { Message } from "../entities/Message";
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { PropertyConversationResult } from "../responses/PropertyConversationResult";
 import { FetchDataHttpMethod, FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
+import { paginationQueryParamString } from "./fetchUtils";
 
 type ConversationAPIRequest = {
     controllerRelativeEndpoint: string,
@@ -47,7 +48,7 @@ export async function getAllPropertyConversations(
     return convertToPaginatedResponse<PropertyConversationResult>(
         await sendConversationAPIRequest<unknown>({
             controllerRelativeEndpoint: (
-                `hostSearch?propertyId=${propertyId}&numPage=${pageNum}&pageSize=${pageSize}`
+                `hostSearch?propertyId=${propertyId}&${paginationQueryParamString(pageNum, pageSize)}`
             ),
             method: 'GET'
         })
