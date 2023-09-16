@@ -14,7 +14,7 @@ import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.GuestRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
-import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.ReservationSpecification;
 
 import jakarta.transaction.Transactional;
@@ -55,7 +55,7 @@ public class GuestService {
     ) throws BadRequestException {
         return reservationRepository.findAllByGuestOrderByStartDateDesc(
             getGuestFromTokenOrElseThrow(jwt),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }
 
@@ -67,7 +67,7 @@ public class GuestService {
             reservationSpecification.getUpcomingGuestReservations(
                 getGuestFromTokenOrElseThrow(jwt)
             ),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }
 

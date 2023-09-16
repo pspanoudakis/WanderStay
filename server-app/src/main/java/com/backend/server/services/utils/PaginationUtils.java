@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.backend.server.controllers.requests.PaginationRequestDto;
 
-public class PageableRetriever {
+public class PaginationUtils {
     
     public static Pageable getPageable(PaginationRequestDto request) {
         Short pageNum = request.getPageNum();

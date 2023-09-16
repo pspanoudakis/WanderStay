@@ -15,7 +15,7 @@ import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
-import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.ReservationSpecification;
 
 import jakarta.transaction.Transactional;
@@ -60,7 +60,7 @@ public class HostService {
             reservationSpecification.getHostReservations(
                 getHostFromTokenOrElseThrow(jwt)
             ),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }
     
@@ -72,7 +72,7 @@ public class HostService {
             reservationSpecification.getUpcomingHostReservations(
                 getHostFromTokenOrElseThrow(jwt)
             ),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }
 

@@ -17,7 +17,7 @@ import com.backend.server.entities.users.Host;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.ConversationRepository;
-import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.ConversationSpecification;
 
 import jakarta.transaction.Transactional;
@@ -195,7 +195,7 @@ public class ConversationService {
         propertyService.throwIfNotOwner(host, property);
 
         return conversationRepository.getPropertyConversations(
-            propertyId, PageableRetriever.getPageable(numPage, pageSize)
+            propertyId, PaginationUtils.getPageable(numPage, pageSize)
         )
         .map(c -> (
                 ConversationPreviewDto.builder()

@@ -9,7 +9,7 @@ import com.backend.server.controllers.responses.UserSearchResultDto;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.repositories.UserRepository;
-import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.UserSpecification;
 
 import lombok.RequiredArgsConstructor;
@@ -70,7 +70,7 @@ public class UserService {
         adminService.getAdminFromTokenOrElseThrow(jwt);
         return userRepository.findAll(
             userSpecification.searchUsersSpecification(usernamePattern, isActive),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(
             u -> (
                 UserSearchResultDto.builder()

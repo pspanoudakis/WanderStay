@@ -37,7 +37,7 @@ import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
 import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.repositories.ReviewRepository;
-import com.backend.server.services.utils.PageableRetriever;
+import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.PropertyFiltersSpecification;
 import com.backend.server.utils.DateUtils;
 
@@ -118,7 +118,7 @@ public class PropertyService {
                 filtersSpecification.getPropertyFiltersSpecification(
                     searchRequest.getFiltersInfo()
                 ),
-                PageableRetriever.getPageable(searchRequest.getPaginationInfo())
+                PaginationUtils.getPageable(searchRequest.getPaginationInfo())
             ).map(p -> {
                 int pricePerNight = (
                     p.getRules().getBaseDayCost() +
@@ -224,7 +224,7 @@ public class PropertyService {
     ) throws BadRequestException {
         return reviewRepository.findAllByPropertyOrderByCreatedOnDesc(
             getPropertyFromIdOrElseThrow(propertyId),
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> {
             return (
                 ReviewDto.builder()
@@ -399,7 +399,7 @@ public class PropertyService {
     ) throws BadRequestException {
         return propertyRepository.findByHost(
             hostService.getHostFromTokenOrElseThrow(jwt), 
-            PageableRetriever.getPageable(numPage, pageSize)
+            PaginationUtils.getPageable(numPage, pageSize)
         ).map(p -> (
             initBasicPropertyDtoBuilder(p, PropertyHostSidePreviewDto.builder())
                 .imgId(p.getMainImageId())
