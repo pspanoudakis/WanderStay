@@ -70,20 +70,22 @@ public class Property {
     private List<Image> images = new ArrayList<Image>();
 
     @OneToOne(
-        // optional = false,
         mappedBy = "property",
         cascade = {CascadeType.ALL}
-        // fetch = FetchType.EAGER
     )
     private PropertyRules rules;
 
     @OneToOne(
-        // optional = false,
         mappedBy = "property",
         cascade = {CascadeType.ALL}
-        // fetch = FetchType.EAGER
     )
     private PropertyAmenities amenities;
+
+    @OneToOne(
+        mappedBy = "property",
+        cascade = {CascadeType.ALL}
+    )
+    private PublicTransportAccesses transport;
 
     @Column(nullable = false)
     private String name;

@@ -6,6 +6,7 @@ import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.PropertyAmenities;
 import com.backend.server.entities.properties.PropertyRules;
 import com.backend.server.entities.properties.PropertyType;
+import com.backend.server.entities.properties.PublicTransportAccesses;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class PropertyUpdatedDetailsDto {
     private List<AvailableTimeSlot> availableSlots;
     private PropertyAmenities amenities;
     private PropertyRules rules;
+    private PublicTransportAccesses transport;
     private Short spaceArea;
     private Long cityId;
     private String address;

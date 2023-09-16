@@ -28,6 +28,7 @@ import com.backend.server.entities.properties.AvailableTimeSlot;
 import com.backend.server.entities.properties.Property;
 import com.backend.server.entities.properties.PropertyAmenities;
 import com.backend.server.entities.properties.PropertyRules;
+import com.backend.server.entities.properties.PublicTransportAccesses;
 import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
@@ -297,6 +298,7 @@ public class PropertyService {
                 .availableSlots(property.getAvailableSlots())
                 .amenities(property.getAmenities())
                 .rules(property.getRules())
+                .transport(property.getTransport())
                 .spaceArea(property.getSpaceArea())
                 .address(property.getAddress())
                 .city(property.getCity())
@@ -335,6 +337,11 @@ public class PropertyService {
                 .property(property)  
                 .build()
         );
+        property.setTransport(
+            PublicTransportAccesses.builder()
+                .property(property)
+                .build()
+        );
 
         return propertyRepository.save(property);
     }
@@ -368,6 +375,7 @@ public class PropertyService {
 
         property.getAmenities().update(request.getAmenities());
         property.getRules().update(request.getRules());
+        property.getTransport().update(request.getTransport());
 
         property.setSpaceArea(request.getSpaceArea());
         property.setCity(

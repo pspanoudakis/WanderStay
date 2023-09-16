@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { PropertyAmenity, PropertyFieldFlags, PropertyRule } from "../api/entities/propertyEnums";
+import { PropertyAmenity, PropertyFieldFlags, PropertyRule, PublicTransportAccess } from "../api/entities/propertyEnums";
 import { CheckboxWithLabel } from "./CheckboxWithLabel";
 import { PropertyFieldLabels } from "./utils/propertyFieldLabels";
 
-interface PropertyFlagsProps<T extends PropertyRule | PropertyAmenity>{
+interface PropertyFlagsProps<T extends PropertyRule | PropertyAmenity | PublicTransportAccess>{
     fieldFlags: PropertyFieldFlags<T>,
     setFieldFlags?: (flags: PropertyFieldFlags<T>) => void,
     editable: boolean
 }
 
-export function PropertyFlagsCheckList<T extends PropertyRule | PropertyAmenity>(
+export function PropertyFlagsCheckList<T extends PropertyRule | PropertyAmenity | PublicTransportAccess>(
     props: PropertyFlagsProps<T>
 ){
     return (

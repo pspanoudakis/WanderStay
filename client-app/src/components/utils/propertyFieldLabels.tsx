@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { PropertyAmenity, PropertyRule, PropertyType } from "../../api/entities/propertyEnums";
-import { faBirthdayCake, faCouch, faDog, faElevator, faHouseLock, faKitchenSet, faParking, faPeopleRoof, faPersonShelter, faSmoking, faSnowflake, faTemperatureArrowUp, faTv, faWifi, faWifi3 } from "@fortawesome/free-solid-svg-icons";
+import { PropertyAmenity, PropertyRule, PropertyType, PublicTransportAccess } from "../../api/entities/propertyEnums";
+import { faBirthdayCake, faCouch, faDog, faElevator, faHouseLock, faKitchenSet, faParking, faPeopleRoof, faPersonShelter, faSmoking, faSnowflake, faTemperatureArrowUp, faTv, faWifi, faBus, faTrain, faTrainTram, faTrainSubway } from "@fortawesome/free-solid-svg-icons";
 
-export type PropertyFieldLabelsType<T extends PropertyRule | PropertyAmenity | PropertyType> = { 
+export type PropertyFieldLabelsType
+<T extends PropertyRule | PropertyAmenity | PropertyType | PublicTransportAccess> = { 
     [field in T]: {
         label: string,
         icon?: JSX.Element
@@ -74,8 +75,28 @@ export const PropertyRuleLabels:PropertyFieldLabelsType<PropertyRule> = {
     },
 }
 
+export const PublicTransportAccessLabels:PropertyFieldLabelsType<PublicTransportAccess> = {
+    [PublicTransportAccess.ACCESSED_BY_BUS]: {
+        label: "Λεωφορείο",
+        icon: <FontAwesomeIcon icon={faBus}/>
+    },
+    [PublicTransportAccess.ACCESSED_BY_METRO]: {
+        label: "Μετρό",
+        icon: <FontAwesomeIcon icon={faTrainSubway}/>
+    },
+    [PublicTransportAccess.ACCESSED_BY_RAILWAY]: {
+        label: "Σιδηρόδρομος",
+        icon: <FontAwesomeIcon icon={faTrain}/>
+    },
+    [PublicTransportAccess.ACCESSED_BY_TRAM]: {
+        label: "Τραμ",
+        icon: <FontAwesomeIcon icon={faTrainTram}/>
+    },
+}
+
 export const PropertyFieldLabels = {
     ...PropertyTypeLabels,
     ...PropertyAmenityLabels,
-    ...PropertyRuleLabels
+    ...PropertyRuleLabels,
+    ...PublicTransportAccessLabels
 }

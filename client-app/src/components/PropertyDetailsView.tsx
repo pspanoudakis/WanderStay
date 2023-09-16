@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
-import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags, PropertyType } from "../api/entities/propertyEnums";
+import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags, PropertyType, PublicTransportAccess, PublicTransportAccessFlags } from "../api/entities/propertyEnums";
 import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { TitleSection } from "../components/TitleSection";
@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 import { RoleType } from "../api/entities/RoleType";
 import { PropertyConversationsSection } from "./PropertyConversationsSection";
+import { PropertyTransportSection } from "./PropertyTransportSection";
 
 type PropertyDetailsProps = {
     isEditable: boolean,
@@ -83,6 +84,12 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                     perGuestCost: 0,
                     petsAllowed: false,
                     smokingAllowed: false,
+                },
+                transport: {
+                    accessedByBus: false,
+                    accessedByMetro: false,
+                    accessedByRailway: false,
+                    accessedByTram: false,
                 },
                 spaceArea: 1,
                 title: 'Νέο Κατάλυμα',
@@ -301,17 +308,38 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                     {
                         propertyId &&
                         <>
+                        <PropertyTransportSection
+                            editable={isEditable}
+                            flags={{
+                                ...Object.values(PublicTransportAccess).reduce(
+                                    (flags, access) => {
+                                        flags[access] = property.transport[access];
+                                        return flags;
+                                    },
+                                    {} as PublicTransportAccessFlags
+                                ),
+                            }}
+                            setFlags={
+                                (flags) => setProperty({
+                                    ...property,
+                                    transport: {
+                                        ...property.transport,
+                                        ...flags
+                                    }
+                                })
+                            }
+                        />
                         <ReviewsSection propertyId={propertyId}/>
                         {
                             isEditable ?
                             <PropertyConversationsSection propertyId={propertyId}/>
                             :
                             <>
+                            <WriteReview propertyId={propertyId}/>                        
                             <ContactHostSection
                                 hostUsername={property.hostName}
                                 propertyId={propertyId}
                             />
-                            <WriteReview propertyId={propertyId}/>                        
                             </>
                         }                       
                         </>

@@ -2,7 +2,7 @@ import { AvailableTimeSlot } from "../entities/AvailableTimeSlot"
 import { ImageEntity } from "../entities/ImageEntity"
 import { LocationEntity } from "../entities/LocationEntity"
 import { PropertyReviewsSummary } from "../entities/PropertyReviewsSummary";
-import { PropertyDetailedAmenities, PropertyDetailedRules, PropertyType } from "../entities/propertyEnums"
+import { PropertyDetailedAmenities, PropertyDetailedRules, PropertyType, PublicTransportAccess, PublicTransportAccessFlags } from "../entities/propertyEnums"
 
 export type PropertyDetailsResponse = {
     propertyDetails: {
@@ -16,6 +16,7 @@ export type PropertyDetailsResponse = {
         availableSlots: AvailableTimeSlot[],
         amenities: PropertyDetailedAmenities,
         rules: PropertyDetailedRules,
+        transport: PublicTransportAccessFlags,
         spaceArea: number,
         address: string,
         city: LocationEntity | null,

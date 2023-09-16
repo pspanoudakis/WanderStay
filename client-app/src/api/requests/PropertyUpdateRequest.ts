@@ -1,6 +1,6 @@
 import { AvailableTimeSlot } from "../entities/AvailableTimeSlot";
 import { ImageEntity } from "../entities/ImageEntity";
-import { PropertyDetailedAmenities, PropertyDetailedRules, PropertyType } from "../entities/propertyEnums"
+import { PropertyDetailedAmenities, PropertyDetailedRules, PropertyType, PublicTransportAccessesFlags } from "../entities/propertyEnums"
 
 export type PropertyUpdateRequest = {
     propertyId: number | null,
@@ -11,6 +11,7 @@ export type PropertyUpdateRequest = {
     availableSlots: AvailableTimeSlot[],
     amenities: PropertyDetailedAmenities,
     rules: PropertyDetailedRules,
+    transport: PublicTransportAccessesFlags,
     spaceArea: number,
     address: string,
     cityId: number,

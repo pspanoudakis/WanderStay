@@ -1,4 +1,5 @@
-export type PropertyFieldFlags<T extends PropertyRule | PropertyAmenity> = { 
+export type PropertyFieldFlags
+<T extends PropertyRule | PropertyAmenity | PublicTransportAccess> = { 
     [field in T]: boolean
 }
 
@@ -45,4 +46,15 @@ export enum PropertyRule {
 
 export type PropertyRuleFlags = {
     [rule in PropertyRule]: boolean
+}
+
+export enum PublicTransportAccess {
+    ACCESSED_BY_RAILWAY = "accessedByRailway",
+    ACCESSED_BY_BUS = "accessedByBus",
+    ACCESSED_BY_METRO = "accessedByMetro",
+    ACCESSED_BY_TRAM = "accessedByTram"
+}
+
+export type PublicTransportAccessFlags = {
+    [transportAccess in PublicTransportAccess] : boolean
 }
