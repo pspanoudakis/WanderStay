@@ -12,7 +12,6 @@ import { ORDERED_BASE_ROLE_PATHS } from './pages/pathConstants';
 import { PropertyGuestViewPage } from './pages/PropertyGuestViewPage';
 import { PropertyHostViewPage } from './pages/PropertyHostViewPage';
 import { PropertyGuestSideChatPage } from './pages/PropertyGuestSideChatPage';
-import { PropertyConversationsPage } from './pages/PropertyConversationsPage';
 import { PropertyHostSideChatPage } from './pages/PropertyHostSideChatPage';
 import { GuestReservationsPage } from './pages/GuestReservationsPage';
 import { UserProfileAdminViewPage } from './pages/UserProfileAdminViewPage';
@@ -49,7 +48,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 						<Route path='property'>
 							<Route path=':propertyId'>
 								<Route index element={<PropertyHostViewPage/>} />
-								<Route path='allChat' element={<PropertyConversationsPage/>} />
 								<Route path='chat/:conversationId' element={<PropertyHostSideChatPage/>} />
 							</Route>
 							<Route path='new' element={<PropertyHostViewPage/>} />

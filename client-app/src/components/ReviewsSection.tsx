@@ -32,7 +32,7 @@ export function ReviewsSection(props: ReviewsSectionProps){
                             return `${n} Κριτικές`
                         }
                         if (n == 0) {
-                            return "Καμία Κριτική"
+                            return "Δεν υπάρχουν Κριτικές"
                         }
                         return `${n} Κριτική`
                     }}

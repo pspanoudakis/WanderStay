@@ -26,6 +26,7 @@ import { ModalActionResultTemplate } from "../components/ModalActionResultTempla
 import { useNavigate } from "react-router-dom";
 import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 import { RoleType } from "../api/entities/RoleType";
+import { PropertyConversationsSection } from "./PropertyConversationsSection";
 
 type PropertyDetailsProps = {
     isEditable: boolean,
@@ -300,19 +301,18 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                     {
                         propertyId &&
                         <>
-                        <ReviewsSection
-                            propertyId={propertyId}
-                        />
+                        <ReviewsSection propertyId={propertyId}/>
                         {
-                            !isEditable && (
-                                <>
-                                <ContactHostSection
-                                    hostUsername={property.hostName}
-                                    propertyId={propertyId}
-                                />
-                                <WriteReview propertyId={propertyId}/>                        
-                                </>
-                            )
+                            isEditable ?
+                            <PropertyConversationsSection propertyId={propertyId}/>
+                            :
+                            <>
+                            <ContactHostSection
+                                hostUsername={property.hostName}
+                                propertyId={propertyId}
+                            />
+                            <WriteReview propertyId={propertyId}/>                        
+                            </>
                         }                       
                         </>
                     }

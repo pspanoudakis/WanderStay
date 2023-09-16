@@ -1,12 +1,11 @@
-import { useParams } from "react-router-dom";
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { useCallback } from "react";
 import { getAllPropertyConversations } from "../api/fetchRoutines/conversationAPI";
 import { ConversationResultTile } from "../components/ConversationResultTile";
 
-export function PropertyConversationsPage() {
-
-    const propertyId = Number(useParams()['propertyId']);
+export function PropertyConversationsSection({ propertyId }: {
+    propertyId: number
+}) {
 
     const fetchConversationResults = useCallback(
         async (pageNum: number, pageSize: number) => {
@@ -23,7 +22,15 @@ export function PropertyConversationsPage() {
             <PaginatedResultsWrapper
                 pageSize={5}
                 resultFetcher={fetchConversationResults}
-                idleTitleBuilder={n => `Βρέθηκαν ${n} Συζητήσεις`}
+                idleTitleBuilder={n => {
+                    if (n > 1) {
+                        return `${n} Συζητήσεις`
+                    }
+                    if (n == 0) {
+                        return "Δεν υπάρχουν Συζητήσεις"
+                    }
+                    return `${n} Συζήτηση`
+                }}
                 loadingTitle="Ανάκτηση Συζητήσεων..."
                 resultRenderer={c => (
                     <ConversationResultTile 

@@ -29,7 +29,7 @@ export function PropertyHostSideChatPage() {
             })
             if (response.ok) {
                 navigate(
-                    `${ORDERED_BASE_ROLE_PATHS.HOST}/property/${propertyId}/allChat`,
+                    `${ORDERED_BASE_ROLE_PATHS.HOST}/property/${propertyId}`,
                     { replace: false }
                 )
             } else {
