@@ -73,21 +73,21 @@ public class GuestService {
 
     @Transactional
     public List<Reservation> getAllGuestReservations(
-        String jwt, String username
+        User thisUser, String targetUsername
     ) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
+        adminService.throwIfNotAdmin(thisUser);
         return reservationRepository.findAllByGuestOrderByStartDateDesc(
-            findGuestByUsernameOrElseThrow(username)
+            findGuestByUsernameOrElseThrow(targetUsername)
         );
     }
 
     @Transactional
     public List<Review> getAllGuestReviews(
-        String jwt, String username
+        User thisUser, String targetUsername
     ) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
+        adminService.throwIfNotAdmin(thisUser);
         return reviewRepository.findAllByGuest(
-            findGuestByUsernameOrElseThrow(username)
+            findGuestByUsernameOrElseThrow(targetUsername)
         );
     }
 }

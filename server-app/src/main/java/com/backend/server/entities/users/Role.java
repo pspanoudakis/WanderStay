@@ -46,6 +46,20 @@ public class Role implements GrantedAuthority{
     @Id
     private String name;
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (other instanceof Role) {
+            return this.name.equals(((Role)other).name);            
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
     @JsonIgnore
     @Override
     public String getAuthority() {

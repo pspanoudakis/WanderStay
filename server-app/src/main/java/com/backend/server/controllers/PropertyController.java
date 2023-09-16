@@ -2,7 +2,6 @@ package com.backend.server.controllers;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,6 @@ import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.requests.PropertyUpdatedDetailsDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
-import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.services.PropertyService;
 
 import lombok.RequiredArgsConstructor;
@@ -112,12 +110,5 @@ public class PropertyController {
             () -> propertyService.getPropertyReviews(propertyId, numPage, pageSize)
         );
     }
-
-    // TODO: delete this
-    @GetMapping("/{propertyId}/reviewsSummary")
-    public ResponseEntity<PropertyReviewsSummary> getPropertyReviewsSummary(
-        @PathVariable Long propertyId
-    ) {
-        return ResponseEntity.ok(propertyService.getPropertyReviewsSummary(propertyId));
-    }
+    
 }

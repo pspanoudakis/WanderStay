@@ -1,18 +1,17 @@
 package com.backend.server.controllers;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
+import com.backend.server.entities.users.User;
 import com.backend.server.services.GuestService;
 import com.backend.server.services.HostService;
 import com.backend.server.services.UserService;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/admin")
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -29,77 +27,77 @@ public class AdminController {
     private final GuestService guestService;
     private final HostService hostService;
     
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/{targetUsername}")
     public ResponseEntity<ApiResponseDto> getUserProfile(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername
     ) {
         return ControllerResponseUtils.responseFactory(
-            () -> userService.getUserProfile(jwt, username)
+            () -> userService.getUserProfile(thisUser, targetUsername)
         );
     }
 
-    @PostMapping("/user/{username}/setActive")
+    @PostMapping("/user/{targetUsername}/setActive")
     public ResponseEntity<ApiResponseDto> setUserIsActive(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username,
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername,
         @RequestParam Boolean isActive
     ) {
         return ControllerResponseUtils.responseFactory(
-            () -> userService.setUserIsActive(jwt, username, isActive)
+            () -> userService.setUserIsActive(thisUser, targetUsername, isActive)
         );
     }
 
-    @GetMapping("/guest/{username}/reviews")
+    @GetMapping("/guest/{targetUsername}/reviews")
     public ResponseEntity<?> getAllGuestReviews(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername
     ) {
         return ControllerResponseUtils.genericResponseFactory(
-            () -> guestService.getAllGuestReviews(jwt, username)
+            () -> guestService.getAllGuestReviews(thisUser, targetUsername)
         );
     }
 
-    @GetMapping("/guest/{username}/reservations")
+    @GetMapping("/guest/{targetUsername}/reservations")
     public ResponseEntity<?> getAllGuestReservations(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername
     ) {
         return ControllerResponseUtils.genericResponseFactory(
-            () -> guestService.getAllGuestReservations(jwt, username)
+            () -> guestService.getAllGuestReservations(thisUser, targetUsername)
         );
     }
 
-    @GetMapping("/host/{username}/properties")
+    @GetMapping("/host/{targetUsername}/properties")
     public ResponseEntity<?> getAllHostProperties(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername
     ) {
         return ControllerResponseUtils.genericResponseFactory(
-            () -> hostService.getAllHostProperties(jwt, username)
+            () -> hostService.getAllHostProperties(thisUser, targetUsername)
         );
     }
 
-    @GetMapping("/host/{username}/reviews")
+    @GetMapping("/host/{targetUsername}/reviews")
     public ResponseEntity<?> getAllHostReviews(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
-        @PathVariable(required = false) String username
+        @AuthenticationPrincipal User thisUser,
+        @PathVariable(required = false) String targetUsername
     ) {
         return ControllerResponseUtils.genericResponseFactory(
-            () -> hostService.getAllHostReviews(jwt, username)
+            () -> hostService.getAllHostReviews(thisUser, targetUsername)
         );
     }
 
     @GetMapping("/searchUsers")
     public ResponseEntity<?> searchUsers(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @AuthenticationPrincipal User thisUser,
         @RequestParam(required = false) String usernamePattern,
         @RequestParam(required = false) Boolean isActive,
         @RequestParam Short numPage, @RequestParam Byte pageSize
     ) {
         return ControllerResponseUtils.genericResponseFactory(
             () -> userService.searchUsers(
-                jwt, 
+                thisUser, 
                 usernamePattern, isActive,
                 numPage, pageSize
             )

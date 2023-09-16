@@ -47,27 +47,27 @@ public class UserService {
     }    
 
     public UserResponseDto setUserIsActive(
-        String jwt, String username, Boolean isActive
+        User thisUser, String targetUsername, Boolean isActive
     ) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
-        User user = getUserByUsernameOrElseThrow(username);
-        user.setActive(isActive);
-        return new UserResponseDto(userRepository.save(user));
+        adminService.throwIfNotAdmin(thisUser);
+        User targetUser = getUserByUsernameOrElseThrow(targetUsername);
+        targetUser.setActive(isActive);
+        return new UserResponseDto(userRepository.save(targetUser));
     }
 
-    public UserResponseDto getUserProfile(String jwt, String username) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
+    public UserResponseDto getUserProfile(User thisUser, String targetUsername) throws BadRequestException {
+        adminService.throwIfNotAdmin(thisUser);
         return new UserResponseDto(
-            getUserByUsernameOrElseThrow(username)
+            getUserByUsernameOrElseThrow(targetUsername)
         );
     }
 
     public Page<UserSearchResultDto> searchUsers(
-        String jwt, 
+        User thisUser, 
         String usernamePattern, Boolean isActive,
         Short numPage, Byte pageSize
     ) {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
+        adminService.throwIfNotAdmin(thisUser);
         return userRepository.findAll(
             userSpecification.searchUsersSpecification(usernamePattern, isActive),
             PaginationUtils.getPageable(numPage, pageSize)

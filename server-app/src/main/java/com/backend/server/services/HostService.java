@@ -78,19 +78,19 @@ public class HostService {
 
     @Transactional
     public List<Property> getAllHostProperties(
-        String jwt, String username
+        User thisUser, String targetUsername
     ) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
+        adminService.throwIfNotAdmin(thisUser);
         return propertyRepository.findAllByHost(
-            findHostByUsernameOrElseThrow(username)
+            findHostByUsernameOrElseThrow(targetUsername)
         );
     }
 
     @Transactional
     public List<Review> getAllHostReviews(
-        String jwt, String username
+        User thisUser, String targetUsername
     ) throws BadRequestException {
-        adminService.getAdminFromTokenOrElseThrow(jwt);
-        return reviewRepository.findAllByPropertyHost(username);
+        adminService.throwIfNotAdmin(thisUser);
+        return reviewRepository.findAllByPropertyHost(targetUsername);
     }
 }

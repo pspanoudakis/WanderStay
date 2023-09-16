@@ -62,6 +62,12 @@ public class User implements UserDetails {
 
     private boolean isLocked;
 
+    public boolean hasRole(Role role) {
+        return this.roles.stream().anyMatch(
+            r -> r.equals(role)
+        );
+    }
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
