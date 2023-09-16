@@ -354,6 +354,21 @@ CREATE TABLE public._property_rules (
 ALTER TABLE public._property_rules OWNER TO postgres;
 
 --
+-- Name: _public_transport_accesses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._public_transport_accesses (
+    property_id bigint NOT NULL,
+    accessed_by_bus boolean NOT NULL,
+    accessed_by_metro boolean NOT NULL,
+    accessed_by_railway boolean NOT NULL,
+    accessed_by_tram boolean NOT NULL
+);
+
+
+ALTER TABLE public._public_transport_accesses OWNER TO postgres;
+
+--
 -- Name: _reservation; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -625,6 +640,15 @@ SELECT pg_catalog.lo_create('16622');
 ALTER LARGE OBJECT 16622 OWNER TO postgres;
 
 --
+-- Name: 16623; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16623');
+
+
+ALTER LARGE OBJECT 16623 OWNER TO postgres;
+
+--
 -- Name: 16624; Type: BLOB; Schema: -; Owner: postgres
 --
 
@@ -641,6 +665,42 @@ SELECT pg_catalog.lo_create('16625');
 
 
 ALTER LARGE OBJECT 16625 OWNER TO postgres;
+
+--
+-- Name: 16626; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16626');
+
+
+ALTER LARGE OBJECT 16626 OWNER TO postgres;
+
+--
+-- Name: 16627; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16627');
+
+
+ALTER LARGE OBJECT 16627 OWNER TO postgres;
+
+--
+-- Name: 16628; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16628');
+
+
+ALTER LARGE OBJECT 16628 OWNER TO postgres;
+
+--
+-- Name: 16629; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16629');
+
+
+ALTER LARGE OBJECT 16629 OWNER TO postgres;
 
 --
 -- Name: 16630; Type: BLOB; Schema: -; Owner: postgres
@@ -661,6 +721,24 @@ SELECT pg_catalog.lo_create('16631');
 ALTER LARGE OBJECT 16631 OWNER TO postgres;
 
 --
+-- Name: 16632; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16632');
+
+
+ALTER LARGE OBJECT 16632 OWNER TO postgres;
+
+--
+-- Name: 16633; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16633');
+
+
+ALTER LARGE OBJECT 16633 OWNER TO postgres;
+
+--
 -- Name: 16634; Type: BLOB; Schema: -; Owner: postgres
 --
 
@@ -677,6 +755,24 @@ SELECT pg_catalog.lo_create('16635');
 
 
 ALTER LARGE OBJECT 16635 OWNER TO postgres;
+
+--
+-- Name: 16636; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16636');
+
+
+ALTER LARGE OBJECT 16636 OWNER TO postgres;
+
+--
+-- Name: 16637; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16637');
+
+
+ALTER LARGE OBJECT 16637 OWNER TO postgres;
 
 --
 -- Name: 16638; Type: BLOB; Schema: -; Owner: postgres
@@ -742,6 +838,24 @@ SELECT pg_catalog.lo_create('16644');
 ALTER LARGE OBJECT 16644 OWNER TO postgres;
 
 --
+-- Name: 16645; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16645');
+
+
+ALTER LARGE OBJECT 16645 OWNER TO postgres;
+
+--
+-- Name: 16646; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16646');
+
+
+ALTER LARGE OBJECT 16646 OWNER TO postgres;
+
+--
 -- Name: 16647; Type: BLOB; Schema: -; Owner: postgres
 --
 
@@ -778,6 +892,24 @@ SELECT pg_catalog.lo_create('16650');
 ALTER LARGE OBJECT 16650 OWNER TO postgres;
 
 --
+-- Name: 16651; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16651');
+
+
+ALTER LARGE OBJECT 16651 OWNER TO postgres;
+
+--
+-- Name: 16652; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16652');
+
+
+ALTER LARGE OBJECT 16652 OWNER TO postgres;
+
+--
 -- Name: 16653; Type: BLOB; Schema: -; Owner: postgres
 --
 
@@ -794,6 +926,15 @@ SELECT pg_catalog.lo_create('16654');
 
 
 ALTER LARGE OBJECT 16654 OWNER TO postgres;
+
+--
+-- Name: 16655; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16655');
+
+
+ALTER LARGE OBJECT 16655 OWNER TO postgres;
 
 --
 -- Name: 16656; Type: BLOB; Schema: -; Owner: postgres
@@ -1030,6 +1171,15 @@ SELECT pg_catalog.lo_create('16681');
 ALTER LARGE OBJECT 16681 OWNER TO postgres;
 
 --
+-- Name: 16682; Type: BLOB; Schema: -; Owner: postgres
+--
+
+SELECT pg_catalog.lo_create('16682');
+
+
+ALTER LARGE OBJECT 16682 OWNER TO postgres;
+
+--
 -- Name: 16696; Type: BLOB; Schema: -; Owner: postgres
 --
 
@@ -1165,15 +1315,6 @@ SELECT pg_catalog.lo_create('19438');
 ALTER LARGE OBJECT 19438 OWNER TO postgres;
 
 --
--- Name: 19439; Type: BLOB; Schema: -; Owner: postgres
---
-
-SELECT pg_catalog.lo_create('19439');
-
-
-ALTER LARGE OBJECT 19439 OWNER TO postgres;
-
---
 -- Data for Name: _admin; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1193,20 +1334,12 @@ COPY public._available_time_slot (id, end_date, start_date, property_id) FROM st
 4	2023-11-05	2023-11-01	2
 7	2023-10-07	2023-10-01	4
 8	2023-11-07	2023-11-01	4
-211	2023-09-26	2023-09-12	29
 11	2023-10-09	2023-10-01	6
 12	2023-11-09	2023-11-01	6
 13	2023-10-10	2023-10-01	7
 14	2023-11-10	2023-11-01	7
 15	2023-10-11	2023-10-01	8
 16	2023-11-11	2023-11-01	8
-213	2023-09-30	2023-09-07	35
-212	2023-09-02	2023-09-01	35
-30	2023-11-12	2023-11-11	9
-28	2023-11-10	2023-11-08	9
-179	2023-10-06	2023-10-01	10
-180	2023-11-30	2023-11-12	10
-181	2023-09-27	2023-09-26	10
 123	2023-09-25	2023-08-08	20
 124	2023-10-13	2023-10-08	20
 125	2023-10-04	2023-10-01	20
@@ -1225,6 +1358,15 @@ COPY public._available_time_slot (id, end_date, start_date, property_id) FROM st
 207	2023-09-22	2023-09-15	23
 208	2023-10-13	2023-10-06	23
 206	2023-09-08	2023-09-05	23
+220	2023-09-02	2023-09-01	35
+221	2023-09-28	2023-09-15	35
+211	2023-09-26	2023-09-14	29
+222	2023-09-15	2023-09-14	38
+224	2023-11-12	2023-11-11	9
+225	2023-11-10	2023-11-08	9
+226	2023-10-06	2023-10-01	10
+227	2023-11-30	2023-11-12	10
+228	2023-09-27	2023-09-26	10
 \.
 
 
@@ -1627,6 +1769,10 @@ COPY public._conversation (id, deleted_by_host, guest_user_username, property_id
 5	f	admin	10
 3	f	pavlos	10
 1	f	guest	10
+6	f	admin	5
+8	f	pavlos	38
+7	t	admin	9
+9	t	pavlos	35
 \.
 
 
@@ -1819,6 +1965,11 @@ COPY public._image (id, is_main, path) FROM stdin;
 101	f	101.jpg
 102	f	102.jpg
 103	f	103.jpg
+104	t	104.jpg
+105	t	105.jpg
+106	f	106.jpg
+107	f	107.png
+108	f	108.png
 \.
 
 
@@ -1861,6 +2012,17 @@ COPY public._message (id, sent_on, text, conversation_id, sent_by_username) FROM
 46	2023-09-05 22:10:08.032	16702	5	admin
 47	2023-09-06 03:36:53.284	16703	5	admin
 48	2023-09-06 03:40:05.035	16704	4	admin
+49	2023-09-09 01:24:50.811	16623	6	admin
+50	2023-09-09 10:56:52.49	16626	5	admin
+51	2023-09-09 20:01:37.654	16627	1	admin
+52	2023-09-09 20:02:52.678	16628	1	guest
+53	2023-09-12 15:20:06.318	16636	3	pavlos
+54	2023-09-12 19:53:25.32	16637	7	admin
+55	2023-09-13 02:01:01.152	16645	8	pavlos
+56	2023-09-16 13:47:06.959	16646	8	pavlos
+57	2023-09-16 13:47:45.075	16651	9	pavlos
+58	2023-09-16 14:44:11.187	16652	9	pavlos
+59	2023-09-16 14:48:11.703	16655	9	admin
 \.
 
 
@@ -1875,7 +2037,6 @@ COPY public._property (id, address, description, latitude, longitude, name, spac
 6	Address 6	19435	\N	\N	Property 6	1	PRIVATE_PROPERTY	6	admin
 7	Address 7	19437	\N	\N	Property 7	1	PRIVATE_PROPERTY	7	admin
 8	Address 8	19438	\N	\N	Property 8	1	PRIVATE_PROPERTY	8	admin
-9	Address 9	19439	\N	\N	Property 9	1	PRIVATE_PROPERTY	9	admin
 20	Address 10 New	16630	38.116828199666465	23.86143414444651	Property 11	100	SHARED_ROOM	304	admin
 21	Address 10 New	16631	38.116828199666465	23.86143414444651	Property 12	100	SHARED_ROOM	304	admin
 10	Paris 10, 15576	16635	48.85463513865946	2.3488421781654005	Property 10	100	SHARED_ROOM	357	admin
@@ -1891,6 +2052,9 @@ COPY public._property (id, address, description, latitude, longitude, name, spac
 33		16650	38.116828199666465	23.86143414444651	Νέο Κατάλυμα	1	PRIVATE_PROPERTY	248	admin
 35		16653	48.203861544782384	16.36163084552657	Κατάλυμα 35	1	PRIVATE_PROPERTY	248	admin
 37		16656	38.116828199666465	23.86143414444651	Test Κατάλυμα 37	1	PRIVATE_PROPERTY	258	admin
+9	Avenue Victor Biaka Boda	16629	5.3094243223138875	-4.014006194476011	Property 9	1	PRIVATE_PROPERTY	329	admin
+38	Rue Ahmed Chaib	16632	36.776627629845066	3.058801978018564	Host Κατάλυμα	1	PRIVATE_PROPERTY	34	host1
+40		16682	38.116828199666465	23.86143414444651	Transport Κατάλυμα	1	PRIVATE_PROPERTY	258	admin
 \.
 
 
@@ -1921,6 +2085,8 @@ COPY public._property_amenities (property_id, has_elevator, has_heating, has_kit
 33	f	f	f	f	f	f	f	f	0	0	0
 35	f	f	f	f	f	f	f	f	0	0	1
 37	f	f	f	f	f	f	f	f	0	0	1
+38	f	f	f	f	f	f	f	f	0	0	1
+40	f	f	f	f	f	f	f	f	0	0	0
 \.
 
 
@@ -1930,10 +2096,6 @@ COPY public._property_amenities (property_id, has_elevator, has_heating, has_kit
 
 COPY public._property_image (property_id, image_id) FROM stdin;
 4	40
-10	90
-10	91
-10	92
-10	94
 20	45
 21	46
 3	96
@@ -1945,7 +2107,16 @@ COPY public._property_image (property_id, image_id) FROM stdin;
 23	100
 29	101
 29	102
+37	104
 35	103
+38	106
+9	105
+9	107
+40	108
+10	91
+10	94
+10	90
+10	92
 \.
 
 
@@ -1976,6 +2147,40 @@ COPY public._property_rules (property_id, base_day_cost, events_allowed, min_res
 33	0	f	1	0	f	f
 35	0	f	1	0	t	f
 37	0	f	1	0	f	f
+38	0	f	1	0	f	f
+40	0	f	1	0	f	f
+\.
+
+
+--
+-- Data for Name: _public_transport_accesses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._public_transport_accesses (property_id, accessed_by_bus, accessed_by_metro, accessed_by_railway, accessed_by_tram) FROM stdin;
+1	f	f	f	f
+2	f	f	f	f
+3	f	f	f	f
+4	f	f	f	f
+5	f	f	f	f
+6	f	f	f	f
+7	f	f	f	f
+8	f	f	f	f
+9	f	f	f	f
+20	f	f	f	f
+21	f	f	f	f
+23	f	f	f	f
+26	f	f	f	f
+27	f	f	f	f
+28	f	f	f	f
+29	f	f	f	f
+30	f	f	f	f
+32	f	f	f	f
+33	f	f	f	f
+35	f	f	f	f
+37	f	f	f	f
+38	f	f	f	f
+40	t	t	t	t
+10	t	t	f	f
 \.
 
 
@@ -2001,6 +2206,11 @@ COPY public._reservation (id, end_date, num_persons, start_date, guest_username,
 16	2023-09-05	1	2023-09-01	admin	23
 17	2023-09-12	1	2023-09-05	admin	29
 18	2023-09-07	1	2023-09-02	admin	35
+19	2023-09-14	1	2023-09-09	pavlos	38
+20	2023-09-12	1	2023-09-07	pavlos	35
+21	2023-09-14	1	2023-09-12	admin	29
+22	2023-09-16	1	2023-09-15	pavlos	38
+23	2023-09-11	1	2023-09-10	pavlos	38
 \.
 
 
@@ -2024,6 +2234,7 @@ COPY public._review (id, created_on, stars, text, guest_username, property_id) F
 14	2023-08-29	3	16634	admin	10
 15	2023-09-01	5	16641	admin	23
 16	2023-09-02	2	16654	admin	35
+17	2023-09-09	3	16633	pavlos	38
 \.
 
 
@@ -2043,13 +2254,12 @@ HOST
 --
 
 COPY public._user (username, email, first_name, is_active, is_locked, last_name, mobile_number, password, image_id) FROM stdin;
-host1	h@h.h	\N	t	f	\N		$2a$10$0rZwuotrsEilXU8EE4CsOOiW4pWndJJ866Xm6EsXuwd1Zttf8QHX.	\N
-pavlos			t	f			$2a$10$m7WkMY4LbbotM40pmeXSBOY4T4xfBFCHEyOwLTF.dA5ZAqeFUho8q	\N
-guest			t	f			$2a$10$AlmQxZClpPB0odWSDpjv7uzD7PF4LujwIrQMz/.0JEhANl41wsZ7m	\N
-host2			t	f			$2a$10$gbL2kwVXhv12M60sW7urs.oo15YyEFdZa5Re5czCa79TO8rWI/J/C	\N
 newhost			t	f			$2a$10$LrERlmncI.xZ6DFiBR8cde/dPg4yZdjOro2XTENiSuHnUjlFvxo..	\N
-admin	admin@admin.admin	Admin	t	f	Admin	6969	$2a$10$BxQnaglUv1IptBPrIjySiun8uEssBD9fjG7MctLxk5AbyVATTVNle	\N
-host	host@host.host	Host	t	f	Host	210	$2a$10$VnQUUe2xzYt06qwei5OfeOkJEBcqIgJ83TJzIi9AuOa8VNLhEbKEy	\N
+pavlos	pavlos.spanoudakis@gmail.com	Pavlos	t	f	Spanoudakis	6971852396	$2a$10$m7WkMY4LbbotM40pmeXSBOY4T4xfBFCHEyOwLTF.dA5ZAqeFUho8q	\N
+admin	admin@admin.admin	Admin	t	f	Admin	696969	$2a$10$BxQnaglUv1IptBPrIjySiun8uEssBD9fjG7MctLxk5AbyVATTVNle	\N
+host2			t	f			$2a$10$gbL2kwVXhv12M60sW7urs.oo15YyEFdZa5Re5czCa79TO8rWI/J/C	\N
+guest			f	f			$2a$10$AlmQxZClpPB0odWSDpjv7uzD7PF4LujwIrQMz/.0JEhANl41wsZ7m	\N
+host1	h@h.h	\N	t	f	\N		$2a$10$0rZwuotrsEilXU8EE4CsOOiW4pWndJJ866Xm6EsXuwd1Zttf8QHX.	\N
 \.
 
 
@@ -2059,15 +2269,14 @@ host	host@host.host	Host	t	f	Host	210	$2a$10$VnQUUe2xzYt06qwei5OfeOkJEBcqIgJ83TJ
 
 COPY public.user_role (user_username, role_name) FROM stdin;
 host1	HOST
-pavlos	GUEST
 guest	GUEST
 host2	HOST
 newhost	GUEST
 newhost	HOST
+pavlos	GUEST
 admin	ADMIN
 admin	GUEST
 admin	HOST
-host	HOST
 \.
 
 
@@ -2075,7 +2284,7 @@ host	HOST
 -- Name: _available_time_slot_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._available_time_slot_id_seq', 213, true);
+SELECT pg_catalog.setval('public._available_time_slot_id_seq', 228, true);
 
 
 --
@@ -2089,7 +2298,7 @@ SELECT pg_catalog.setval('public._city_id_seq', 381, true);
 -- Name: _conversation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._conversation_id_seq', 5, true);
+SELECT pg_catalog.setval('public._conversation_id_seq', 9, true);
 
 
 --
@@ -2103,35 +2312,35 @@ SELECT pg_catalog.setval('public._country_id_seq', 120, true);
 -- Name: _image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._image_id_seq', 103, true);
+SELECT pg_catalog.setval('public._image_id_seq', 108, true);
 
 
 --
 -- Name: _message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._message_id_seq', 48, true);
+SELECT pg_catalog.setval('public._message_id_seq', 59, true);
 
 
 --
 -- Name: _property_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._property_id_seq', 37, true);
+SELECT pg_catalog.setval('public._property_id_seq', 40, true);
 
 
 --
 -- Name: _reservation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._reservation_id_seq', 18, true);
+SELECT pg_catalog.setval('public._reservation_id_seq', 23, true);
 
 
 --
 -- Name: _review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public._review_id_seq', 16, true);
+SELECT pg_catalog.setval('public._review_id_seq', 17, true);
 
 
 --
@@ -2180,12 +2389,32 @@ SELECT pg_catalog.lo_open('16622', 131072);
 SELECT pg_catalog.lowrite(0, '\x7465787439');
 SELECT pg_catalog.lo_close(0);
 
+SELECT pg_catalog.lo_open('16623', 131072);
+SELECT pg_catalog.lowrite(0, '\x68656c6c6f21');
+SELECT pg_catalog.lo_close(0);
+
 SELECT pg_catalog.lo_open('16624', 131072);
 SELECT pg_catalog.lowrite(0, '\x48656c6c6f20576f726c6421212132');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16625', 131072);
 SELECT pg_catalog.lowrite(0, '\x48656c6c6f20576f726c64');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16626', 131072);
+SELECT pg_catalog.lowrite(0, '\x627965');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16627', 131072);
+SELECT pg_catalog.lowrite(0, '\x726574657374696e6720f09f988e');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16628', 131072);
+SELECT pg_catalog.lowrite(0, '\x6865686565656520f09fa4a3');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16629', 131072);
+SELECT pg_catalog.lowrite(0, '\x446573632039');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16630', 131072);
@@ -2196,12 +2425,27 @@ SELECT pg_catalog.lo_open('16631', 131072);
 SELECT pg_catalog.lowrite(0, '\x44657363203132');
 SELECT pg_catalog.lo_close(0);
 
+SELECT pg_catalog.lo_open('16632', 131072);
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16633', 131072);
+SELECT pg_catalog.lowrite(0, '\x746573742072657669657720f09f988b');
+SELECT pg_catalog.lo_close(0);
+
 SELECT pg_catalog.lo_open('16634', 131072);
 SELECT pg_catalog.lowrite(0, '\x477265617421');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16635', 131072);
 SELECT pg_catalog.lowrite(0, '\x44657363203130204e4557');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16636', 131072);
+SELECT pg_catalog.lowrite(0, '\x68656c6c6f20776f726c64');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16637', 131072);
+SELECT pg_catalog.lowrite(0, '\x68693921');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16638', 131072);
@@ -2229,6 +2473,14 @@ SELECT pg_catalog.lo_close(0);
 SELECT pg_catalog.lo_open('16644', 131072);
 SELECT pg_catalog.lo_close(0);
 
+SELECT pg_catalog.lo_open('16645', 131072);
+SELECT pg_catalog.lowrite(0, '\x68657921');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16646', 131072);
+SELECT pg_catalog.lowrite(0, '\x68656c6c6f21');
+SELECT pg_catalog.lo_close(0);
+
 SELECT pg_catalog.lo_open('16647', 131072);
 SELECT pg_catalog.lo_close(0);
 
@@ -2241,10 +2493,22 @@ SELECT pg_catalog.lo_close(0);
 SELECT pg_catalog.lo_open('16650', 131072);
 SELECT pg_catalog.lo_close(0);
 
+SELECT pg_catalog.lo_open('16651', 131072);
+SELECT pg_catalog.lowrite(0, '\x3338');
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16652', 131072);
+SELECT pg_catalog.lowrite(0, '\x6f6f6f6f6f6f6f7073');
+SELECT pg_catalog.lo_close(0);
+
 SELECT pg_catalog.lo_open('16653', 131072);
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16654', 131072);
+SELECT pg_catalog.lo_close(0);
+
+SELECT pg_catalog.lo_open('16655', 131072);
+SELECT pg_catalog.lowrite(0, '\x68656c6c6f');
 SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('16656', 131072);
@@ -2350,6 +2614,9 @@ SELECT pg_catalog.lo_open('16681', 131072);
 SELECT pg_catalog.lowrite(0, '\x4849205448455245');
 SELECT pg_catalog.lo_close(0);
 
+SELECT pg_catalog.lo_open('16682', 131072);
+SELECT pg_catalog.lo_close(0);
+
 SELECT pg_catalog.lo_open('16696', 131072);
 SELECT pg_catalog.lowrite(0, '\x6e657721');
 SELECT pg_catalog.lo_close(0);
@@ -2408,10 +2675,6 @@ SELECT pg_catalog.lo_close(0);
 
 SELECT pg_catalog.lo_open('19438', 131072);
 SELECT pg_catalog.lowrite(0, '\x446573632038');
-SELECT pg_catalog.lo_close(0);
-
-SELECT pg_catalog.lo_open('19439', 131072);
-SELECT pg_catalog.lowrite(0, '\x446573632039');
 SELECT pg_catalog.lo_close(0);
 
 COMMIT;
@@ -2510,6 +2773,14 @@ ALTER TABLE ONLY public._property
 
 ALTER TABLE ONLY public._property_rules
     ADD CONSTRAINT _property_rules_pkey PRIMARY KEY (property_id);
+
+
+--
+-- Name: _public_transport_accesses _public_transport_accesses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._public_transport_accesses
+    ADD CONSTRAINT _public_transport_accesses_pkey PRIMARY KEY (property_id);
 
 
 --
@@ -2630,6 +2901,14 @@ ALTER TABLE ONLY public._message
 
 ALTER TABLE ONLY public._conversation
     ADD CONSTRAINT fkeug5b5q3uanp61n0j3vld3864 FOREIGN KEY (property_id) REFERENCES public._property(id);
+
+
+--
+-- Name: _public_transport_accesses fkexa02guuco23vr8dh2pmshfe1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._public_transport_accesses
+    ADD CONSTRAINT fkexa02guuco23vr8dh2pmshfe1 FOREIGN KEY (property_id) REFERENCES public._property(id);
 
 
 --
