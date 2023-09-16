@@ -14,6 +14,7 @@ export function PropertyGuestSideChatPage() {
         <div className="w-2/3 h-max relative">
             <ChatContainer
                 conversationFetcher={fetchConversation}
+                isGuestSide={true}
             />
         </div>
     );

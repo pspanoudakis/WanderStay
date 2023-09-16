@@ -5,5 +5,6 @@ export type Conversation = {
     hostUsername: string,
     guestUsername: string,
     propertyName: string,
+    propertyId: number,
     messages: Message[]
 }

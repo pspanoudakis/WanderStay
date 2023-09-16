@@ -9,13 +9,17 @@ import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "./ModalActionResultTemplate";
 import { PrimaryButton } from "./PrimaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faRefresh, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 
 interface ChatContainerProps {
     conversationFetcher: () => 
         Promise<FetchDataResponse<{
             conversation: Conversation}
-        >>
+        >>,
+    isGuestSide: boolean,
+    onDelete?: () => void
 }
 
 export function ChatContainer(props: ChatContainerProps){
@@ -80,7 +84,7 @@ export function ChatContainer(props: ChatContainerProps){
         }
     };
 
-    return(
+    return (
         <div className="flex flex-col gap-2 w-full relative">
             <LoadingSpinner
                 customTwBgColor="bg-white/60"
@@ -88,6 +92,51 @@ export function ChatContainer(props: ChatContainerProps){
                 coverParent={true}
                 text=""
             />
+            {
+                conversation &&
+                <div className="w-full flex justify-between items-center">
+                    <div className="flex flex-col items-start">
+                        <Link 
+                            to={(
+                                props.isGuestSide ?
+                                ORDERED_BASE_ROLE_PATHS.GUEST
+                                :
+                                ORDERED_BASE_ROLE_PATHS.HOST
+                            ) + `/property/${conversation?.propertyId}`}
+                            className="text-xl font-bold underline hover:text-dark-petrol"
+                        >
+                            {conversation?.propertyName}
+                        </Link>
+                        <span>
+                            {'Επικοινωνία με '}
+                            {
+                                props.isGuestSide ? 
+                                <>
+                                <b>{conversation?.hostUsername}</b> (οικοδεσπότης)
+                                </>
+                                :
+                                <>
+                                <b>{conversation?.guestUsername}</b> (ενοικιαστής)                            
+                                </>
+                            }
+                        </span>
+                    </div>
+                    {
+                        !props.isGuestSide &&
+                        <button 
+                            onClick={props.onDelete}
+                            className="
+                                flex gap-2 justify-center items-center
+                                rounded-lg py-1 px-3
+                                duration-200 bg-red-600 text-white hover:bg-red-700
+                            "
+                        >
+                            <FontAwesomeIcon icon={faTrashAlt}/>
+                            Διαγραφή Συνομιλίας
+                        </button>                        
+                    }
+                </div>
+            }
             <div className="w-full flex justify-center">
                 <PrimaryButton onClick={fetchConversation}>
                     <FontAwesomeIcon icon={faRefresh} className="mr-2"/>
