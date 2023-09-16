@@ -55,11 +55,12 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
 
     return (
         <div
-            className="flex flex-col justify-start items-center relative gap-1 flex-1"
+            className="flex flex-col justify-start items-center relative gap-3"
             style={{
                 minHeight: '8rem'
             }}
         >
+            <span className='text-xl font-bold text-start'>Εικόνες Καταλύματος</span>
             {
                 loading ?
                 <LoadingSpinner

@@ -57,7 +57,8 @@ export function PropertyAvailableSlotsSelectorSection({ selectedSlots, setSelect
     }
 
     return (
-        <div className='flex flex-col justify-start items-center gap-2 p-2'>
+        <div className='flex flex-col justify-start items-center gap-5'>
+            <span className='text-xl font-bold text-start'>Διαθεσιμότητα Καταλύματος</span>
             <div className="flex gap-2 items-center">
                 <LocalizationProvider dateAdapter={AdapterDayjs} >
                     <DateRangePicker

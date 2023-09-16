@@ -93,7 +93,7 @@ export function App() {
 							/>
 							<div
 								className='
-									rounded-md border-2 border-main-petrol 
+									rounded-md 
 									min-w-max flex justify-center items-start w-9/12 py-5 px-7
 								'
 								style={{
