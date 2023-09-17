@@ -20,6 +20,7 @@ import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { useParams } from "react-router-dom";
 import { UserAccountStatusIndicator } from "../components/UserAccountStatusIndicator";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 function AccountStatusSection(props: {
     isActive: boolean,
@@ -41,6 +42,7 @@ function AccountStatusSection(props: {
 export function UserProfileAdminViewPage(){
 
     const ctx = useContext(AppContext);
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
     const {username} = useParams();
     const [userInfo, setUserInfo] = useState<UserResponse>();
     const [loading, setLoading] = useState(true);
@@ -51,6 +53,7 @@ export function UserProfileAdminViewPage(){
     useEffect(() => {
         getUserProfile(String(username))
         .then(response => {
+            if (navigateIfAuthFailed(response)) return;
             if (response.ok) {
                 setUserInfo(response.content)
             }
@@ -84,6 +87,7 @@ export function UserProfileAdminViewPage(){
                     }
                 }
                 else {
+                    if (navigateIfAuthFailed(response)) return;
                     openModal(ctx, {
                         content: () => (
                             <ModalActionResultTemplate
@@ -104,6 +108,7 @@ export function UserProfileAdminViewPage(){
             setLoading(true)
             setUserIsActive(username, !userInfo?.user.active)
             .then(response => {
+                if (navigateIfAuthFailed(response)) return;
                 if (response.ok) {
                     setUserInfo(response.content);
                 }

@@ -20,7 +20,8 @@ export function SignInForm() {
     const [username, setUsername] = useState('');
     const [pwd, setPwd] = useState('');
 
-    const submitRequest = () => {
+    const submitRequest = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setLoading(true);
 
         loginWithCredentials({
@@ -57,7 +58,10 @@ export function SignInForm() {
     }
     
     return (
-        <div className="flex flex-col border-2 border-gray-300 h-2/3 w-1/3 rounded-3xl items-center gap-y-10 relative">
+        <form 
+            className="flex flex-col border-2 border-gray-300 h-2/3 w-max p-5 px-6 rounded-3xl items-center gap-y-10 relative"
+            onSubmit={(e) => submitRequest(e)}
+        >
             <LoadingSpinner
                 coverParent={true}
                 text="Σύνδεση..."
@@ -67,7 +71,7 @@ export function SignInForm() {
             <div className="flex flex-col items-start w-80">
                 <h2 className="text-dark-petrol text-lg mt-4">Όνομα Χρήστη</h2>
                 <input
-                    type="email" className="outline-none bg-white border-2 border-gray-300 rounded-full h-10 text-black w-80 px-3"
+                    className="outline-none bg-white border-2 border-gray-300 rounded-full h-10 text-black w-80 px-3"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
@@ -93,12 +97,12 @@ export function SignInForm() {
                 </p>
             </div>
             <PrimaryButton
-                onClick={() => submitRequest()}
-                disabled={false}
+                type="submit"
+                disabled={!(username && pwd)}
                 classExtras="text-xl rounded-full px-6 py-1"
             >
                 Σύνδεση
             </PrimaryButton>
-        </div>
+        </form>
     )
 }

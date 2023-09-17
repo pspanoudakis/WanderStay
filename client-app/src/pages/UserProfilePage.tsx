@@ -7,6 +7,7 @@ import { UserDetailsRequest } from "../api/requests/UserDetailsRequest";
 import { updateUserDetails } from "../api/fetchRoutines/userAPI";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { UserDetails } from "../components/UserDetails";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 function extractUserInfoFromCtx(ctx: AppContextType): UserDetailsRequest {
     const businessContext = ctx.state.businessContext;
@@ -20,6 +21,7 @@ function extractUserInfoFromCtx(ctx: AppContextType): UserDetailsRequest {
 }
 
 export function UserProfilePage(){
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
     const ctx = useContext(AppContext);
     const businessContext = ctx.state.businessContext;
 
@@ -42,6 +44,7 @@ export function UserProfilePage(){
         setLoading(true);
         updateUserDetails(userInfo)
         .then(response => {
+            if (navigateIfAuthFailed(response)) return;
             if (response.ok) {
                 ctx.setState?.({
                     businessContext: {

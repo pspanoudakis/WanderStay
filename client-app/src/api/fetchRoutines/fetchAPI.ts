@@ -35,6 +35,7 @@ export type FetchDataArgs = {
 export type FetchDataResponse<T> = {
     content: T,
     ok: boolean,
+    statusCode: number,
     jwt?: string,
     error?: string,
 }
@@ -72,6 +73,7 @@ export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<
     let response: FetchDataResponse<unknown> = {
         content: {},
         ok: false,
+        statusCode: -1,
     }
     const {extractJwt, ...fetchWrapperArgs} = args;
     const returnAsText = (
@@ -81,12 +83,14 @@ export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<
 
     await fetchWrapper(fetchWrapperArgs)
     .then(res => {
+        response.statusCode = res.status;
         if (res.ok) {
             (returnAsText ? res.text() : res.json())
             .then(content => {
                 response = {
                     content,
                     ok: true,
+                    statusCode: response.statusCode,
                     jwt: (extractJwt && res.headers.get('Authorization')) || undefined
                 }
                 console.log(response.content);

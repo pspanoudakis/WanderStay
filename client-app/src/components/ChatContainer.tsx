@@ -12,12 +12,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRefresh, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 interface ChatContainerProps {
     conversationFetcher: () => 
         Promise<FetchDataResponse<{
-            conversation: Conversation}
-        >>,
+            conversation: Conversation
+        }>>,
     isGuestSide: boolean,
     onDelete?: () => void
 }
@@ -28,11 +29,13 @@ export function ChatContainer(props: ChatContainerProps){
 
     const [loading, setLoading] = useState(true);
     const [conversation, setConversation] = useState<Conversation>();
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
 
     const fetchConversation = useCallback(() => {
         setLoading(true);
         props.conversationFetcher()
         .then(response => {
+            if (navigateIfAuthFailed(response)) return;
             if (response.ok) {
                 setConversation(response.content.conversation);
             }
@@ -60,6 +63,7 @@ export function ChatContainer(props: ChatContainerProps){
 
             sendMessageToConversation(conversation.id, text)
             .then(response => {
+                if (navigateIfAuthFailed(response)) return;
                 if (response.ok) {
                     setConversation({
                         ...conversation,

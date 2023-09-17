@@ -9,11 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { PageTitleSpan } from "../components/PageTitleSpan";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 const PAGE_SIZE = 4;
 const USERNAME_PARAM_KEY = 'username';
 const ISACTIVE_PARAM_KEY = 'isActive';
 export function SearchUsersPage() {
+
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
 
     const [params, setParams] = useSearchParams();
     const usernamePatternParam = params.get(USERNAME_PARAM_KEY);
@@ -39,7 +42,8 @@ export function SearchUsersPage() {
                     isActive
                 }
             }).then(res => {
-                return res.content
+                navigateIfAuthFailed(res);
+                return res.content;
             })
         }, [usernamePatternParam, isActiveParam]
     );

@@ -28,6 +28,8 @@ import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 import { RoleType } from "../api/entities/RoleType";
 import { PropertyConversationsSection } from "./PropertyConversationsSection";
 import { PropertyTransportSection } from "./PropertyTransportSection";
+import { fetchOwnedPropertyDetails } from "../api/fetchRoutines/hostAPI";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 type PropertyDetailsProps = {
     isEditable: boolean,
@@ -38,6 +40,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
     const ctx = useContext(AppContext);
     const searchContext = ctx.state.businessContext.searchContext;
     const navigate = useNavigate();
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
 
     const [loading, setLoading] = useState(true);
 
@@ -45,8 +48,13 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
 
     useEffect(() => {
         if (propertyId) {
-            getPropertyDetails(propertyId)
-            .then(response => {
+            (
+                isEditable ? 
+                fetchOwnedPropertyDetails(propertyId) 
+                : 
+                getPropertyDetails(propertyId)
+            ).then(response => {
+                if (navigateIfAuthFailed(response)) return;                
                 if (response.ok) {
                     setProperty(response.content.propertyDetails);
                 }
@@ -113,6 +121,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                 numPersons: searchContext.numPersons
             })
             .then(response => {
+                if (navigateIfAuthFailed(response)) return;
                 openModal(ctx, {
                     content: () => (
                         <ModalActionResultTemplate
@@ -132,6 +141,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
         if (property) {
             createOrUpdateProperty(property, property.propertyId > 0 ? property.propertyId : propertyId)
             .then(response => {
+                if (navigateIfAuthFailed(response)) return;
                 if (response.ok) {
                     setProperty(response.content.propertyDetails)
                     if (!propertyId) {

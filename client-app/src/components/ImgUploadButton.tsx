@@ -1,5 +1,6 @@
 import { ImageEntity } from "../api/entities/ImageEntity";
 import { fetchData } from "../api/fetchRoutines/fetchAPI";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 import { PrimaryButton } from "./PrimaryButton";
 
 const SUPPORTED_IMG_EXTENSIONS = [
@@ -16,6 +17,8 @@ type ImgUploadButtonProps = {
 
 export function ImgUploadButton(props: ImgUploadButtonProps) {
 
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
+
     const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
             props.onStartUpload();
@@ -31,6 +34,7 @@ export function ImgUploadButton(props: ImgUploadButtonProps) {
                 body: formData,
                 useRawBody: true
             }).then(response => {
+                if (navigateIfAuthFailed(response)) return;
                 if (response.ok) {
                     const savedImgResponse = response.content as ImageEntity;
                     props.onSuccess(savedImgResponse);

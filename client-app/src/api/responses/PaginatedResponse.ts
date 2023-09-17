@@ -40,7 +40,8 @@ export function convertToPaginatedResponse<T>(
             {
                 content: getEmptyPaginatedResponse<T>(),
                 ok: false,
-                error: response.error
+                error: response.error,
+                statusCode: response.statusCode,
             }
     );
 }

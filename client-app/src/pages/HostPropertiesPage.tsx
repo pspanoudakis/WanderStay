@@ -3,15 +3,19 @@ import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { fetchHostProperties } from "../api/fetchRoutines/hostAPI";
 import { PageTitledSection } from "../components/PageTitledSection";
 import { PropertyHostSidePreviewTile } from "../components/PropertyHostSidePreviewTile";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 const PAGE_SIZE = 4;
 
 export function HostPropertiesPage(){
 
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
+
     const fetchProperties = useCallback(
         async (pageNum: number, pageSize: number) => {
             return fetchHostProperties(pageNum, pageSize)
             .then(res => {
+                navigateIfAuthFailed(res);
                 return res.content;
             });
         },[]

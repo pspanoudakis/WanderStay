@@ -3,6 +3,7 @@ import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
 import { PropertyReservationResult } from "../responses/PropertyReservationResults";
 import { PropertyHostSidePreview } from "../responses/PropertyHostSidePreview";
 import { paginationQueryParamString } from "./fetchUtils";
+import { PropertyDetailsResponse } from "../responses/PropertyDetailsResponse";
 
 async function sendHostAPIRequest<T>(controllerRelativeEndpoint: string) {
     return await fetchData({
@@ -10,6 +11,12 @@ async function sendHostAPIRequest<T>(controllerRelativeEndpoint: string) {
         method: "GET",
         useJwt: true
     }) as FetchDataResponse<T>;
+}
+
+export async function fetchOwnedPropertyDetails(propertyId: number) {
+    return await sendHostAPIRequest<PropertyDetailsResponse>(
+        `property/${propertyId}`
+    );
 }
 
 export async function fetchHostProperties(pageNum: number, pageSize: number) {

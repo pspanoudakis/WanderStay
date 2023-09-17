@@ -5,17 +5,19 @@ type PrimaryButtonProps = {
     disabled?: boolean,
     classExtras?: string,
     children?: ReactNode,
+    type?: "button" | "submit" | "reset"
 }
 
 export function PrimaryButton({
     onClick,
     disabled,
     classExtras,
-    children
+    children,
+    type
 }: PrimaryButtonProps) {
     return (
         <button
-            type='button'
+            type={type ?? 'button'}
             className={`
                 bg-main-petrol duration-300 enabled:hover:bg-dark-petrol
                 disabled:bg-light-petrol

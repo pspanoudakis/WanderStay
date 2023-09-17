@@ -6,11 +6,13 @@ import { ORDERED_BASE_ROLE_PATHS } from "./pathConstants";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 export function PropertyHostSideChatPage() {
     const ctx = useContext(AppContext);
     const {propertyId, conversationId} = useParams();
     const navigate = useNavigate();
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
 
     const [loading, setLoading] = useState(false);
 
@@ -18,6 +20,7 @@ export function PropertyHostSideChatPage() {
         setLoading(true);            
         markConversationAsDeleted(Number(conversationId))
         .then(response => {
+            if (navigateIfAuthFailed(response)) return;
             openModal(ctx, {
                 content: () => (
                     <ModalActionResultTemplate
