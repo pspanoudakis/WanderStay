@@ -162,6 +162,7 @@ public class ConversationService {
             .build()
         );
         conversation.getMessages().add(message);
+        conversation.setDeletedByHost(false);
         conversationRepository.save(conversation);
 
         return new MessageResponseDto(message);

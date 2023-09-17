@@ -310,6 +310,15 @@ public class PropertyService {
     }
 
     @Transactional
+    public PropertyDetailsResponseDto getOwnedPropertyDetails(String jwt, Long propertyId)
+    throws BadRequestException {
+        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Property property = getPropertyFromIdOrElseThrow(propertyId);
+        throwIfNotOwner(host, property);
+        return mapPropertyToDetailsDto(property);
+    }
+    
+    @Transactional
     public PropertyDetailsResponseDto getPropertyDetails(Long propertyId)
     throws BadRequestException {
         Property property = getPropertyFromIdOrElseThrow(propertyId);
