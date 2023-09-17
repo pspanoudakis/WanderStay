@@ -18,6 +18,7 @@ import { UserProfileAdminViewPage } from './pages/UserProfileAdminViewPage';
 import { SearchUsersPage } from './pages/SearchUsersPage';
 import { HostReservationsPage } from './pages/HostReservationsPage';
 import { HostPropertiesPage } from './pages/HostPropertiesPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -58,6 +59,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					{Object.values(ORDERED_BASE_ROLE_PATHS).map(
 						(basePath, i) => <Route key={i} path={`${basePath + '/'}profile`} element={<UserProfilePage />} />
 					)}
+					<Route path='*' element={<NotFoundPage/>}/>
 				</Route>
 			</Routes>
 		</BrowserRouter>
