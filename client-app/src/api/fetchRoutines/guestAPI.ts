@@ -1,6 +1,6 @@
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
-import { PropertyReservationResult } from "../responses/PropertyReservationResults";
+import { PropertyReservationResult } from "../responses/PropertyReservationResult";
 import { paginationQueryParamString } from "./fetchUtils";
 
 async function sendGuestAPIRequest<T>(controllerRelativeEndpoint: string) {

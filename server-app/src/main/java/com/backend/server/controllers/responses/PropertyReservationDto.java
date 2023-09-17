@@ -21,6 +21,7 @@ public class PropertyReservationDto {
     private String title;
     private Long imgId;
 
+    private String hostUsername;
     private String guestUsername;
     @JsonFormatLocalDate
     private Date dateFrom;
@@ -38,6 +39,7 @@ public class PropertyReservationDto {
                 .title(p.getName())
                 .imgId(p.getMainImageId())
                 .guestUsername(r.getGuest().getUser().getUsername())
+                .hostUsername(p.getHost().getUser().getUsername())
                 .dateFrom(r.getStartDate())
                 .dateTo(r.getEndDate())
                 .numPersons(r.getNumPersons())

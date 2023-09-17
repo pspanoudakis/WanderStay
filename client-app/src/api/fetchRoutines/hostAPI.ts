@@ -1,6 +1,6 @@
 import { convertToPaginatedResponse } from "../responses/PaginatedResponse";
 import { FetchDataResponse, createEndPointUrl, fetchData } from "./fetchAPI";
-import { PropertyReservationResult } from "../responses/PropertyReservationResults";
+import { PropertyReservationResult } from "../responses/PropertyReservationResult";
 import { PropertyHostSidePreview } from "../responses/PropertyHostSidePreview";
 import { paginationQueryParamString } from "./fetchUtils";
 import { PropertyDetailsResponse } from "../responses/PropertyDetailsResponse";

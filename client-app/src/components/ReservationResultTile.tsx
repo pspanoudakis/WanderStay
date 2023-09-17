@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom";
-import { PropertyReservationResult } from "../api/responses/PropertyReservationResults";
+import { PropertyReservationResult } from "../api/responses/PropertyReservationResult";
 import { Card, CardActionArea } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays, faUserCircle, faUsers, faSackDollar, faCircleInfo, faEuro} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faUserCircle, faUsers, faSackDollar, faEuro} from "@fortawesome/free-solid-svg-icons";
 import { Img } from "./Img";
-import { PropertyTypeLabels } from "./utils/propertyFieldLabels";
+import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 
 interface ReservationResultTile{
     reservationPreview: PropertyReservationResult
-    baseNavPath?: string
     isGuest?: boolean
 }
 
 export function ReservationResultTile(props: ReservationResultTile){
-
+    const baseNavPath = props.isGuest ? ORDERED_BASE_ROLE_PATHS.GUEST : ORDERED_BASE_ROLE_PATHS.HOST;
     const reservationPreview = props.reservationPreview;
     return (
-        <Link to={`${props.baseNavPath ?? ''}/property/${reservationPreview.propertyId}`}>
+        <Link 
+            to={`${baseNavPath}/property/${reservationPreview.propertyId}`}
+        >
             <div className="border-2 border-main-petrol rounded-lg">
                 <Card 
                     sx={{ 
@@ -38,28 +39,18 @@ export function ReservationResultTile(props: ReservationResultTile){
                                     {reservationPreview.title}</span>
                             </div>
                             <div className='flex-1 w-full flex flex-col justify-between items-start border-l-2 border-main-petrol pl-3 mt-2'>
-                                
-                                {/* <div className="flex justify-center gap-2 items-center">
-                                    <FontAwesomeIcon icon={faCircleInfo} className="text-dark-petrol"/>
-                                    <span className="text-lg">{PropertyTypeLabels[reservationPreview.propertyType].label}</span>
-                                </div> */}
-                                {
-                                    props.isGuest ?
-                                    
-                                    <div className="flex justify-center gap-2 items-center">
-                                        <FontAwesomeIcon icon={faUserCircle} className="text-dark-petrol"/>
-                                        <span className="text-lg"><b>Οικοδεσπότης: </b> {reservationPreview.guestUsername}</span>
-                                    </div>
-
-                                    :
-                                    
-                                    <div className="flex justify-center gap-2 items-center">
-                                        <FontAwesomeIcon icon={faUserCircle} className="text-dark-petrol"/>
-                                        <span className="text-lg"><b>Από Χρήστη:</b> {reservationPreview.guestUsername}</span>
-                                    </div>
-                                }
-                                
-                                
+                            {
+                                props.isGuest ?                                    
+                                <div className="flex justify-center gap-2 items-center">
+                                    <FontAwesomeIcon icon={faUserCircle} className="text-dark-petrol"/>
+                                    <span className="text-lg"><b>Οικοδεσπότης: </b> {reservationPreview.hostUsername}</span>
+                                </div>
+                                :                                    
+                                <div className="flex justify-center gap-2 items-center">
+                                    <FontAwesomeIcon icon={faUserCircle} className="text-dark-petrol"/>
+                                    <span className="text-lg"><b>Ενοικιαστής:</b> {reservationPreview.guestUsername}</span>
+                                </div>
+                            }
                                 <div className="flex justify-center gap-2 items-center">
                                     <FontAwesomeIcon icon={faUsers}  className="text-dark-petrol"/>
                                     <span className="text-lg"><b>Επισκέπτες:</b> {reservationPreview.numPersons}</span>

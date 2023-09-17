@@ -2,7 +2,6 @@ import { ReservationResultTile } from "../components/ReservationResultTile";
 import { useCallback } from "react";
 import { fetchGuestReservations, fetchUpcomingGuestReservations } from "../api/fetchRoutines/guestAPI";
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
-import { ORDERED_BASE_ROLE_PATHS } from "./pathConstants";
 import { PageTitledSection } from "../components/PageTitledSection";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
@@ -42,7 +41,7 @@ export function GuestReservationsPage(){
                             <ReservationResultTile
                                 key={i}
                                 reservationPreview={p}
-                                baseNavPath={ORDERED_BASE_ROLE_PATHS.GUEST}
+                                isGuest={true}
                             />
                         )
                     }}
@@ -58,7 +57,7 @@ export function GuestReservationsPage(){
                             <ReservationResultTile
                                 key={i}
                                 reservationPreview={p}
-                                baseNavPath={ORDERED_BASE_ROLE_PATHS.GUEST}
+                                isGuest={true}
                             />
                         )
                     }}
