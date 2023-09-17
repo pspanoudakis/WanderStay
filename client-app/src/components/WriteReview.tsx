@@ -8,17 +8,19 @@ import { PrimaryButton } from './PrimaryButton';
 import { submitPropertyReview } from '../api/fetchRoutines/propertyAPI';
 import { AppContext, openModal } from '../AppContext';
 import { ModalActionResultTemplate } from './ModalActionResultTemplate';
+import { useNavigateIfAuthenticationFailed } from '../hooks/useNavigateIfAuthenticationFailed';
 
-interface ReviewProp{
-    propertyId:number
+interface WriteReviewProps {
+    propertyId: number,
 }
 
-export function WriteReview(props:ReviewProp){
+export function WriteReview(props: WriteReviewProps){
 
-    const[stars, setStars] = useState<number | null>(null)
-    const[reviewText, setReviewText] = useState("")
-    const[loading, setLoading] = useState(false)
+    const[stars, setStars] = useState<number | null>(null);
+    const[reviewText, setReviewText] = useState("");
+    const[loading, setLoading] = useState(false);
 
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
     const ctx = useContext(AppContext)
 
     function onSubmit(){
@@ -30,6 +32,7 @@ export function WriteReview(props:ReviewProp){
                 text: reviewText
             }).then(
                 (response) => {
+                    if (navigateIfAuthFailed(response)) return;
                     openModal(ctx, {
                         content: () => 
                             <ModalActionResultTemplate
@@ -42,8 +45,8 @@ export function WriteReview(props:ReviewProp){
                                     'Δεν ήταν δυνατή η υποβολή της κριτικής σας.'
                                 }
                             />
-                    })
-                    setLoading(false) 
+                    });
+                    setLoading(false);
                 }
             )
         }
@@ -60,8 +63,8 @@ export function WriteReview(props:ReviewProp){
                 <Rating
                     name="simple-controlled"
                     value={stars}
-                    onChange={(event, newValue) => {
-                    setStars(newValue);
+                    onChange={(e, newValue) => {
+                        setStars(newValue);
                     }}
                 />
             </Box>
@@ -87,7 +90,6 @@ export function WriteReview(props:ReviewProp){
                 >
                     Υποβολή
                 </PrimaryButton>
-                {/* <Button variant="contained" onClick={onSubmit} disabled={stars===null}>Υποβολή</Button> */}
             </div>
         </div>
     )

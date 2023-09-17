@@ -4,14 +4,18 @@ import { fetchGuestReservations, fetchUpcomingGuestReservations } from "../api/f
 import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { ORDERED_BASE_ROLE_PATHS } from "./pathConstants";
 import { PageTitledSection } from "../components/PageTitledSection";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 const PAGE_SIZE = 4;
 export function GuestReservationsPage(){
+
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
 
     const fetchReservationHistory = useCallback(
         async (pageNum: number, pageSize: number) => {
             return fetchGuestReservations(pageNum, pageSize)
             .then(res => {
+                navigateIfAuthFailed(res);
                 return res.content;
             });
         },[]
@@ -20,6 +24,7 @@ export function GuestReservationsPage(){
         async (pageNum: number, pageSize: number) => {
             return fetchUpcomingGuestReservations(pageNum, pageSize)
             .then(res => {
+                navigateIfAuthFailed(res);
                 return res.content;
             });
         },[]

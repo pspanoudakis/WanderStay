@@ -4,15 +4,19 @@ import { PaginatedResultsWrapper } from "../components/PaginatedResultsWrapper";
 import { fetchHostReservations, fetchUpcomingHostReservations } from "../api/fetchRoutines/hostAPI";
 import { ORDERED_BASE_ROLE_PATHS } from "./pathConstants";
 import { PageTitledSection } from "../components/PageTitledSection";
+import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 
 const PAGE_SIZE = 4;
 
 export function HostReservationsPage(){
 
+    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
+
     const fetchUpcomingReservations = useCallback(
         async (pageNum: number, pageSize: number) => {
             return fetchUpcomingHostReservations(pageNum, pageSize)
             .then(res => {
+                navigateIfAuthFailed(res);
                 return res.content;
             });
         },[]
@@ -21,6 +25,7 @@ export function HostReservationsPage(){
         async (pageNum: number, pageSize: number) => {
             return fetchHostReservations(pageNum, pageSize)
             .then(res => {
+                navigateIfAuthFailed(res);
                 return res.content;
             });
         },[]
