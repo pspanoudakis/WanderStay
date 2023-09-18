@@ -13,6 +13,7 @@ export type PropertyDetailsResponse = {
         images: ImageEntity[],
         reviewsSummary: PropertyReviewsSummary,
         hostName: string,
+        hostImg: ImageEntity | null,
         availableSlots: AvailableTimeSlot[],
         amenities: PropertyDetailedAmenities,
         rules: PropertyDetailedRules,

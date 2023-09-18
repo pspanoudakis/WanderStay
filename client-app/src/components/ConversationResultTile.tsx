@@ -3,7 +3,7 @@ import { PropertyConversationResult } from "../api/responses/PropertyConversatio
 import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
-import { Avatar } from "@mui/material";
+import { UserAvatar } from "./UserAvatar";
 
 const MAX_MSG_TEXT_PREVIEW_LENGTH = 80;
 
@@ -22,16 +22,12 @@ export function ConversationResultTile(props: {
                 duration-200 hover:bg-xlight-petrol
             "
         >
-            <Avatar 
-                className="border-2 border-main-petrol"
-                sx={{
-                    color: 'white',
-                    bgcolor: "primary.main" ,
-                    mt: 0.2
-                }}
-            >
-                {conversation.guestUsername.toUpperCase().charAt(0)}
-            </Avatar>
+            <div>
+            <UserAvatar
+                imgId={conversation.guestImg?.imgId}
+                username={conversation.guestUsername}
+            />
+            </div>
             <div className="flex flex-col w-full items-start">
                 <div className="flex w-full items-center justify-between">
                     <span className="text-lg font-bold">{conversation.guestUsername}</span>

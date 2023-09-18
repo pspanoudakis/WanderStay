@@ -1,22 +1,26 @@
 import { useEffect, useRef } from "react";
-import { Message } from "../api/entities/Message";
 import { MessageTile } from "./MessageTile";
+import { Conversation } from "../api/entities/Conversation";
 
 interface MessagesContainerProps{
-    messages: Message[]
+    conversation: Conversation
 }
 
 export function MessagesContainer(props:MessagesContainerProps){
 
     const domContainer = useRef<HTMLDivElement>(null);
+    const userAvatars = {
+        [props.conversation.guestUsername]: props.conversation.guestImg?.imgId,
+        [props.conversation.hostUsername]: props.conversation.hostImg?.imgId
+    };
 
     useEffect(() => {
         if (domContainer.current) {
             domContainer.current.scrollTop = domContainer.current.scrollHeight;
         }
-    }, [props.messages.length])
+    }, [props.conversation.messages.length])
 
-    return(
+    return (
         <div
             className="rounded-xl h-96 w-full overflow-hidden"
         >
@@ -26,8 +30,14 @@ export function MessagesContainer(props:MessagesContainerProps){
             >
                 <div className="flex flex-col justify-end w-full min-h-full h-max">
                 {
-                    props.messages.map(
-                        (msg, i) => msg.text != "" && <MessageTile key={i} msg={msg}/>
+                    props.conversation.messages.map(
+                        (msg, i) => msg.text != "" && (
+                            <MessageTile 
+                                key={i} 
+                                msg={msg}
+                                userAvatars={userAvatars}
+                            />
+                        )
                     )
                 }
                 </div>

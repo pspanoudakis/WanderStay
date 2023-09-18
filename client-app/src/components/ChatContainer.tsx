@@ -147,7 +147,18 @@ export function ChatContainer(props: ChatContainerProps){
                     Ανανέωση Συνομιλίας
                 </PrimaryButton>
             </div>
-            <MessagesContainer messages={conversation?.messages ?? []}/>
+            <MessagesContainer 
+                conversation={conversation ?? {
+                    messages: [],
+                    guestImg: null,
+                    hostImg: null,
+                    guestUsername: '',
+                    hostUsername: '',
+                    id: -1,
+                    propertyId: -1,
+                    propertyName: ''
+                }}
+            />
             <SendMessageForm
                 onSend={text => sendMessage(text)}
             />

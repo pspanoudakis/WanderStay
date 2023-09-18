@@ -6,29 +6,84 @@ import { CheckboxWithLabel } from "./CheckboxWithLabel"
 import { RoleTypeLabels } from "./utils/userRoleLabels"
 import { EditableTextField } from "./EditableTextField"
 import { PageTitleSpan } from "./PageTitleSpan"
+import { Img } from "./Img"
+import { UserAvatar } from "./UserAvatar"
+import { ImgUploadButton } from "./ImgUploadButton"
+import { createEndPointUrl } from "../api/fetchRoutines/fetchAPI"
+import { useContext, useState } from "react"
+import { AppContext, openModal } from "../AppContext"
+import { ModalActionResultTemplate } from "./ModalActionResultTemplate"
+import { ImageEntity } from "../api/entities/ImageEntity"
+import { LoadingSpinner } from "./LoadingSpinner"
 
 type UserDetailsProps = {
-    userInfo: UserDetailsRequest & {username: string},
+    userInfo: UserDetailsRequest & {username: string, img?: ImageEntity | null},
     setUserInfo?: (newInfo: UserDetailsRequest) => void,
+    setUserImage?: (img: ImageEntity) => void,
     visibleRoles: RoleType[]
     editable: boolean,
 }
 
 export function UserDetails({
     userInfo, 
-    setUserInfo, 
+    setUserInfo,
+    setUserImage,
     editable,
     visibleRoles
 }: UserDetailsProps) {
+    
+    const ctx = useContext(AppContext);
+    const [uploadingImg, setUploadingImg] = useState(false);
     return (
         <>
+            <LoadingSpinner
+                visible={uploadingImg}
+                coverParent={true}
+                text="Ενημέρωση των στοιχείων σας"
+            />
             <div className="flex flex-col items-center text-2xl gap-3">
-                <div className="flex gap-3 font-bold">
-                    <FontAwesomeIcon icon={faUserCircle} className="text-main-petrol" size="xl"/>
-                    {userInfo.username}
+                <div className="flex gap-3 items-center">
+                    <UserAvatar 
+                        imgId={userInfo.img?.imgId}
+                        username={userInfo.username}
+                    /> 
+                    <span className="font-bold">{userInfo.username}</span>
                 </div> 
-                <PageTitleSpan>Προσωπικά Στοιχεία</PageTitleSpan>
+                <PageTitleSpan>Προφίλ Χρήστη</PageTitleSpan>
             </div>
+            {
+                editable &&
+                <>
+                {
+                    userInfo.img ?
+                    <Img
+                        className="rounded-full h-60 w-60"
+                        imgId={userInfo.img.imgId}
+                    />
+                    :
+                    <FontAwesomeIcon className="text-main-petrol h-60 w-60" icon={faUserCircle} />
+
+                }
+                <ImgUploadButton
+                    uploadURL={createEndPointUrl('/user/uploadImage')}
+                    onStartUpload={() => setUploadingImg(true)}
+                    onSuccess={newImg => {
+                        setUserImage?.(newImg)
+                        setUploadingImg(false);
+                    }}
+                    onError={() => 
+                        openModal(ctx, {
+                            content: () => (
+                                <ModalActionResultTemplate
+                                    success={false}
+                                    errorText="Σφάλμα μεταφόρτωσης εικόνας"
+                                />
+                            )
+                        })
+                    }
+                />
+                </>
+            }
             <div className="flex gap-3 items-center flex-wrap">
                 <span className="text-xl font-bold">Ρόλος:</span>
                 <div className="flex flex-row">

@@ -83,6 +83,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                 country: null,
                 description: '',
                 hostName: '',
+                hostImg: null,
                 images: [],
                 propertyType: PropertyType.PRIVATE_PROPERTY,
                 rules: {
@@ -348,6 +349,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                             <WriteReview propertyId={propertyId}/>                        
                             <ContactHostSection
                                 hostUsername={property.hostName}
+                                hostImg={property.hostImg}
                                 propertyId={propertyId}
                             />
                             </>

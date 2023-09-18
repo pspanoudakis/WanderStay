@@ -8,8 +8,12 @@ import {
 import { AppContext } from "../AppContext";
 import { Message } from "../api/entities/Message";
 import { APP_PALLETE } from "./utils/colorConstants";
+import { UserAvatar } from "./UserAvatar";
 
 interface MessageTileProps{
+    userAvatars: {
+        [username: string]: number | null | undefined
+    }
     msg: Message
 }
 
@@ -31,9 +35,18 @@ export function MessageTile(props:MessageTileProps){
                 alignItems: "start",
                 }}
             >
+            {
+                (props.userAvatars[props.msg.sentBy] != null) ?
+                <UserAvatar
+                    imgId={props.userAvatars[props.msg.sentBy]}
+                    username={props.msg.sentBy}
+                />
+                :
                 <Avatar 
                     className="border-2 border-main-petrol"
                     sx={{
+                        width: 40, 
+                        height: 40,
                         color: isNotUser ? APP_PALLETE["dark-petrol"] : 'white',
                         bgcolor: isNotUser ? "primary.light" : "primary.main" ,
                         mt: 0.2
@@ -41,6 +54,7 @@ export function MessageTile(props:MessageTileProps){
                 >
                     {props.msg.sentBy.toUpperCase().charAt(0)}
                 </Avatar>
+            }
                 <div 
                     className={`flex flex-col ${isNotUser ? 'items-start' : 'items-end'}`}
                     style={{

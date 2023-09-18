@@ -1,18 +1,21 @@
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { UserAvatar } from './UserAvatar';
+import { ImageEntity } from '../api/entities/ImageEntity';
 
 interface ContactHostProps{
     hostUsername: string,
-
-    // need id to create url for messaging
+    hostImg: ImageEntity | null,
     propertyId: number,
 }
 
 export function ContactHostSection(props:ContactHostProps){
     return(
         <div className='flex gap-2 items-start'>
-            <div className='rounded-full h-fit bg-main-petrol text-white px-4 py-2'>
-                {props.hostUsername.charAt(0).toUpperCase()}</div>
+            <UserAvatar
+                imgId={props.hostImg?.imgId}
+                username={props.hostUsername}
+            />
             <div className='flex gap-2 font-bold text-lg flex-col items-start'>
                 <span>Οικοδεσπότης: {props.hostUsername}</span>
                 <Link

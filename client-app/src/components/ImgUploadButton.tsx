@@ -1,5 +1,5 @@
 import { ImageEntity } from "../api/entities/ImageEntity";
-import { fetchData } from "../api/fetchRoutines/fetchAPI";
+import { FetchDataResponse, fetchData } from "../api/fetchRoutines/fetchAPI";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 import { PrimaryButton } from "./PrimaryButton";
 
@@ -11,7 +11,7 @@ type ImgUploadButtonProps = {
     uploadURL: string
     onStartUpload: () => void,
     onSuccess: (newImg: ImageEntity) => void,
-    onError: (obj: any) => void,
+    onError: (response: FetchDataResponse<unknown>) => void,
     isNewImgMain?: boolean, 
 };
 

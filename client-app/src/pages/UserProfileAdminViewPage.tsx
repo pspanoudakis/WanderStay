@@ -19,25 +19,8 @@ import { exportObjAsJSON, exportTextAsXML } from "../utils/exportUtils";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { useParams } from "react-router-dom";
-import { UserAccountStatusIndicator } from "../components/UserAccountStatusIndicator";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
-
-function AccountStatusSection(props: {
-    isActive: boolean,
-    toggleIsActive: () => void
-}) {
-    return (
-        <>
-        <div className="flex gap-2 justify-start items-center w-full">
-            <span className="font-bold text-xl">Κατάσταση:</span>
-            <UserAccountStatusIndicator isActive={props.isActive}/>
-        </div>
-        <PrimaryButton onClick={props.toggleIsActive}>
-        {props.isActive ? 'Απενεργοποίηση Λογαριασμού' : 'Ενεργοποίηση Λογαριασμού'}
-        </PrimaryButton>
-        </>
-    )
-}
+import { AccountStatusSection } from "../components/AccountStatusSection";
 
 export function UserProfileAdminViewPage(){
 
@@ -144,13 +127,15 @@ export function UserProfileAdminViewPage(){
                 <div className="flex flex-col gap-10 items-center w-full">
                     <UserDetails
                         userInfo={{
-                            ...userInfo.user
+                            ...userInfo.user,
+                            img: userInfo.user.image
                         }}
                         editable={false}
                         visibleRoles={Object.values(RoleType)}
                     />
-                    <AccountStatusSection 
+                    <AccountStatusSection
                         isActive={userInfo.user.active}
+                        editable={true}
                         toggleIsActive={toggleUserIsActive}
                     />
                 </div>
