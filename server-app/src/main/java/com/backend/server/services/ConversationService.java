@@ -44,7 +44,9 @@ class ConversationResponseDto extends ApiResponseDto {
                 .propertyId(property.getId())
                 .propertyName(property.getName())
                 .hostUsername(property.getHost().getUser().getUsername())
+                .hostImg(property.getHost().getUser().getImage())
                 .guestUsername(c.getGuestUser().getUser().getUsername())
+                .guestImg(c.getGuestUser().getUser().getImage())
                 .messages(c.getMessages())
             .build()
         );
@@ -201,6 +203,7 @@ public class ConversationService {
         .map(c -> (
                 ConversationPreviewDto.builder()
                     .guestUsername(c.getGuestUser().getUser().getUsername())
+                    .guestImg(c.getGuestUser().getUser().getImage())
                     .lastMessage(
                         c.getMessages().size() > 0 ? 
                         c.getMessages().get(c.getMessages().size() - 1) : null

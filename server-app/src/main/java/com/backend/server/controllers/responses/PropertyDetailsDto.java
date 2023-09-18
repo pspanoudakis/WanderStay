@@ -19,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class PropertyDetailsDto extends PropertyBasicInfoDto {
     private String hostName;
+    private Image hostImg;
     private List<Image> images;
     private List<AvailableTimeSlot> availableSlots;
     private PropertyAmenities amenities;
