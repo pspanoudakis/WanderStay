@@ -14,6 +14,7 @@ import { clearJwt } from '../api/jwt/jwt';
 import { RoleType } from '../api/entities/RoleType';
 import { getBaseNavigationPath } from './utils/getBaseNavigationPath';
 import { ORDERED_BASE_ROLE_PATHS } from '../pages/pathConstants';
+import { UserAvatar } from './UserAvatar';
 
 function getMenuItems(userCtx: UserContext | undefined): {
     textChoice: string,
@@ -116,14 +117,10 @@ export function PopOverMenu() {
                     >
                         <div className='flex gap-2 items-center border-2 border-main-petrol rounded-full px-2 py-1'>
                             <FontAwesomeIcon icon={faBars} className='text-main-petrol'/>
-                            {
-                                userCtx ?
-                                <div className="rounded-full bg-main-petrol text-white font-semibold px-3 py-1">
-                                    {userCtx.username.charAt(0).toUpperCase()}
-                                </div>
-                                :
-                                <Avatar sx={{ width: 32, height: 32, bgcolor: APP_PALLETE['main-petrol'] }} />
-                            }
+                            <UserAvatar
+                                imgId={userCtx?.image?.imgId}
+                                username={userCtx?.username}
+                            />
                         </div>
                     </IconButton>
                 </Tooltip>

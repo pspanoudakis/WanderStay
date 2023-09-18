@@ -1,9 +1,10 @@
+import { ImageEntity } from "../entities/ImageEntity";
 import { RoleType } from "../entities/RoleType";
 
 export type UserResponse = {
     user: {
         username: string,
-        image: number | null,
+        image: ImageEntity | null,
         roles: RoleType[],
         email: string,
         firstName: string,

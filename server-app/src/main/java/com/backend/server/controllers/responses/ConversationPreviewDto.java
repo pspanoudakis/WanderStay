@@ -1,5 +1,6 @@
 package com.backend.server.controllers.responses;
 
+import com.backend.server.entities.images.Image;
 import com.backend.server.entities.messages.Message;
 
 import lombok.Builder;
@@ -12,5 +13,6 @@ import lombok.Setter;
 public class ConversationPreviewDto {
     private Long id;
     private String guestUsername;
+    private Image guestImg;
     private Message lastMessage;
 }

@@ -230,6 +230,7 @@ public class PropertyService {
             return (
                 ReviewDto.builder()
                     .guestUsername(r.getGuest().getUser().getUsername())
+                    .guestImg(r.getGuest().getUser().getImage())
                     .createdOn(r.getCreatedOn())
                     .stars(r.getStars())
                     .text(r.getText())
@@ -294,6 +295,7 @@ public class PropertyService {
         return new PropertyDetailsResponseDto(
             initBasicPropertyDtoBuilder(property, PropertyDetailsDto.builder())
                 .hostName(property.getHost().getUser().getUsername())
+                .hostImg(property.getHost().getUser().getImage())
                 .images(property.getImages())
                 .availableSlots(property.getAvailableSlots())
                 .amenities(property.getAmenities())

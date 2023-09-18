@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AppContext, AppContextType, openModal } from "../AppContext";
+import { AppContext, AppContextType, openModal, setUserContext } from "../AppContext";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { RoleType } from "../api/entities/RoleType";
@@ -8,6 +8,8 @@ import { updateUserDetails } from "../api/fetchRoutines/userAPI";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { UserDetails } from "../components/UserDetails";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
+import { AccountStatusSection } from "../components/AccountStatusSection";
+import { useNavigate } from "react-router-dom";
 
 function extractUserInfoFromCtx(ctx: AppContextType): UserDetailsRequest {
     const businessContext = ctx.state.businessContext;
@@ -21,6 +23,7 @@ function extractUserInfoFromCtx(ctx: AppContextType): UserDetailsRequest {
 }
 
 export function UserProfilePage(){
+    const navigate = useNavigate();
     const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
     const ctx = useContext(AppContext);
     const businessContext = ctx.state.businessContext;
@@ -32,6 +35,10 @@ export function UserProfilePage(){
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        if (!businessContext.userContext) {
+            navigate('/signIn');
+            return;
+        }
         setUserInfo(extractUserInfoFromCtx(ctx));
     }, [JSON.stringify(businessContext.userContext)])
 
@@ -90,11 +97,23 @@ export function UserProfilePage(){
                 <UserDetails
                     userInfo={{
                         ...userInfo,
+                        img: businessContext.userContext?.image,
                         username: String(businessContext.userContext?.username)
+                    }}
+                    setUserImage={img => {
+                        if (businessContext.userContext) {
+                            setUserContext(ctx, {
+                                ...businessContext.userContext,
+                                image: img
+                            });                            
+                        }
                     }}
                     editable={isEditing}
                     setUserInfo={setUserInfo}
                     visibleRoles={[RoleType.GUEST, RoleType.HOST]}
+                />
+                <AccountStatusSection
+                    isActive={Boolean(businessContext.userContext?.active)}
                 />
             </div>
             {

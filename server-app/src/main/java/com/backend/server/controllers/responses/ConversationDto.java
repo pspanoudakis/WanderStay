@@ -2,6 +2,7 @@ package com.backend.server.controllers.responses;
 
 import java.util.List;
 
+import com.backend.server.entities.images.Image;
 import com.backend.server.entities.messages.Message;
 
 import lombok.Builder;
@@ -16,7 +17,9 @@ public class ConversationDto {
     private Long propertyId;
     private String propertyName;
     private String hostUsername;
+    private Image hostImg;
     private String guestUsername;
+    private Image guestImg;
     
     private List<Message> messages;
 }
