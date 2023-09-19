@@ -1,8 +1,12 @@
 import Button from '@mui/material/Button';
-import { Img } from "../components/Img";
 import { Box, Card, CardContent, CardMedia } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../AppContext';
+import { getBaseNavigationPath } from '../components/utils/getBaseNavigationPath';
 
 export function NotFoundPage() {
+    const userCtx = useContext(AppContext).state.businessContext.userContext;
     return (
         <div className="flex justify-between items-center gap-44 w-full m-10">
             <div className="flex flex-col gap-8 items-start">
@@ -17,9 +21,11 @@ export function NotFoundPage() {
                         Please check the URL and try again.
                     </div>
                 </div>
-                <Button variant="contained" size="large" LinkComponent={NotFoundPage}>
-                    Go to Home Page
-                </Button>
+                <Link to={getBaseNavigationPath(userCtx?.roles)}>
+                    <Button variant="contained" size="large">
+                        Go to Home Page
+                    </Button>                
+                </Link>
             </div>
             
             {/* <Box

@@ -37,10 +37,18 @@ export type AppContextState = {
 //         businessContext: {
 //             userContext?: {
 //                 username: string,
+//                 image: ImageEntity | null,
+//                 roles: RoleType[],
+//                 email: string,
 //                 firstName: string,
 //                 lastName: string,
-//                 email: string,
-//                 mobileNumber: string
+//                 mobileNumber: string,
+//                 accountNonLocked: boolean,
+//                 accountNonExpired: boolean,
+//                 credentialsNonExpired: boolean,
+//                 active: boolean,
+//                 locked: boolean,
+//                 enabled: boolean,
 //             },
 //             searchContext: {
 //                 countryId: number | null,
