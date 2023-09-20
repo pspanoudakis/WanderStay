@@ -15,6 +15,7 @@ import { AppContext, openModal } from "../AppContext"
 import { ModalActionResultTemplate } from "./ModalActionResultTemplate"
 import { ImageEntity } from "../api/entities/ImageEntity"
 import { LoadingSpinner } from "./LoadingSpinner"
+import { Avatar } from "@mui/material"
 
 type UserDetailsProps = {
     userInfo: UserDetailsRequest & {username: string, img?: ImageEntity | null},
@@ -56,10 +57,18 @@ export function UserDetails({
                 <>
                 {
                     userInfo.img ?
-                    <Img
-                        className="rounded-full h-60 w-60"
-                        imgId={userInfo.img.imgId}
-                    />
+                    <Avatar 
+                        sx={{
+                            width: 240, 
+                            height: 240
+                        }}
+                    >
+                        <Img
+                            className="rounded-full h-60 w-60"
+                            imgId={userInfo.img.imgId}
+                        />
+                    </Avatar>
+                    
                     :
                     <FontAwesomeIcon className="text-main-petrol h-60 w-60" icon={faUserCircle} />
 
