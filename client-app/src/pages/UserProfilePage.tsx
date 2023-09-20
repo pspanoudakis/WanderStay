@@ -62,9 +62,19 @@ export function UserProfilePage(){
                         showModal: true,
                         modalProps: {
                             content: () => (
+                                
                                 <ModalActionResultTemplate
                                     success={true}
-                                    successText="Τα στοιχεία σας ενημερώθηκαν επιτυχώς."
+                                    successText={
+                                        'Τα στοιχεία σας ενημερώθηκαν επιτυχώς.' +
+                                        (
+                                            (!businessContext.userContext?.roles.includes(RoleType.HOST) &&
+                                            response.content.user.roles.includes(RoleType.HOST)) ?
+                                            ' O λογαριασμός σας ως Oικοδεσπότης είναι προς το παρόν απενεργοποιημένος.'
+                                            :
+                                            ''
+                                        )
+                                    }
                                 />
                             )
                         }

@@ -11,6 +11,8 @@ import { clearJwt, getJwt } from './api/jwt/jwt';
 import { loginWithJwt } from './api/fetchRoutines/authAPI';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { wait } from './api/fetchRoutines/fetchAPI';
+import { RoleType } from './api/entities/RoleType';
+import { HostNotActiveModalWarning } from './components/HostNotActiveModalWarning';
 
 const muiTheme = createTheme({
 	typography: {
@@ -25,7 +27,7 @@ const muiTheme = createTheme({
 			contrastText: 'white'
 		}
 	}
-})
+});
 
 export function App() {
 
@@ -35,6 +37,10 @@ export function App() {
 	const [appContext, setAppContext] = useState<AppContextState>(appContextInitState);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname])
+
+	useEffect(() => {
 		setPendingLogin(true);
 		if (!appContext.businessContext.userContext && getJwt()) {
 
@@ -42,7 +48,22 @@ export function App() {
 			.then(response => {
 				if (response.ok) {
 					setAppContext({
-						...appContext,
+						modalContext: (
+							(response.content.user.roles.includes(RoleType.HOST) &&
+							!response.content.user.active) ?
+							{
+								showModal: true,
+								modalProps: {
+									content: () => (
+										<HostNotActiveModalWarning
+											isGuest={response.content.user.roles.includes(RoleType.GUEST)}
+										/>
+									)
+								}
+							}
+							:
+							appContext.modalContext
+						),
 						businessContext: {
 							...appContext.businessContext,
 							userContext: response.content.user

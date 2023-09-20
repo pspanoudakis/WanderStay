@@ -1,6 +1,4 @@
 import { useContext, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { loginWithCredentials } from "../api/fetchRoutines/authAPI";
@@ -8,6 +6,8 @@ import { AppContext } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { getBaseNavigationPath } from "../components/utils/getBaseNavigationPath";
+import { HostNotActiveModalWarning } from "../components/HostNotActiveModalWarning";
+import { RoleType } from "../api/entities/RoleType";
 
 export function SignInForm() {
 
@@ -16,7 +16,6 @@ export function SignInForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const [isVisible, setVisible] = useState(false)
     const [username, setUsername] = useState('');
     const [pwd, setPwd] = useState('');
 
@@ -36,17 +35,23 @@ export function SignInForm() {
                     userContext: response.ok ? response.content.user : undefined
                 },
                 modalContext: {
-                    showModal: !response.ok,
+                    showModal: !response.ok || (
+                        response.content.user.roles.includes(RoleType.HOST) &&
+                        !response.content.user.active
+                    ),
                     modalProps: {
                         content:(
-                            !response.ok ?
                             () => (
+                                !response.ok ?
                                 <ModalActionResultTemplate
                                     success={false}
                                     errorText="Σφάλμα κατά τη σύνδεση."
                                 />
+                                :
+                                <HostNotActiveModalWarning
+                                    isGuest={response.content.user.roles.includes(RoleType.GUEST)}
+                                />
                             )
-                            : undefined
                         )
                     }
                 }
@@ -80,14 +85,11 @@ export function SignInForm() {
                 <h2 className="text-dark-petrol text-lg mt-4">Κωδικός</h2>
                 <div className="flex bg-white border-2 border-gray-300 rounded-full h-10 justify-between items-center w-80">
                     <input
-                        type={isVisible ? "text" : "password"}
-                        className="bg-white outline-none text-black rounded-full w-4/5 px-3"
+                        type={"password"}
+                        className="bg-white outline-none text-black rounded-full w-full px-3"
                         value={pwd}
                         onChange={(e) => setPwd(e.target.value)}
                     />
-                    <button className="bg-white rounded-full w-1/5 text-lg p-0" onClick={() => setVisible(!isVisible)}>
-                        <FontAwesomeIcon icon={isVisible ? faEyeSlash : faEye} size='lg' className="text-dark-petrol mr-4" />
-                    </button>
                 </div>
             </div>
             <div className="flex flex-col items-center">

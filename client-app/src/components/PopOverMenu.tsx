@@ -151,8 +151,12 @@ export function PopOverMenu() {
                 }
                 {
                     userCtx ?
-                    <MenuItem>
-                        <button onClick={() => logOut()} className='flex gap-2 items-center w-full'>
+                    <MenuItem
+                        sx={{
+                            p: 0
+                        }}
+                    >
+                        <button onClick={() => logOut()} className='flex gap-2 items-center w-full p-2 px-4'>
                             <FontAwesomeIcon icon={faRightFromBracket} style={{ color: APP_PALLETE['main-petrol'], }} />
                             Αποσύνδεση
                         </button>

@@ -73,7 +73,8 @@ export function MapComponent(props: MapProps){
         <div className='flex flex-col w-full h-96 gap-2 items-start'>
             <MapContainer
                 style={{
-                  flex: "1 1 0%"
+                  flex: "1 1 0%",
+                  zIndex: 10
                 }}
                 center={[propsPosition.lat, propsPosition.lng]}
                 zoom={ZOOM_LEVEL}>

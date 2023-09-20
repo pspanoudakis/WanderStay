@@ -50,7 +50,17 @@ export function SignUpForm() {
                                 () => (
                                     <ModalActionResultTemplate
                                         success={response.ok}
-                                        successText="Ο Λογαριασμός σας δημιουργήθηκε με επιτυχία."
+                                        successText={
+                                            'Ο Λογαριασμός σας δημιουργήθηκε με επιτυχία.' + 
+                                            (response.content.user.roles.includes(RoleType.HOST) ?
+                                            (
+                                                ' Εκκρεμεί η έγκρισή σας ως Oικοδεσπότης.' +
+                                                (response.content.user.roles.includes(RoleType.GUEST) ?
+                                                ' Mπορείτε να περιηγηθείτε στο WanderStay ως Ενοικιαστής.' : '')
+                                            )
+                                            :
+                                            '')
+                                        }
                                         errorText="Σφάλμα κατά τη δημιουργία λογαριασμού."
                                     />
                                 )
