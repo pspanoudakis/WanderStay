@@ -102,7 +102,6 @@ export function SearchPropertiesPage() {
             />
             <PaginatedResultsWrapper
                 pageSize={PAGE_SIZE}
-                idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                 resultFetcher={fetchProperties}
                 resultRenderer={(p) => {
                     return (

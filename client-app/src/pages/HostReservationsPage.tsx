@@ -35,7 +35,6 @@ export function HostReservationsPage(){
             <PageTitledSection title="Επερχόμενες Κρατήσεις σε Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
-                    idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                     resultFetcher={fetchUpcomingReservations}
                     resultRenderer={(p, i) => {
                         return (
@@ -50,7 +49,6 @@ export function HostReservationsPage(){
             <PageTitledSection title="Ιστορικό Κρατήσεων σε Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
-                    idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                     resultFetcher={fetchReservationHistory}
                     resultRenderer={(p, i) => {
                         return (

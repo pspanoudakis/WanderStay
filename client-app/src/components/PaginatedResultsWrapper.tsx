@@ -38,6 +38,20 @@ export function PaginatedResultsWrapper<T>({
         setTotalPages(-1);
     }, [resultFetcher]);
 
+    const titleBuilder = useCallback((n: number) => {
+        if (idleTitleBuilder) {
+            return idleTitleBuilder(n);
+        }
+        if (n > 1) {
+            return `Βρέθηκαν ${n} αποτελέσματα:`
+        } else if (n === 1) {
+            return `Βρέθηκε 1 αποτέλεσμα:`
+        } else {
+            return `Δεν βρέθηκαν αποτελέσματα.`;            
+        }
+
+    }, [idleTitleBuilder])
+
     const fetchResults = useCallback(() => {
         setLoading(true);
         setExtLoading?.(true);
@@ -50,10 +64,6 @@ export function PaginatedResultsWrapper<T>({
                 setExtLoading?.(false);
                 setLoading(false)               
             })
-            // .finally(() => {
-            //     setExtLoading?.(false);
-            //     setLoading(false)
-            // });
 
     }, [resultFetcher, currentPage, pageSize, setExtLoading]);
 
@@ -64,24 +74,31 @@ export function PaginatedResultsWrapper<T>({
     
     return (        
         <div className="flex flex-col flex-1 relative">
-            <div className="flex flex-row w-full justify-between">
+            <div className={`
+                    flex flex-row w-full 
+                    ${totalElements ? 'justify-between' : 'justify-center items-center'}
+                `}
+            >
                 {
                     loading && !results.length ? 
                         <span className="font-bold text-lg">
-                            {loadingTitle }
+                            {loadingTitle}
                         </span>
                         :
                         <>
                             <span className="font-bold text-lg">
-                                {(idleTitleBuilder?.(totalElements) ?? 'Αποτελέσματα Αναζήτησης:' + " " + results.length)}                            
+                                {titleBuilder(totalElements)}                            
                             </span>
-                            <Pagination 
-                                count={totalPages} 
-                                size="small" 
-                                color="primary"
-                                page={currentPage + 1}
-                                onChange={(_, p) => setCurrentPage(p - 1)}
-                            />
+                            {
+                                Boolean(totalElements) &&
+                                <Pagination 
+                                    count={totalPages} 
+                                    size="small" 
+                                    color="primary"
+                                    page={currentPage + 1}
+                                    onChange={(_, p) => setCurrentPage(p - 1)}
+                                />
+                            }
                         </>
                 }                                
             </div>

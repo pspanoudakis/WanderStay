@@ -16,9 +16,6 @@ export function EditableTextField(props: UserProfileProps){
             props.edit?
                 <Box
                     width='100%'
-                    component="form"
-                    noValidate
-                    autoComplete="off"
                 >
                     <TextField 
                         fullWidth

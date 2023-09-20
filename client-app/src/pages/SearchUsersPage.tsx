@@ -48,7 +48,8 @@ export function SearchUsersPage() {
         }, [usernamePatternParam, isActiveParam]
     );
 
-    const updateSearchParams = () => {
+    const updateSearchParams = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setParams({
             [USERNAME_PARAM_KEY]: String(usernamePattern),
             [ISACTIVE_PARAM_KEY]: String(isActive),
@@ -58,7 +59,10 @@ export function SearchUsersPage() {
     return (
         <div className="flex flex-col items-stretch gap-4 w-5/12">
             <PageTitleSpan>Διαχείριση Χρηστών</PageTitleSpan>
-            <div className="flex flex-row justify-evenly items-center">
+            <form 
+                className="flex flex-row justify-evenly items-center"
+                onSubmit={e => updateSearchParams(e)}
+            >
                 <div className="flex flex-col">
                     <EditableTextField
                         text={usernamePattern ?? undefined}
@@ -81,19 +85,18 @@ export function SearchUsersPage() {
                 </div>
                 <div className="">
                     <PrimaryButton 
+                        type="submit"
                         classExtras="rounded-xl py-1 px-3 text-lg"
-                        onClick={updateSearchParams}
                     >
                         <FontAwesomeIcon icon={faSearch} className="mr-3"/>
                         Αναζήτηση
                     </PrimaryButton>
                 </div>                
-            </div>
+            </form>
             <PaginatedResultsWrapper
                 pageSize={PAGE_SIZE}
                 resultFetcher={fetchUserResults}
                 resultRenderer={u => <UserSearchResultTile key={u.username} user={u}/>}
-                idleTitleBuilder={n => `Βρέθηκαν ${n} χρήστες`}
                 loadingTitle="Αναζήτηση Χρηστών"
             />
         </div>

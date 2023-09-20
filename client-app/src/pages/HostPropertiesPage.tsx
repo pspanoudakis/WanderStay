@@ -26,7 +26,6 @@ export function HostPropertiesPage(){
             <PageTitledSection title="Τα Καταλύματά σας">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
-                    idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                     resultFetcher={fetchProperties}
                     resultRenderer={(p, i) => {
                         return (

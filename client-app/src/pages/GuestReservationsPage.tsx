@@ -34,7 +34,6 @@ export function GuestReservationsPage(){
             <PageTitledSection title="Επερχόμενες Κρατήσεις">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
-                    idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                     resultFetcher={fetchUpcomingReservations}
                     resultRenderer={(p, i) => {
                         return (
@@ -50,7 +49,6 @@ export function GuestReservationsPage(){
             <PageTitledSection title="Ιστορικό Κρατήσεων">
                 <PaginatedResultsWrapper
                     pageSize={PAGE_SIZE}
-                    idleTitleBuilder={(n) => `Βρέθηκαν ${n} αποτελέσματα`}
                     resultFetcher={fetchReservationHistory}
                     resultRenderer={(p, i) => {
                         return (
