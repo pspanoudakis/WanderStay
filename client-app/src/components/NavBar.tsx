@@ -14,8 +14,8 @@ export function NavBar({location}:{
     const showSearchBar = baseHomePath === ORDERED_BASE_ROLE_PATHS.GUEST;
 
     return (
-        <nav className="bg-white w-full flex-col text-main-petrol sticky top-0 z-50">
-            <div className="flex justify-between p-2 items-center px-8  border-b-2 border-light-petrol">
+        <nav className="w-full flex-col text-main-petrol sticky top-0 z-50 bg-transparent">
+            <div className="bg-white flex justify-between p-2 items-center px-8  border-b-2 border-light-petrol">
                 {
                     showSearchBar ?
                     <>

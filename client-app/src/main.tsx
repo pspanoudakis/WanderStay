@@ -19,6 +19,9 @@ import { SearchUsersPage } from './pages/SearchUsersPage';
 import { HostReservationsPage } from './pages/HostReservationsPage';
 import { HostPropertiesPage } from './pages/HostPropertiesPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { GuestHomePage } from './pages/GuestHomePage';
+import { HostHomePage } from './pages/HostHomePage';
+import { AdminHomePage } from './pages/AdminHomePage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -28,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					<Route path='signIn' element={<SignInForm />} />
 					<Route path='signUp' element={<SignUpForm />} />
 					<Route path={ORDERED_BASE_ROLE_PATHS.GUEST}>
-						<Route index element={<span>Guest Home</span>} />
+						<Route index element={<GuestHomePage/>} />
 						<Route path='searchProperties' element={<SearchPropertiesPage/>} />
 						<Route path='property'>
 							<Route path=':propertyId'>
@@ -40,12 +43,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 						<Route path='test' element={<TestPage/>} />
 					</Route>					
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
-						<Route index element={<span>Admin Home</span>} />
+						<Route index element={<AdminHomePage/>} />
 						<Route path='searchUsers' element={<SearchUsersPage/>} />
 						<Route path='users/:username' element={<UserProfileAdminViewPage/>} />
 					</Route>
 					<Route path={ORDERED_BASE_ROLE_PATHS.HOST}>
-						<Route index element={<span>Host Home</span>} />
+						<Route index element={<HostHomePage/>} />
 						<Route path='property'>
 							<Route path=':propertyId'>
 								<Route index element={<PropertyHostViewPage/>} />
