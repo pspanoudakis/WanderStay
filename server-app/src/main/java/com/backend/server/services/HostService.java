@@ -34,22 +34,35 @@ public class HostService {
     private final ReservationSpecification reservationSpecification;
     private final ReservationRepository reservationRepository;
 
+    private void throwIfHostNotActive(Host host) throws BadRequestException {
+        if (!host.getUser().isActive()) {
+            throw new BadRequestException(
+                "Host User '" + host.getUser().getUsername() + "' is not active."
+            );
+        }
+    }
+
     public Host getHostFromTokenOrElseThrow(String token) throws BadRequestException {
 
-        User user = authService.getUserFromTokenOrElseThrow(token);
-        return hostRepository.findByUser(user).orElseThrow(
+        Host host = hostRepository.findByUser(
+            authService.getUserFromTokenOrElseThrow(token)
+        ).orElseThrow(
             () -> new BadRequestException(
                     "The provided JWT is not associated with a Host."
                 )
         );
+        throwIfHostNotActive(host);
+        return host;
     }
 
     private Host findHostByUsernameOrElseThrow(String username) throws BadRequestException {
-        return hostRepository.findByUser(
+        Host host = hostRepository.findByUser(
             userService.getUserByUsernameOrElseThrow(username)
         ).orElseThrow(
             () -> new BadRequestException("No Host found with username '" + username + "'")
         );
+        throwIfHostNotActive(host);
+        return host;
     }
 
     @Transactional

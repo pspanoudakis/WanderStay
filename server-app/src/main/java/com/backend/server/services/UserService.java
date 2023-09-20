@@ -11,8 +11,14 @@ import com.backend.server.controllers.requests.UpdatedUserDetailsDto;
 import com.backend.server.controllers.responses.UserResponseDto;
 import com.backend.server.controllers.responses.UserSearchResultDto;
 import com.backend.server.entities.images.Image;
+import com.backend.server.entities.users.Guest;
+import com.backend.server.entities.users.Host;
+import com.backend.server.entities.users.RoleEntityId;
+import com.backend.server.entities.users.RoleType;
 import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
+import com.backend.server.repositories.GuestRepository;
+import com.backend.server.repositories.HostRepository;
 import com.backend.server.repositories.UserRepository;
 import com.backend.server.services.utils.PaginationUtils;
 import com.backend.server.specifications.UserSpecification;
@@ -30,6 +36,8 @@ public class UserService {
     private final ImageService imageService;
     private final UserSpecification userSpecification;
     private final UserRepository userRepository;
+    private final GuestRepository guestRepository;
+    private final HostRepository hostRepository;
 
     public User getUserByUsernameOrElseThrow(String username) throws BadRequestException {
         return userRepository.findByUsername(username).orElseThrow(
@@ -37,10 +45,39 @@ public class UserService {
         );
     }
 
+    @Transactional
     public UserResponseDto updateUserDetails(
         String jwt, UpdatedUserDetailsDto request
     ) throws BadRequestException {
         User user = authService.getUserFromTokenOrElseThrow(jwt);
+        
+        if (request.getRoles().contains(RoleType.GUEST.toString()) &&
+            !user.getRoles().stream().anyMatch(
+                role -> role.equals(roleService.getGuestRole())
+            )) {
+            guestRepository.findByUser(user).orElseGet(
+                () -> guestRepository.save(
+                    Guest.builder()
+                        .user(user)
+                        .id(new RoleEntityId())
+                        .build()
+                )                
+            );
+        }
+        if (request.getRoles().contains(RoleType.HOST.toString()) &&
+            !user.getRoles().stream().anyMatch(
+                role -> role.equals(roleService.getHostRole())
+            )) {
+            hostRepository.findByUser(user).orElseGet(
+                () -> hostRepository.save(
+                    Host.builder()
+                        .user(user)
+                        .id(new RoleEntityId())
+                        .build()
+                )
+            );
+            user.setActive(false);
+        }
 
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());

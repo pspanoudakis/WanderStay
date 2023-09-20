@@ -62,9 +62,9 @@ public class AuthService {
                     )
             )
         );
-        if (!user.isActive()) {
+        if (user.isLocked()) {
             throw new BadRequestException(
-                "The user associated with the specified JWT is disabled."
+                "The user associated with the specified JWT is locked."
             );
         }
         return user;
