@@ -31,23 +31,22 @@ export function NavBar({location}:{
                     <PopOverMenu/>
                     </>
                     :
-                    <div className="w-screen flex justify-end items-center">
-                        <div className="w-1/2 flex justify-end items-center">
+                    <div className="w-full flex items-center py-3">
+                        <div className="w-full flex justify-center items-center">
                             <Link
                                 to={baseHomePath}
                                 className="
                                     text-main-petrol font-bold text-4xl 
                                     duration-300 hover:text-dark-petrol
-                                    py-3 absolute
                                 "
                                 style={{
                                     fontFamily: 'Pacifico',
-                                    left: 'max(47rem, 44%)'
-                                    // left: '47rem'
                                 }}
                             >
                                 WanderStay
                             </Link>
+                        </div>
+                        <div className="absolute right-8">
                             <PopOverMenu/>
                         </div>
                     </div>

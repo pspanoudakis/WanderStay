@@ -67,13 +67,13 @@ export function Footer() {
                 {
                     Object.entries(sectionLinks).map(([sectionTitle, links], i) => (
                         <div key={i} className="flex flex-col items-start">
-                            <span className="text-xl font-bold">{sectionTitle}</span>
+                            <span className="text-xl font-semibold">{sectionTitle}</span>
                             {
                                 links.map(({label, url}, i) => (
                                     <Link 
                                         key={i}
                                         to={url} 
-                                        className="text-lg duration-200 hover:text-dark-petrol"
+                                        className="duration-200 hover:text-dark-petrol"
                                     >
                                         {label}
                                     </Link>

@@ -20,7 +20,8 @@ export function HostHomePage() {
                                 link: `${ORDERED_BASE_ROLE_PATHS.HOST}/reservations`,
                                 linkLabel: 'Προβολή Κρατήσεων',
                                 imgHrefs: [
-                                    'https://blogs.bodleian.ox.ac.uk/sainsbury/wp-content/uploads/sites/104/2016/05/b.jpg',
+                                    'https://assets.website-files.com/5dc393eb429c1ad690f7818d/5ebef44ce7a4905d6827c6f9_calculating-virtual-assistant-costs.jpg',
+                                    'https://trendyfoxstudio.com/cdn/shop/products/airbnb-host-thank-you-card-canva-template-vera-688569.jpg?v=1685631528',
                                 ]
                             },
                             {
@@ -29,7 +30,8 @@ export function HostHomePage() {
                                 link: `${ORDERED_BASE_ROLE_PATHS.HOST}/properties`,
                                 linkLabel: 'Προβολή Καταλυμάτων',
                                 imgHrefs: [
-                                    'https://blogs.bodleian.ox.ac.uk/sainsbury/wp-content/uploads/sites/104/2016/05/b.jpg',
+                                    'https://media1.popsugar-assets.com/files/thumbor/Uj3vTsyyx8M_QdP35J6RmxUG06E/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2016/12/09/817/n/1922794/1c71dc7c1e79025f_17/i/Jamie-Foxx-Miami-Airbnb-Mansion.png',
+                                    'https://cdn.lifehack.org/wp-content/uploads/2017/09/malibu-dream.jpg',
                                 ]
                             },
                         ]
@@ -52,7 +54,8 @@ export function HostHomePage() {
                             link: `/signUp`,
                             linkLabel: 'Εγγραφή',
                             imgHrefs: [
-                                'https://blogs.bodleian.ox.ac.uk/sainsbury/wp-content/uploads/sites/104/2016/05/b.jpg',
+                                'https://turno.com/wp-content/uploads/2021/07/image9-1024x683.jpg',
+                                'https://trendyfoxstudio.com/cdn/shop/products/airbnb-host-thank-you-card-canva-template-vera-688569.jpg?v=1685631528',
                             ]
                         },
                     ]

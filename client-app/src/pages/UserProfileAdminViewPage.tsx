@@ -147,7 +147,6 @@ export function UserProfileAdminViewPage(){
                         name="row-radio-buttons-group"
                         value={exportType}
                         onChange={(e) => {
-                            debugger;
                             setExportType(e.target.value as SupportedAcceptType)
                         }}
                     >
