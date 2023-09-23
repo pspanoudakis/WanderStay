@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+// import com.backend.server.entities.properties.Reservation;
+// import com.backend.server.repositories.ReservationRepository;
 import com.backend.server.services.ImageService;
 
 // import java.util.Date;
@@ -222,6 +224,19 @@ public class ServerApplication{
 	// 						.build()
 	// 				);
 	// 			}
+	// 		}
+	// 	};
+	// }
+	
+	// @Bean
+	// public CommandLineRunner populatePropertyReviews(
+	// 	ReservationRepository reservationRepository
+	// ) {
+	// 	return args -> {
+	// 		for (Reservation r : reservationRepository.findAll()) {
+	// 			r.setBaseDayCost(r.getProperty().getRules().getBaseDayCost());
+	// 			r.setPerGuestCost(r.getProperty().getRules().getPerGuestCost());
+	// 			reservationRepository.save(r);
 	// 		}
 	// 	};
 	// }

@@ -51,4 +51,9 @@ public class Reservation {
     @Min(1)
     @Max(100)
     private byte numPersons;
+
+    // To be copied during construction,
+    // in case property costs change in the future
+    private int baseDayCost;
+    private int perGuestCost;
 }

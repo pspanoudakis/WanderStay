@@ -216,6 +216,8 @@ public class PropertyService {
                 .startDate(request.getDateFrom())
                 .endDate(request.getDateTo())
                 .numPersons(request.getNumPersons())
+                .baseDayCost(property.getRules().getBaseDayCost())
+                .perGuestCost(property.getRules().getPerGuestCost())
                 .build()
         );
         return new ApiResponseDto(true);

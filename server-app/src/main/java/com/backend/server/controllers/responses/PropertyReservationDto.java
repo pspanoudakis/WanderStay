@@ -44,8 +44,7 @@ public class PropertyReservationDto {
                 .dateTo(r.getEndDate())
                 .numPersons(r.getNumPersons())
                 .totalPrice((
-                    r.getNumPersons() * p.getRules().getPerGuestCost() +
-                    p.getRules().getBaseDayCost()
+                    r.getNumPersons() * r.getPerGuestCost() + r.getBaseDayCost()
                 ) * DateUtils.getDaysBetween(r.getStartDate(), r.getEndDate()))
             .build()
         );
