@@ -164,6 +164,20 @@ public class PropertyService {
             );
         }
         
+        // Check Minimum Reservation Days
+        if (request.getDateFrom() == null || request.getDateTo() == null ||
+            (
+                DateUtils.getDaysBetween(
+                    request.getDateFrom(), request.getDateTo()
+                ) < property.getRules().getMinReservationDays()
+            )) {
+            return new ApiErrorResponseDto(
+                "This property can be reserved for " +
+                property.getRules().getMinReservationDays() +
+                " days minimum."
+            );
+        }
+        
         // Find available slot for the reservation and modify accordingly
         var availableSlots = property.getAvailableSlots();
         var slotsIterator = availableSlots.listIterator();
@@ -171,7 +185,6 @@ public class PropertyService {
         while (slotsIterator.hasNext()) {
             AvailableTimeSlot slot = slotsIterator.next();
             if (
-                request.getDateFrom() != null & request.getDateTo() != null &&
                 slot.getStartDate().compareTo(request.getDateFrom()) <= 0 &&
                 request.getDateTo().compareTo(slot.getEndDate()) <= 0
             ) {
