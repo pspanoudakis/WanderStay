@@ -11,7 +11,7 @@ import { AppContext, SearchContext, setSearchContext } from '../AppContext';
 import { LocationEntity } from '../api/entities/LocationEntity';
 import { fetchCities, fetchCountries } from '../api/fetchRoutines/locationsAPI';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { compareDatesStr, dateToStr } from '../api/entities/dates';
+import { dateToStr } from '../api/entities/dates';
 import { TextField } from '@mui/material';
 
 type PickerDateRange = [Dayjs | null, Dayjs | null]

@@ -56,7 +56,6 @@ export function PropertyResultTile(props: PropertyResultTileProps){
                                 }
                             </div>
                             <div className='flex-1 w-full flex flex-col justify-between items-start border-l-2 border-main-petrol pl-3 mt-2'>
-                                {/* <span className="text-sm">{propertyPreview.description}</span> */}
                                 <span className="text-sm">{PropertyTypeLabels[propertyPreview.propertyType].label}</span>
                                 <span className="text-sm">{createNumBedsLabel(propertyPreview.numBeds)}</span>
                                 <div className="flex w-full justify-between">
