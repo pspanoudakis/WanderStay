@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "447d56a0-e7ed-4355-a21c-4cff0b902822",
+		"name": "Conversation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20813351"
+	},
+	"item": [
+		{
+			"name": "Get all Property Conversations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzkzNDg3MiwiZXhwIjoxNjkzOTQyMDcyfQ.dULFPjLddTx_6uNHupDXr8oGVULsIVhXay1cOctmR4I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/hostSearch?propertyId=10&numPage=1&pageSize=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"hostSearch"
+					],
+					"query": [
+						{
+							"key": "propertyId",
+							"value": "10"
+						},
+						{
+							"key": "numPage",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get (or Create) Conversation - Guest Side",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsImlhdCI6MTY5Mzg2MjQ4NiwiZXhwIjoxNjkzODY5Njg2fQ.WN1yaI18xb8EhMWtZ9MN7mFTl1YNCm3mlL79ag2Emwo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/guestSide?propertyId=10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"guestSide"
+					],
+					"query": [
+						{
+							"key": "propertyId",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Conversation - Host Side",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzg0NjkxMiwiZXhwIjoxNjkzODU0MTEyfQ.gtmI1Ihnllw1-QTCDqt9hcXKy3Y9NzZaU0_z4CbRZr0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message to Conversation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzg2Mjc3NywiZXhwIjoxNjkzODY5OTc3fQ.05zFFrh-7RHoKAh1oTDI3z98aRhmORpdCrrHZ7lSNnc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"HELLO FRIEND\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/conversation/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Conversation as Deleted",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzc2ODk5OSwiZXhwIjoxNjkzNzc2MTk5fQ.If1r1FrfqBWICLX2RUw2dmLlNADRoL94YdkRCPdM_IM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/3/markDeleted",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"3",
+						"markDeleted"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

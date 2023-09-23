@@ -1,0 +1,1363 @@
+{
+	"info": {
+		"_postman_id": "3febc4ce-6d7b-4f0e-966c-ada7a3d8a270",
+		"name": "WanderStay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20813351"
+	},
+	"item": [
+		{
+			"name": "Get Image",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/images/40",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"images",
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": "/C:/Users/pavlo/OneDrive/Εικόνες/Saved Pictures/lab rooms/lab4Wedproblem.jpg"
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8080/images",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Properties",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filtersInfo\": {\r\n        \"type\": \"PRIVATE_PROPERTY\",\r\n        \"amenityFilters\": [\r\n            \"hasElevator\",\r\n            \"hasKitchen\"\r\n        ],\r\n        \"ruleFilters\": [\r\n        ],\r\n        \"numPersons\": 1,\r\n        \"dateFrom\": \"2023-11-01\",\r\n        \"dateTo\": \"2023-11-08\"\r\n    },\r\n    \"paginationInfo\": {\r\n        \"pageNum\": 0,\r\n        \"pageSize\": 10\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXZsb3MiLCJpYXQiOjE2OTQxMjAzNzksImV4cCI6MTY5NDEyNzU3OX0.fskBPoXZpi-zuo8wu2uutYzZfxi93hguG-xE5PXUdvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/auth/tokenLogin",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"tokenLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"host1\",\r\n    \"password\": \"host\",\r\n    \"email\": \"h@h.h\",\r\n    \"mobileNumber\": \"\",\r\n    \"roles\": [\r\n        \"HOST\"\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/auth/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzY0MTc4MywiZXhwIjoxNjkzNjQ4OTgzfQ.2qSxDbgppl2qkVN4dZKvgWxkQiKxkGunSevNI_jGJRc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateFrom\": \"2023-09-22\",\r\n    \"dateTo\": \"2023-09-24\",\r\n    \"numPersons\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/37/reserve",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"37",
+						"reserve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Property Reviews",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/property/9/reviews?numPage=0&pageSize=5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"9",
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzY0MTc4MywiZXhwIjoxNjkzNjQ4OTgzfQ.2qSxDbgppl2qkVN4dZKvgWxkQiKxkGunSevNI_jGJRc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stars\": 5,\r\n    \"text\": \"Hello World!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/37/review",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"37",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Property Details (Public)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Owned Property Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/host/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Property Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzQxMjgyNCwiZXhwIjoxNjkzNDIwMDI0fQ.NvtyU5nIC4i0vvngtmp-ugqFlSrirA03T1lMnHSumnI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/uploadImage",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"uploadImage"
+					],
+					"query": [
+						{
+							"key": "img",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload User Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzQxMjgyNCwiZXhwIjoxNjkzNDIwMDI0fQ.NvtyU5nIC4i0vvngtmp-ugqFlSrirA03T1lMnHSumnI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8080/user/uploadImage",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"uploadImage"
+					],
+					"query": [
+						{
+							"key": "img",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzU4MzEwMiwiZXhwIjoxNjkzNTkwMzAyfQ.VzGOFHltJmL-SvTL2ziJmGZEVPNKVWLvEMp76rWxF3A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"propertyType\": \"SHARED_ROOM\",\r\n    \"title\": \"Property 10\",\r\n    \"description\": \"Desc 10\",\r\n    \"imageSelections\": [\r\n        {\r\n            \"imgId\": 44,\r\n            \"isMain\": false\r\n        }\r\n    ],\r\n    \"availableSlots\": [\r\n        {\r\n            \"startDate\": \"2023-08-08\",\r\n            \"endDate\": \"2023-09-25\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-08\",\r\n            \"endDate\": \"2023-10-13\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-01\",\r\n            \"endDate\": \"2023-10-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-01\",\r\n            \"endDate\": \"2023-11-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-21\",\r\n            \"endDate\": \"2023-11-24\"\r\n        }\r\n    ],\r\n    \"amenities\": {\r\n        \"hasWifi\": true,\r\n        \"hasRefrigerator\": true,\r\n        \"hasHeating\": true,\r\n        \"hasKitchen\": true,\r\n        \"hasTv\": true,\r\n        \"hasElevator\": true,\r\n        \"hasLounge\": true,\r\n        \"hasParking\": true,\r\n        \"numBeds\": 22,\r\n        \"numBedrooms\": 22,\r\n        \"numBathrooms\": 22\r\n    },\r\n    \"rules\": {\r\n        \"smokingAllowed\": false,\r\n        \"petsAllowed\": false,\r\n        \"eventsAllowed\": false,\r\n        \"minReservationDays\": 1,\r\n        \"baseDayCost\": 200,\r\n        \"perGuestCost\": 100\r\n    },\r\n    \"spaceArea\": 100,\r\n    \"address\": \"Address 10 New\",\r\n    \"cityId\": 304,\r\n    \"latitude\": 38.116828199666465,\r\n    \"longitude\": 23.86143414444651\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJob3N0MiIsImlhdCI6MTY5MzI1MTk0NCwiZXhwIjoxNjkzMjU5MTQ0fQ.fvi1B14uCOWwM66PoB0GerFDeFjEAupJXUrq6t_guQs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"propertyType\": \"SHARED_ROOM\",\r\n    \"title\": \"Property 12\",\r\n    \"description\": \"Desc 12\",\r\n    \"imageSelections\": [\r\n        {\r\n            \"imgId\": 46,\r\n            \"isMain\": true\r\n        }\r\n    ],\r\n    \"availableSlots\": [\r\n        {\r\n            \"startDate\": \"2023-08-08\",\r\n            \"endDate\": \"2023-09-25\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-08\",\r\n            \"endDate\": \"2023-10-13\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-01\",\r\n            \"endDate\": \"2023-10-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-01\",\r\n            \"endDate\": \"2023-11-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-21\",\r\n            \"endDate\": \"2023-11-24\"\r\n        }\r\n    ],\r\n    \"amenities\": {\r\n        \"hasWifi\": true,\r\n        \"hasRefrigerator\": true,\r\n        \"hasHeating\": true,\r\n        \"hasKitchen\": true,\r\n        \"hasTv\": true,\r\n        \"hasElevator\": true,\r\n        \"hasLounge\": true,\r\n        \"hasParking\": true,\r\n        \"numBeds\": 22,\r\n        \"numBedrooms\": 22,\r\n        \"numBathrooms\": 22\r\n    },\r\n    \"rules\": {\r\n        \"smokingAllowed\": false,\r\n        \"petsAllowed\": false,\r\n        \"eventsAllowed\": false,\r\n        \"minReservationDays\": 1,\r\n        \"baseDayCost\": 200,\r\n        \"perGuestCost\": 100\r\n    },\r\n    \"spaceArea\": 100,\r\n    \"address\": \"Address 10 New\",\r\n    \"cityId\": 304,\r\n    \"latitude\": 38.116828199666465,\r\n    \"longitude\": 23.86143414444651\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get (or Create) Conversation - Guest Side",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsImlhdCI6MTY5Mzg2MjQ4NiwiZXhwIjoxNjkzODY5Njg2fQ.WN1yaI18xb8EhMWtZ9MN7mFTl1YNCm3mlL79ag2Emwo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/guestSide?propertyId=10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"guestSide"
+					],
+					"query": [
+						{
+							"key": "propertyId",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Conversation - Host Side",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzg0NjkxMiwiZXhwIjoxNjkzODU0MTEyfQ.gtmI1Ihnllw1-QTCDqt9hcXKy3Y9NzZaU0_z4CbRZr0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message to Conversation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzg2Mjc3NywiZXhwIjoxNjkzODY5OTc3fQ.05zFFrh-7RHoKAh1oTDI3z98aRhmORpdCrrHZ7lSNnc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"HELLO FRIEND\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/conversation/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzg2Mjc3NywiZXhwIjoxNjkzODY5OTc3fQ.05zFFrh-7RHoKAh1oTDI3z98aRhmORpdCrrHZ7lSNnc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Admin\",\r\n    \"lastName\": \"Admin\",\r\n    \"email\": \"ad@ad.ad\",\r\n    \"mobileNumber\": \"6971852390\",\r\n    \"roles\": [\r\n        \"HOST\",\r\n        \"GUEST\"\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/user/editProfile",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"editProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Property Conversations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzkzNDg3MiwiZXhwIjoxNjkzOTQyMDcyfQ.dULFPjLddTx_6uNHupDXr8oGVULsIVhXay1cOctmR4I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/hostSearch?propertyId=10&numPage=1&pageSize=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"hostSearch"
+					],
+					"query": [
+						{
+							"key": "propertyId",
+							"value": "10"
+						},
+						{
+							"key": "numPage",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Conversation as Deleted",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Mzc2ODk5OSwiZXhwIjoxNjkzNzc2MTk5fQ.If1r1FrfqBWICLX2RUw2dmLlNADRoL94YdkRCPdM_IM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/conversation/3/markDeleted",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conversation",
+						"3",
+						"markDeleted"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/admin/searchUsers?numPage=1&pageSize=3&isActive=true&usernamePattern=t",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"searchUsers"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "3"
+						},
+						{
+							"key": "isActive",
+							"value": "true"
+						},
+						{
+							"key": "usernamePattern",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NDExODUyNCwiZXhwIjoxNjk0MTI1NzI0fQ.ifareEcFT5dh5rwB4KZgrHNDA6BCtellLPAi2tqHC3Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/admin/user/pavlos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"user",
+						"pavlos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Guest Reviews XML",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NDI3Mzk3NCwiZXhwIjoxNjk0MjgxMTc0fQ.6D3v8oKHfdFOOeVLi3BfvH1yHjSP828f9TnEn7nMlSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/guest/pavlos/reviews",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"guest",
+						"pavlos",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Host Properties XML",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/host/host1/properties",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"host",
+						"host1",
+						"properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Host Properties (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/host/host1/properties?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"host",
+						"host1",
+						"properties"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Host Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/host/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Host Upcoming Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/host/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Host Reviews XML",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NDI3Mzk3NCwiZXhwIjoxNjk0MjgxMTc0fQ.6D3v8oKHfdFOOeVLi3BfvH1yHjSP828f9TnEn7nMlSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/host/host1/reviews",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"host",
+						"host1",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Guest Reservations XML",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NDI3Mzk3NCwiZXhwIjoxNjk0MjgxMTc0fQ.6D3v8oKHfdFOOeVLi3BfvH1yHjSP828f9TnEn7nMlSg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/guest/pavlos/reservations",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"guest",
+						"pavlos",
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Guest Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/guest/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"guest",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Guest Upcoming Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/guest/upcomingReservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"guest",
+						"upcomingReservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set User Active/Inactive",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NDExODUyNCwiZXhwIjoxNjk0MTI1NzI0fQ.ifareEcFT5dh5rwB4KZgrHNDA6BCtellLPAi2tqHC3Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/admin/user/pavlos/setActive?isActive=true",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"user",
+						"pavlos",
+						"setActive"
+					],
+					"query": [
+						{
+							"key": "isActive",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Countries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/location/countries",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"location",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Country Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/location/countries/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"location",
+						"countries",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

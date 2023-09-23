@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "bc3eb7c0-44b9-41e2-9b68-6795d0a87fc9",
+		"name": "Guest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20813351"
+	},
+	"item": [
+		{
+			"name": "Get Guest Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/guest/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"guest",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Guest Upcoming Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/guest/upcomingReservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"guest",
+						"upcomingReservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

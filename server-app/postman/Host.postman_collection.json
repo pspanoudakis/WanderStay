@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "72197355-0b24-4d2b-8fb1-4e0fd63dd333",
+		"name": "Host",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20813351"
+	},
+	"item": [
+		{
+			"name": "Get Host Properties (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/admin/host/host1/properties?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"host",
+						"host1",
+						"properties"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Host Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/host/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Owned Property Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/host/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Host Upcoming Reservations (Page)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTQ5NTcwNSwiZXhwIjoxNjk1NTAyOTA1fQ.CB0pEpXMssBD9lmPBA_RFvZsRbXU1uPWQBbQbqP_uos",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:8080/host/reservations?numPage=0&pageSize=4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"host",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

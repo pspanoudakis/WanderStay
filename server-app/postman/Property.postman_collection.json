@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "ec88354b-840f-4634-9735-c75ffc450ece",
+		"name": "Property",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20813351"
+	},
+	"item": [
+		{
+			"name": "Get Property Details (Public)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Property Reviews",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/property/9/reviews?numPage=0&pageSize=5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"9",
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "numPage",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Properties",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filtersInfo\": {\r\n        \"type\": \"PRIVATE_PROPERTY\",\r\n        \"amenityFilters\": [\r\n            \"hasElevator\",\r\n            \"hasKitchen\"\r\n        ],\r\n        \"ruleFilters\": [\r\n        ],\r\n        \"numPersons\": 1,\r\n        \"dateFrom\": \"2023-11-01\",\r\n        \"dateTo\": \"2023-11-08\"\r\n    },\r\n    \"paginationInfo\": {\r\n        \"pageNum\": 0,\r\n        \"pageSize\": 10\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzU4MzEwMiwiZXhwIjoxNjkzNTkwMzAyfQ.VzGOFHltJmL-SvTL2ziJmGZEVPNKVWLvEMp76rWxF3A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"propertyType\": \"SHARED_ROOM\",\r\n    \"title\": \"Property 10\",\r\n    \"description\": \"Desc 10\",\r\n    \"imageSelections\": [\r\n        {\r\n            \"imgId\": 44,\r\n            \"isMain\": false\r\n        }\r\n    ],\r\n    \"availableSlots\": [\r\n        {\r\n            \"startDate\": \"2023-08-08\",\r\n            \"endDate\": \"2023-09-25\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-08\",\r\n            \"endDate\": \"2023-10-13\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-01\",\r\n            \"endDate\": \"2023-10-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-01\",\r\n            \"endDate\": \"2023-11-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-21\",\r\n            \"endDate\": \"2023-11-24\"\r\n        }\r\n    ],\r\n    \"amenities\": {\r\n        \"hasWifi\": true,\r\n        \"hasRefrigerator\": true,\r\n        \"hasHeating\": true,\r\n        \"hasKitchen\": true,\r\n        \"hasTv\": true,\r\n        \"hasElevator\": true,\r\n        \"hasLounge\": true,\r\n        \"hasParking\": true,\r\n        \"numBeds\": 22,\r\n        \"numBedrooms\": 22,\r\n        \"numBathrooms\": 22\r\n    },\r\n    \"rules\": {\r\n        \"smokingAllowed\": false,\r\n        \"petsAllowed\": false,\r\n        \"eventsAllowed\": false,\r\n        \"minReservationDays\": 1,\r\n        \"baseDayCost\": 200,\r\n        \"perGuestCost\": 100\r\n    },\r\n    \"spaceArea\": 100,\r\n    \"address\": \"Address 10 New\",\r\n    \"cityId\": 304,\r\n    \"latitude\": 38.116828199666465,\r\n    \"longitude\": 23.86143414444651\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJob3N0MiIsImlhdCI6MTY5MzI1MTk0NCwiZXhwIjoxNjkzMjU5MTQ0fQ.fvi1B14uCOWwM66PoB0GerFDeFjEAupJXUrq6t_guQs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"propertyType\": \"SHARED_ROOM\",\r\n    \"title\": \"Property 12\",\r\n    \"description\": \"Desc 12\",\r\n    \"imageSelections\": [\r\n        {\r\n            \"imgId\": 46,\r\n            \"isMain\": true\r\n        }\r\n    ],\r\n    \"availableSlots\": [\r\n        {\r\n            \"startDate\": \"2023-08-08\",\r\n            \"endDate\": \"2023-09-25\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-08\",\r\n            \"endDate\": \"2023-10-13\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-10-01\",\r\n            \"endDate\": \"2023-10-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-01\",\r\n            \"endDate\": \"2023-11-04\"\r\n        },\r\n        {\r\n            \"startDate\": \"2023-11-21\",\r\n            \"endDate\": \"2023-11-24\"\r\n        }\r\n    ],\r\n    \"amenities\": {\r\n        \"hasWifi\": true,\r\n        \"hasRefrigerator\": true,\r\n        \"hasHeating\": true,\r\n        \"hasKitchen\": true,\r\n        \"hasTv\": true,\r\n        \"hasElevator\": true,\r\n        \"hasLounge\": true,\r\n        \"hasParking\": true,\r\n        \"numBeds\": 22,\r\n        \"numBedrooms\": 22,\r\n        \"numBathrooms\": 22\r\n    },\r\n    \"rules\": {\r\n        \"smokingAllowed\": false,\r\n        \"petsAllowed\": false,\r\n        \"eventsAllowed\": false,\r\n        \"minReservationDays\": 1,\r\n        \"baseDayCost\": 200,\r\n        \"perGuestCost\": 100\r\n    },\r\n    \"spaceArea\": 100,\r\n    \"address\": \"Address 10 New\",\r\n    \"cityId\": 304,\r\n    \"latitude\": 38.116828199666465,\r\n    \"longitude\": 23.86143414444651\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzY0MTc4MywiZXhwIjoxNjkzNjQ4OTgzfQ.2qSxDbgppl2qkVN4dZKvgWxkQiKxkGunSevNI_jGJRc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateFrom\": \"2023-09-22\",\r\n    \"dateTo\": \"2023-09-24\",\r\n    \"numPersons\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/37/reserve",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"37",
+						"reserve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review Property",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzY0MTc4MywiZXhwIjoxNjkzNjQ4OTgzfQ.2qSxDbgppl2qkVN4dZKvgWxkQiKxkGunSevNI_jGJRc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stars\": 5,\r\n    \"text\": \"Hello World!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/37/review",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"37",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Property Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MzQxMjgyNCwiZXhwIjoxNjkzNDIwMDI0fQ.NvtyU5nIC4i0vvngtmp-ugqFlSrirA03T1lMnHSumnI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "isMain",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:8080/property/uploadImage",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"property",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
