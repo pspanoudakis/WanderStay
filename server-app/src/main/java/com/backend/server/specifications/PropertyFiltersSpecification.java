@@ -59,8 +59,16 @@ public class PropertyFiltersSpecification {
             }
 
             var propertyRulesJoin = propertyRoot.join(Property_.rules);
-            if (searchFilters.getDateFrom() != null && searchFilters.getDateTo() != null) {
-             
+            var propertyAmenitiesJoin = propertyRoot.join(Property_.amenities);
+
+            if (searchFilters.getNumPersons() != null) {
+                predicates.add(
+                    criteriaBuilder.greaterThanOrEqualTo(
+                        propertyAmenitiesJoin.get(PropertyAmenities_.numBeds),
+                        searchFilters.getNumPersons()
+                    )
+                );
+
                 Expression<Integer> totalCostPerDayExpression = (
                     criteriaBuilder.sum(
                         propertyRulesJoin.get(PropertyRules_.baseDayCost),
@@ -70,11 +78,11 @@ public class PropertyFiltersSpecification {
                         )
                     )
                 );
-                // We need given date range to find total days and total costs to order by
+
                 propertyQuery.orderBy(
                     criteriaBuilder.asc(totalCostPerDayExpression)
                 );
-
+    
                 if (searchFilters.getMaxCostPerDay() != null) {
                     predicates.add(
                         criteriaBuilder.lessThanOrEqualTo(
@@ -83,51 +91,52 @@ public class PropertyFiltersSpecification {
                         )
                     );
                 }
-                predicates.add(
-                    criteriaBuilder.lessThanOrEqualTo(
-                        propertyRulesJoin.get(PropertyRules_.minReservationDays),
-                        DateUtils.getDaysBetween(
-                            searchFilters.getDateFrom(), 
-                            searchFilters.getDateTo()
-                        )
-                    )
-                );
-                
-                Subquery<AvailableTimeSlot> slotSubquery = 
-                    propertyQuery.subquery(AvailableTimeSlot.class);
-                Root<AvailableTimeSlot> slotRoot = 
-                    slotSubquery.from(AvailableTimeSlot.class);
-                predicates.add(
-                    criteriaBuilder.exists(
-                        slotSubquery
-                            .select(slotRoot)
-                            .where(
-                                criteriaBuilder.equal(
-                                    slotRoot.join(AvailableTimeSlot_.property).get(Property_.id),
-                                    propertyRoot.get(Property_.id)
-                                ),
-                                criteriaBuilder.lessThanOrEqualTo(
-                                    slotRoot.get(AvailableTimeSlot_.startDate),
-                                    searchFilters.getDateFrom()
-                                ),
-                                criteriaBuilder.greaterThanOrEqualTo(
-                                    slotRoot.get(AvailableTimeSlot_.endDate),
-                                    searchFilters.getDateTo()
-                                )
+                if (searchFilters.getDateFrom() != null && searchFilters.getDateTo() != null) {
+                 
+                    predicates.add(
+                        criteriaBuilder.lessThanOrEqualTo(
+                            propertyRulesJoin.get(PropertyRules_.minReservationDays),
+                            DateUtils.getDaysBetween(
+                                searchFilters.getDateFrom(), 
+                                searchFilters.getDateTo()
                             )
+                        )
+                    );
+                    
+                    Subquery<AvailableTimeSlot> slotSubquery = 
+                        propertyQuery.subquery(AvailableTimeSlot.class);
+                    Root<AvailableTimeSlot> slotRoot = 
+                        slotSubquery.from(AvailableTimeSlot.class);
+                    predicates.add(
+                        criteriaBuilder.exists(
+                            slotSubquery
+                                .select(slotRoot)
+                                .where(
+                                    criteriaBuilder.equal(
+                                        slotRoot.join(AvailableTimeSlot_.property).get(Property_.id),
+                                        propertyRoot.get(Property_.id)
+                                    ),
+                                    criteriaBuilder.lessThanOrEqualTo(
+                                        slotRoot.get(AvailableTimeSlot_.startDate),
+                                        searchFilters.getDateFrom()
+                                    ),
+                                    criteriaBuilder.greaterThanOrEqualTo(
+                                        slotRoot.get(AvailableTimeSlot_.endDate),
+                                        searchFilters.getDateTo()
+                                    )
+                                )
+                        )
+                    );
+                }
+            }
+            else {
+                propertyQuery.orderBy(
+                    criteriaBuilder.asc(
+                        propertyRulesJoin.get(PropertyRules_.baseDayCost)
                     )
                 );
             }
-
-            var propertyAmenitiesJoin = propertyRoot.join(Property_.amenities);
-            if (searchFilters.getNumPersons() != null) {
-                predicates.add(
-                    criteriaBuilder.greaterThanOrEqualTo(
-                        propertyAmenitiesJoin.get(PropertyAmenities_.numBeds),
-                        searchFilters.getNumPersons()
-                    )
-                );
-            }            
+            
             if (searchFilters.getAmenityFilters() != null) {
                 for (var filter: searchFilters.getAmenityFilters()) {
                     predicates.add(

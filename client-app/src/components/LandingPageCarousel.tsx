@@ -13,6 +13,7 @@ export function LandingPageCarousel({content}: {
     return (
         <Carousel
             className="flex-1"
+            navButtonsAlwaysInvisible={content.length <= 1}
             height='30rem'
             duration={600}
             interval={5000}

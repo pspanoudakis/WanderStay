@@ -123,7 +123,10 @@ public class PropertyService {
             ).map(p -> {
                 int pricePerNight = (
                     p.getRules().getBaseDayCost() +
-                    (p.getRules().getPerGuestCost() * searchRequest.getFiltersInfo().getNumPersons())
+                    (p.getRules().getPerGuestCost() * (
+                        (searchRequest.getFiltersInfo().getNumPersons() != null) ?
+                        searchRequest.getFiltersInfo().getNumPersons() : 0
+                    ))
                 );
                 return (
                     initBasicPropertyDtoBuilder(p, PropertySearchResultDto.builder())
