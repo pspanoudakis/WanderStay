@@ -1,7 +1,15 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MapComponent } from "../components/MapComponent";
 import { PropertyAmenitiesSection } from "../components/PropertyAmenitiesSection";
-import { PropertyAmenity, PropertyAmenityFlags, PropertyRule, PropertyRuleFlags, PropertyType, PublicTransportAccess, PublicTransportAccessFlags } from "../api/entities/propertyEnums";
+import { 
+    PropertyAmenity, 
+    PropertyAmenityFlags, 
+    PropertyRule, 
+    PropertyRuleFlags, 
+    PropertyType, 
+    PublicTransportAccess, 
+    PublicTransportAccessFlags 
+} from "../api/entities/propertyEnums";
 import { PropertyRulesSection } from "../components/PropertyRulesSection";
 import { DescriptionSection } from "../components/DescriptionSection";
 import { TitleSection } from "../components/TitleSection";
@@ -16,11 +24,11 @@ import PropertyTypeSection from "../components/PropertyTypeSection";
 import { ImagesCarousel } from "../components/ImagesCarousel";
 import { PropertyImageSelectorSection } from "../components/PropertyImageSelectorSection";
 import { PropertyDetails } from "../api/responses/PropertyDetailsResponse";
-import { createOrUpdateProperty, getPropertyDetails, makePropertyReservation } from "../api/fetchRoutines/propertyAPI";
+import { createOrUpdateProperty, getPropertyDetails } from "../api/fetchRoutines/propertyAPI";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { PrimaryButton } from "../components/PrimaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark, faCalendarAlt, faCheck, faHandshake, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "../components/ModalActionResultTemplate";
 import { useNavigate } from "react-router-dom";
@@ -30,103 +38,7 @@ import { PropertyConversationsSection } from "./PropertyConversationsSection";
 import { PropertyTransportSection } from "./PropertyTransportSection";
 import { fetchOwnedPropertyDetails } from "../api/fetchRoutines/hostAPI";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
-import { PageTitleSpan } from "./PageTitleSpan";
-import dayjs from "dayjs";
-
-function PropertyReservationModal({ property }: {
-    property: PropertyDetails
-}) {
-    const navigateIfAuthFailed = useNavigateIfAuthenticationFailed();
-    const ctx = useContext(AppContext);
-    const searchContext = ctx.state.businessContext.searchContext;
-
-    const [loading, setLoading] = useState(false);
-
-    const makeReservation = () => {
-        setLoading(true);
-        if (property) {
-            makePropertyReservation(property.propertyId, {
-                dateFrom: searchContext.dateFrom ?? '',
-                dateTo: searchContext.dateTo ?? '',
-                numPersons: searchContext.numPersons
-            })
-            .then(response => {
-                if (navigateIfAuthFailed(response)) return;
-                openModal(ctx, {
-                    content: () => (
-                        <ModalActionResultTemplate
-                            success={response.ok}
-                            successText="H Κράτησή σας ολοκληρώθηκε επιτυχώς"
-                            errorText="Σφάλμα καταχώρησης Κράτησης"
-                        />
-                    )
-                })
-                setLoading(false);
-            })
-        }
-    }
-
-    const dailyCost = useMemo(() => (
-        searchContext.numPersons * property.rules.perGuestCost + property.rules.baseDayCost
-    ), [searchContext.numPersons, property.rules.perGuestCost, property.rules.baseDayCost]);    
-    const dateFrom = useMemo(
-        () => dayjs(searchContext.dateFrom), 
-        [searchContext.dateFrom]
-    );
-    const dateTo = useMemo(
-        () => dayjs(searchContext.dateTo),
-        [searchContext.dateTo]
-    );
-    const durationInDays = useMemo(() => {
-        return Math.ceil(
-            (dateTo.valueOf() - dateFrom.valueOf()) /
-            (1000 * 60 * 60 * 24)
-        );
-    }, [dateTo, dateFrom]);
-
-    if (!dateFrom.isValid() || !dateTo.isValid()) {
-        return (
-            <ModalActionResultTemplate
-                success={false}
-                errorText="Παρακαλώ επιλέξτε ένα έγκυρο διάστημα στην μπάρα αναζήτησης."
-            />
-        );
-    }
-    
-    return (
-        <div className="w-96 flex flex-col justify-center items-center relative gap-5">
-            <LoadingSpinner 
-                coverParent
-                visible={loading}
-            />
-            <PageTitleSpan>Η Κράτησή σας</PageTitleSpan>
-            <div className="flex flex-col items-center text-lg gap-1">
-                <span className="flex justify-start items-center gap-3">
-                    <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
-                    {searchContext.dateFrom} έως {searchContext.dateTo}
-                </span>
-                <span className="flex justify-start items-center gap-3">
-                    <FontAwesomeIcon size="lg" icon={faUserGroup}/>
-                    {`${searchContext.numPersons} ${searchContext.numPersons > 1 ? 'Επισκέπτες' : 'Επισκέπτης'}`}
-                </span>
-                <span className="flex justify-start items-center gap-3">
-                    <FontAwesomeIcon size="lg" icon={faHandshake}/>
-                    <span className="flex gap-1">
-                    <b>{dailyCost * durationInDays}€</b>
-                    {`(${dailyCost}€ / διανυκτέρευση)`}
-                    </span>
-                </span>
-            </div>
-            <PrimaryButton 
-                classExtras="flex gap-3 items-center rounded-xl py-2 px-4 text-xl"
-                onClick={makeReservation}
-            >
-                <FontAwesomeIcon icon={faCheck}/>
-                Ολοκλήρωση Κράτησης
-            </PrimaryButton>
-        </div>
-    );
-}
+import { PropertyReservationModal } from "./PropertyReservationModal";
 
 type PropertyDetailsProps = {
     isEditable: boolean,
