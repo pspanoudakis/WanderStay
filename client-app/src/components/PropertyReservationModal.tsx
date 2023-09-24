@@ -147,7 +147,10 @@ export function PropertyReservationModal({ property }: {
                     <FontAwesomeIcon className="text-main-petrol text-2xl" icon={faUserGroup}/>
                     {`${searchContext.numPersons > 1 ? 'Επισκέπτες' : 'Επισκέπτης'}:`}
                     <button 
-                        className="text-main-petrol hover:text-dark-petrol duration-200"
+                        className="
+                            text-main-petrol hover:text-dark-petrol duration-200
+                            disabled:text-light-petrol
+                        "
                         onClick={() => setNumPersons(numPersons - 1)} 
                         disabled={numPersons <= 1 ? true : false}
                     >
@@ -155,9 +158,12 @@ export function PropertyReservationModal({ property }: {
                     </button>
                     <span className='font-bold text-lg'>{numPersons}</span>
                     <button 
-                        className="text-main-petrol hover:text-dark-petrol duration-200"
+                        className="
+                            text-main-petrol hover:text-dark-petrol duration-200
+                            disabled:text-light-petrol
+                        "
                         onClick={() => setNumPersons(numPersons + 1)}
-                        disabled={numPersons >= 100 ? true : false}
+                        disabled={numPersons >= property.amenities.numBeds ? true : false}
                     >
                         <FontAwesomeIcon icon={faCaretUp} size='xl'/>
                     </button>
