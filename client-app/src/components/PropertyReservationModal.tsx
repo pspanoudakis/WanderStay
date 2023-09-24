@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { PageTitleSpan } from "./PageTitleSpan";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faCheck, faHandshake, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faCaretDown, faCaretUp, faCheck, faHandshake, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { PrimaryButton } from "./PrimaryButton";
 import { DateRangePicker, LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,6 +24,7 @@ export function PropertyReservationModal({ property }: {
 
     const [loading, setLoading] = useState(false);
 
+    const [numPersons, setNumPersons] = useState(searchContext.numPersons);
     const [dateFrom, setDateFrom] = useState(() => dayjs(searchContext.dateFrom));
     const [selectedSlot, setSelectedSlot] = useState<AvailableTimeSlot | undefined>(
         () => property.availableSlots.find(
@@ -46,8 +47,8 @@ export function PropertyReservationModal({ property }: {
     });
 
     const dailyCost = useMemo(() => (
-        searchContext.numPersons * property.rules.perGuestCost + property.rules.baseDayCost
-    ), [searchContext.numPersons, property.rules.perGuestCost, property.rules.baseDayCost]);    
+        numPersons * property.rules.perGuestCost + property.rules.baseDayCost
+    ), [numPersons, property.rules.perGuestCost, property.rules.baseDayCost]);    
     const durationInDays = useMemo(() => {
         return Math.ceil(
             (dateTo.valueOf() - dateFrom.valueOf()) /
@@ -61,7 +62,7 @@ export function PropertyReservationModal({ property }: {
             makePropertyReservation(property.propertyId, {
                 dateFrom: dateToStr(dateFrom.toDate()) ?? '',
                 dateTo: dateToStr(dateTo.toDate()) ?? '',
-                numPersons: searchContext.numPersons
+                numPersons: numPersons
             })
             .then(response => {
                 if (navigateIfAuthFailed(response)) return;
@@ -80,15 +81,20 @@ export function PropertyReservationModal({ property }: {
     }
     
     return (
-        <div className="w-96 flex flex-col justify-center items-center relative gap-6">
+        <div 
+            className="flex flex-col justify-center items-center relative gap-8"
+            style={{
+                width: 'min(42rem, 80vw)'
+            }}
+        >
             <LoadingSpinner 
                 coverParent
                 visible={loading}
             />
             <PageTitleSpan>Η Κράτησή σας</PageTitleSpan>
-            <div className="flex flex-col items-center text-lg gap-4">
+            <div className="flex flex-col items-start text-lg gap-6">
                 <span className="flex justify-start items-center gap-2">
-                    <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
+                    <FontAwesomeIcon className="text-main-petrol text-2xl" icon={faCalendarAlt}/>
                     <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <DateRangePicker
                             value={[dateFrom, dateTo]}
@@ -126,7 +132,7 @@ export function PropertyReservationModal({ property }: {
                                 return true;
                             }}
                             sx={{
-                                width: '18rem',
+                                width: '20rem',
                                 height: 'max-content',
                             }}
                             slotProps={{
@@ -138,11 +144,26 @@ export function PropertyReservationModal({ property }: {
                     </LocalizationProvider>
                 </span>
                 <span className="flex justify-start items-center gap-3">
-                    <FontAwesomeIcon size="lg" icon={faUserGroup}/>
-                    {`${searchContext.numPersons} ${searchContext.numPersons > 1 ? 'Επισκέπτες' : 'Επισκέπτης'}`}
+                    <FontAwesomeIcon className="text-main-petrol text-2xl" icon={faUserGroup}/>
+                    {`${searchContext.numPersons > 1 ? 'Επισκέπτες' : 'Επισκέπτης'}:`}
+                    <button 
+                        className="text-main-petrol hover:text-dark-petrol duration-200"
+                        onClick={() => setNumPersons(numPersons - 1)} 
+                        disabled={numPersons <= 1 ? true : false}
+                    >
+                        <FontAwesomeIcon icon={faCaretDown} size='xl'/>
+                    </button>
+                    <span className='font-bold text-lg'>{numPersons}</span>
+                    <button 
+                        className="text-main-petrol hover:text-dark-petrol duration-200"
+                        onClick={() => setNumPersons(numPersons + 1)}
+                        disabled={numPersons >= 100 ? true : false}
+                    >
+                        <FontAwesomeIcon icon={faCaretUp} size='xl'/>
+                    </button>
                 </span>
                 <span className="flex justify-start items-center gap-3">
-                    <FontAwesomeIcon size="lg" icon={faHandshake}/>
+                    <FontAwesomeIcon className="text-main-petrol text-2xl" icon={faHandshake}/>
                     <span className="flex gap-1">
                     <b>{dailyCost * durationInDays}€</b>
                     {`(${dailyCost}€ / διανυκτέρευση)`}
