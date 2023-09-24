@@ -9,8 +9,7 @@ export function useNavigateIfAuthenticationFailed() {
     const ctx = useContext(AppContext);
 
     return (response: FetchDataResponse<unknown>) => {
-        const authFailed = response.statusCode === 403;
-        if (authFailed) {
+        if (response.statusCode === 403) {
             ctx.setState?.({
                 businessContext: {
                     ...ctx.state.businessContext,
