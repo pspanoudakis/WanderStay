@@ -2,9 +2,13 @@ import { useCallback } from "react";
 import { PaginatedResultsWrapper } from "./PaginatedResultsWrapper"
 import { ReviewTile } from "./ReviewTile"
 import { fetchPropertyReviews } from "../api/fetchRoutines/propertyAPI";
+import { PropertyReviewsSummary } from "../api/entities/PropertyReviewsSummary";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ReviewsSectionProps{
-    propertyId: number
+    propertyId: number,
+    summary: PropertyReviewsSummary,
 }
 
 export function ReviewsSection(props: ReviewsSectionProps){
@@ -25,6 +29,15 @@ export function ReviewsSection(props: ReviewsSectionProps){
     return(
         <div className="w-full flex justify-center">
             <div className="w-2/3 flex flex-col gap-4">
+            {
+                props.summary.reviewCount ?
+                <div className='flex items-center gap-1 text-lg'> 
+                    <span className="font-bold ">Μέση Αξιολόγηση: {props.summary.avgStars}</span>
+                    <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />                             
+                </div>
+                :
+                null
+            }
                 <PaginatedResultsWrapper
                     pageSize={4}
                     idleTitleBuilder={(n) => {

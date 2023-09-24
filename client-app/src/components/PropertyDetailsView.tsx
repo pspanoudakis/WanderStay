@@ -422,7 +422,10 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                                 })
                             }
                         />
-                        <ReviewsSection propertyId={propertyId}/>
+                        <ReviewsSection 
+                            propertyId={propertyId}
+                            summary={property.reviewsSummary}
+                        />
                         {
                             isEditable ?
                             <PropertyConversationsSection propertyId={propertyId}/>

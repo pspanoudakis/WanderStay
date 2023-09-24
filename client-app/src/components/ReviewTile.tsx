@@ -15,8 +15,11 @@ export function ReviewTile(props: PropertyReviewResult){
                     <span className='font-bold'>{props.guestUsername}</span>
                 </div>
                 <div className='flex items-center gap-1'>
-                    {props.stars}
-                    <FontAwesomeIcon icon={faStar} className="text-dark-petrol" />
+                {
+                    [...Array(props.stars)].map((_, i) => (
+                        <FontAwesomeIcon key={i} icon={faStar} className="text-dark-petrol" />
+                    ))
+                }
                 </div>
             </div>
             <div className='flex p-2 text-base'>
