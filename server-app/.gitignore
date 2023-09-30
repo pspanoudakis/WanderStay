@@ -36,8 +36,3 @@ out/
 ### VS Code ###
 .vscode/
 *.code-workspace
-
-big-cities.csv
-test.html
-resources/images/**
-!resources/images/.gitignore
