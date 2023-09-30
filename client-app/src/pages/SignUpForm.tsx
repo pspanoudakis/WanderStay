@@ -173,7 +173,11 @@ export function SignUpForm() {
             </div>
             <PrimaryButton
                 onClick={() => submitRequest()}
-                disabled={false}
+                disabled={!(
+                    userInfo.username && 
+                    userInfo.password && 
+                    (userInfo.password === userInfo.confirmPwd)
+                )}
                 classExtras="text-xl rounded-full px-6 py-1"
             >
                 Εγγραφή
