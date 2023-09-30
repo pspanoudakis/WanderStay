@@ -100,7 +100,7 @@ export function SearchBar() {
             <div
                 className='
                     bg-white text-main-petrol border-2 
-                    border-main-petrol w-8/12 px-2 flex items-center max-w-max
+                    border-main-petrol w-9/12 px-2 flex items-center max-w-max
                     justify-between rounded-full
                 '
                 style={{

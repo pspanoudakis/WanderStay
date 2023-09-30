@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { App } from './App'
 import './index.css'
@@ -7,7 +7,6 @@ import { SignInForm } from './pages/SignInForm';
 import { SignUpForm } from './pages/SignUpForm';
 import { UserProfilePage } from './pages/UserProfilePage';
 import { SearchPropertiesPage } from './pages/SearchPropertiesPage';
-import { TestPage } from './pages/Test';
 import { ORDERED_BASE_ROLE_PATHS } from './pages/pathConstants';
 import { PropertyGuestViewPage } from './pages/PropertyGuestViewPage';
 import { PropertyHostViewPage } from './pages/PropertyHostViewPage';
@@ -24,7 +23,7 @@ import { HostHomePage } from './pages/HostHomePage';
 import { AdminHomePage } from './pages/AdminHomePage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<App />}>
@@ -40,7 +39,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 							</Route>
 						</Route>
 						<Route path='reservations' element={<GuestReservationsPage/>} />
-						<Route path='test' element={<TestPage/>} />
 					</Route>					
 					<Route path={ORDERED_BASE_ROLE_PATHS.ADMIN}>
 						<Route index element={<AdminHomePage/>} />
@@ -66,5 +64,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				</Route>
 			</Routes>
 		</BrowserRouter>
-	</React.StrictMode>,
+	// </React.StrictMode>,
 );

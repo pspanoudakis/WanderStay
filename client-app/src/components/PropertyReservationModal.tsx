@@ -45,7 +45,6 @@ export function PropertyReservationModal({ property }: {
         }
         return dayjs(null);
     });
-
     const dailyCost = useMemo(() => (
         numPersons * property.rules.perGuestCost + property.rules.baseDayCost
     ), [numPersons, property.rules.perGuestCost, property.rules.baseDayCost]);    
@@ -55,6 +54,7 @@ export function PropertyReservationModal({ property }: {
             (1000 * 60 * 60 * 24)
         );
     }, [dateTo, dateFrom]);
+    const totalCost = dailyCost * durationInDays;
 
     const makeReservation = () => {
         setLoading(true);
@@ -171,7 +171,7 @@ export function PropertyReservationModal({ property }: {
                 <span className="flex justify-start items-center gap-3">
                     <FontAwesomeIcon className="text-main-petrol text-2xl" icon={faHandshake}/>
                     <span className="flex gap-1">
-                    <b>{dailyCost * durationInDays}€</b>
+                    <b>{isNaN(totalCost) ? '? ' : totalCost}€</b>
                     {`(${dailyCost}€ / διανυκτέρευση)`}
                     </span>
                 </span>

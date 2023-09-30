@@ -40,6 +40,54 @@ import { fetchOwnedPropertyDetails } from "../api/fetchRoutines/hostAPI";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
 import { PropertyReservationModal } from "./PropertyReservationModal";
 
+const defaultPropertyDetails = {
+    propertyId: -1,
+    address: '',
+    amenities: {
+        hasElevator: false,
+        hasHeating: false,
+        hasKitchen: false,
+        hasLounge: false,
+        hasParking: false,
+        hasRefrigerator: false,
+        hasTv: false,
+        hasWifi: false,
+        numBathrooms: 0,
+        numBedrooms: 0,
+        numBeds: 0
+    },
+    availableSlots: [],
+    city: null,
+    country: null,
+    description: '',
+    hostName: '',
+    hostImg: null,
+    images: [],
+    propertyType: PropertyType.PRIVATE_PROPERTY,
+    rules: {
+        baseDayCost: 0,
+        eventsAllowed: false,
+        minReservationDays: 1,
+        perGuestCost: 0,
+        petsAllowed: false,
+        smokingAllowed: false,
+    },
+    transport: {
+        accessedByBus: false,
+        accessedByMetro: false,
+        accessedByRailway: false,
+        accessedByTram: false,
+    },
+    spaceArea: 1,
+    title: 'Νέο Κατάλυμα',
+    latitude: 38.116828199666465, 
+    longitude: 23.86143414444651,
+    reviewsSummary: {
+        avgStars: 0,
+        reviewCount: 0
+    }
+}
+
 type PropertyDetailsProps = {
     isEditable: boolean,
     propertyId?: number
@@ -70,53 +118,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
             });
         }
         else {
-            setProperty({
-                propertyId: -1,
-                address: '',
-                amenities: {
-                    hasElevator: false,
-                    hasHeating: false,
-                    hasKitchen: false,
-                    hasLounge: false,
-                    hasParking: false,
-                    hasRefrigerator: false,
-                    hasTv: false,
-                    hasWifi: false,
-                    numBathrooms: 0,
-                    numBedrooms: 0,
-                    numBeds: 0
-                },
-                availableSlots: [],
-                city: null,
-                country: null,
-                description: '',
-                hostName: '',
-                hostImg: null,
-                images: [],
-                propertyType: PropertyType.PRIVATE_PROPERTY,
-                rules: {
-                    baseDayCost: 0,
-                    eventsAllowed: false,
-                    minReservationDays: 1,
-                    perGuestCost: 0,
-                    petsAllowed: false,
-                    smokingAllowed: false,
-                },
-                transport: {
-                    accessedByBus: false,
-                    accessedByMetro: false,
-                    accessedByRailway: false,
-                    accessedByTram: false,
-                },
-                spaceArea: 1,
-                title: 'Νέο Κατάλυμα',
-                latitude: 38.116828199666465, 
-                longitude: 23.86143414444651,
-                reviewsSummary: {
-                    avgStars: 0,
-                    reviewCount: 0
-                }
-            });
+            setProperty(defaultPropertyDetails);
             setLoading(false);
         }
     }, [propertyId]);    
@@ -183,6 +185,7 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                         />
                         <PrimaryButton 
                             classExtras="rounded-xl py-2 px-4 text-xl"
+                            disabled={isEditable && (property.country === null || property.city === null)}
                             onClick={isEditable ? saveProperty : openReservationModal}
                         >
                         {
