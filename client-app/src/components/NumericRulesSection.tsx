@@ -17,11 +17,7 @@ export function NumericRulesSection(props: NumericRulesProps){
                 <div className="flex gap-3 items-start flex-col w-full">
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faCalendarDays} size="xl" className="pt-4"/>
-                        <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
+                        <Box>
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
                                 id="standard-basic" 
@@ -40,11 +36,7 @@ export function NumericRulesSection(props: NumericRulesProps){
                     </div>
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faMoneyCheckDollar} size="xl" className="pt-4"/>
-                        <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
+                        <Box>
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
                                 id="standard-basic" 
@@ -63,11 +55,7 @@ export function NumericRulesSection(props: NumericRulesProps){
                     </div>
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faPersonCirclePlus} size="xl" className="pt-4"/>
-                        <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
+                        <Box>
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
                                 id="standard-basic" 

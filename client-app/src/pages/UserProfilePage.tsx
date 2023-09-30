@@ -122,9 +122,12 @@ export function UserProfilePage(){
                     setUserInfo={setUserInfo}
                     visibleRoles={[RoleType.GUEST, RoleType.HOST]}
                 />
-                <AccountStatusSection
-                    isActive={Boolean(businessContext.userContext?.active)}
-                />
+                {
+                    businessContext.userContext?.roles.includes(RoleType.HOST) &&
+                    <AccountStatusSection
+                        isActive={Boolean(businessContext.userContext?.active)}
+                    />
+                }
             </div>
             {
                 isEditing ?

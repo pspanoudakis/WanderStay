@@ -10,19 +10,16 @@ interface TitleProps{
 export function TitleSection(props: TitleProps){
 
     return (
-        <div className='flex flex-col items-start gap-2 flex-1 text-2xl font-bold'>
+        <div 
+            className='flex flex-col items-start gap-2 flex-1 text-2xl font-bold'
+            style={{
+                maxWidth: '35vw'
+            }}
+        >
             {
                 props.editable ?
-                <Box
-                    component="form"
-                    sx={{
-                    '& > :not(style)': { m: 1, fontSize: '20', fontWeight: 'bold'},
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <TextField 
-                        fullWidth
+                    <TextField
+                        className='w-full'
                         id="standard-basic" 
                         label="Τίτλος" 
                         variant="standard" 
@@ -30,7 +27,6 @@ export function TitleSection(props: TitleProps){
                         value={props.title}
                         onChange={(e) => props.setTitle?.(e.target.value)}
                     />
-                </Box>
                 :
                 <span className='text-4xl font-bold'>{props.title}</span>
             }

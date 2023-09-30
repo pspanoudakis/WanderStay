@@ -61,7 +61,6 @@ public class HostService {
         ).orElseThrow(
             () -> new BadRequestException("No Host found with username '" + username + "'")
         );
-        throwIfHostNotActive(host);
         return host;
     }
 

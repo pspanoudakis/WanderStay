@@ -17,11 +17,7 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                 <div className="flex gap-3 items-end justify-center flex-col w-full">
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faBed} size="xl" className="pt-4"/>
-                        <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
+                        <Box>
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
                                 id="standard-basic" 
@@ -41,12 +37,9 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faDoorOpen} size="xl" className="pt-4"/>
                         <Box
-                            component="form"
                             sx={{
                             '& > :not(style)': { fontSize: '16', fontWeight: 'bold'},
                             }}
-                            noValidate
-                            autoComplete="off"
                         >
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
@@ -66,11 +59,7 @@ export function NumericAmentitiesSection(props: NumericAmenitiesProps){
                     </div>
                     <div className="flex gap-3 items-center">
                         <FontAwesomeIcon icon={faBathtub} size="xl" className="pt-4"/>
-                        <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
+                        <Box>
                             <TextField
                                 inputProps={{ style: {fontWeight: 'bold', fontSize: '1.5em'} }}
                                 id="standard-basic" 

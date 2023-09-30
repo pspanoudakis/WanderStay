@@ -9,7 +9,7 @@ export function AccountStatusSection(props: {
     return (
         <>
         <div className="flex gap-2 justify-start items-center w-full">
-            <span className="font-bold text-xl">Κατάσταση:</span>
+            <span className="font-bold text-xl">Κατάσταση Οικοδεσπότη:</span>
             <UserAccountStatusIndicator isActive={props.isActive}/>
         </div>
         {

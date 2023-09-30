@@ -29,12 +29,9 @@ export function EditableTextField(props: UserProfileProps){
                 </Box>
             :
             <Box
-                component="form"
                 sx={{
                 '& > :not(style)': {mr: 1, fontSize: '18'},
                 }}
-                noValidate
-                autoComplete="off"
             >
                 <span className='text-xl font-bold'>{`${props.boxType + ":"}`}</span>
                 {

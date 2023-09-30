@@ -60,21 +60,18 @@ export function LocationSection({
                     <div className='flex gap-3 flex-start items-center'>
                         <FontAwesomeIcon icon={faLocationDot} size='xl' />
                         <Box
-                        component="form"
-                        sx={{
-                        '& > :not(style)': { m: 1},
-                        }}
-                        noValidate
-                        autoComplete="off"
+                            sx={{
+                            '& > :not(style)': { m: 1},
+                            }}
                         >
-                        <TextField 
-                            fullWidth
-                            id="standard-basic" 
-                            label="Διεύθυνση" 
-                            variant="standard" 
-                            value={address}
-                            onChange={e => setAddress?.(e.target.value)}
-                        />
+                            <TextField 
+                                fullWidth
+                                id="standard-basic" 
+                                label="Διεύθυνση" 
+                                variant="standard" 
+                                value={address}
+                                onChange={e => setAddress?.(e.target.value)}
+                            />
                         </Box>
 
                         <Autocomplete
