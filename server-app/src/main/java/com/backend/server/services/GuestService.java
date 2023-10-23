@@ -26,7 +26,7 @@ public class GuestService {
     
     private final AdminService adminService;
     private final UserService userService;
-    private final AuthService authService;
+    private final RoleService roleService;
     private final ReservationSpecification reservationSpecification;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
@@ -40,32 +40,36 @@ public class GuestService {
         );
     }
 
-    public Guest getGuestFromTokenOrElseThrow(String token) throws BadRequestException {
-        User user = authService.getUserFromTokenOrElseThrow(token);
+    public Guest getGuestOrElseThrow(User user) throws BadRequestException {
+        if (!user.hasRole(roleService.getGuestRole())) {
+            throw new BadRequestException(
+                "No Guest found with username '" + user.getUsername() + "'"
+            );
+        }
         return guestRepository.findByUser(user).orElseThrow(
             () -> new BadRequestException(
-                    "The provided JWT is not associated with a Guest."
-                )
+                "No Guest found with username '" + user.getUsername() + "'"
+            )
         );
     }
 
     @Transactional
     public Page<PropertyReservationDto> getGuestReservations(
-        String jwt, Short numPage, Byte pageSize
+        User thisGuestUser, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return reservationRepository.findAllByGuestOrderByStartDateDesc(
-            getGuestFromTokenOrElseThrow(jwt),
+            getGuestOrElseThrow(thisGuestUser),
             PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
     }
 
     @Transactional
     public Page<PropertyReservationDto> getUpcomingGuestReservations(
-        String jwt, Short numPage, Byte pageSize
+        User thisGuestUser, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return reservationRepository.findAll(
             reservationSpecification.getUpcomingGuestReservations(
-                getGuestFromTokenOrElseThrow(jwt)
+                getGuestOrElseThrow(thisGuestUser)
             ),
             PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));

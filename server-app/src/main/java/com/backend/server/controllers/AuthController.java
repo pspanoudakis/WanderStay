@@ -1,6 +1,7 @@
 package com.backend.server.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import com.backend.server.controllers.requests.LoginRequestDto;
 import com.backend.server.controllers.requests.RegisterRequestDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
+import com.backend.server.entities.users.User;
 import com.backend.server.services.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,9 +40,12 @@ public class AuthController {
     }
 
     @PostMapping("/tokenLogin")
-    public ResponseEntity<ApiResponseDto> tokenLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<ApiResponseDto> tokenLogin(
+        @AuthenticationPrincipal User thisUser,
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String token
+    ) {
         return ControllerResponseUtils.authResponseFactory(
-            () -> authService.loginWithToken(token)
+            () -> authService.loginWithToken(thisUser, token)
         );
     }
 }

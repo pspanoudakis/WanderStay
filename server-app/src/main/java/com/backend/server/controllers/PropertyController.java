@@ -1,12 +1,11 @@
 package com.backend.server.controllers;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +17,7 @@ import com.backend.server.controllers.requests.PropertySearchRequestDto;
 import com.backend.server.controllers.requests.PropertyUpdatedDetailsDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
+import com.backend.server.entities.users.User;
 import com.backend.server.services.PropertyService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,43 +49,40 @@ public class PropertyController {
 
     @PostMapping({"/{propertyId}", "/"})
     public ResponseEntity<ApiResponseDto> createOrUpdateProperty(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @AuthenticationPrincipal User thisUser,
         @PathVariable(required = false) Long propertyId,
         @RequestBody PropertyUpdatedDetailsDto request
     ) {
         return ControllerResponseUtils.responseFactory(
-            () -> propertyService.createOrUpdateProperty(propertyId, jwt, request)
+            () -> propertyService.createOrUpdateProperty(propertyId, thisUser, request)
         );
     }
 
-    // @PreAuthorize("hasAuthority('GUEST')")
     @PostMapping("/{propertyId}/reserve")
     public ResponseEntity<ApiResponseDto> makePropertyReservation(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @AuthenticationPrincipal User thisGuestUser,
         @PathVariable Long propertyId,
         @RequestBody PropertyReservationRequestDto request
     ) {
         return ControllerResponseUtils.responseFactory(
-            () -> propertyService.makePropertyReservation(propertyId, jwt, request)
+            () -> propertyService.makePropertyReservation(propertyId, thisGuestUser, request)
         );
     }
 
-    // @PreAuthorize("hasAuthority('GUEST')")
     @PostMapping("/{propertyId}/review")
     public ResponseEntity<ApiResponseDto> reviewProperty(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @AuthenticationPrincipal User thisGuestUser,
         @PathVariable Long propertyId,
         @RequestBody PropertyReviewRequestDto request
     ) {
         return ControllerResponseUtils.responseFactory(
-            () -> propertyService.createOrUpdatePropertyReview(propertyId, jwt, request)
+            () -> propertyService.createOrUpdatePropertyReview(propertyId, thisGuestUser, request)
         );
     }
 
-    // @PreAuthorize("hasAuthority('HOST')")
     @PostMapping({"/{propertyId}/uploadImage", "/uploadImage"})
     public ResponseEntity<?> addPropertyImage(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt,
+        @AuthenticationPrincipal User thisUser,
         @PathVariable(required = false) Long propertyId,
         @RequestParam("img") MultipartFile img,
         @RequestParam(name = "isMain", defaultValue = "false") String isMainStr
@@ -93,7 +90,7 @@ public class PropertyController {
         return ControllerResponseUtils.genericResponseFactory(
             () -> propertyService.addPropertyImage(
                     propertyId,
-                    jwt,
+                    thisUser,
                     img,
                     Boolean.parseBoolean(isMainStr)
                 )
