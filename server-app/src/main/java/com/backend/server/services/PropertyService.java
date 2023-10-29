@@ -160,9 +160,7 @@ public class PropertyService {
 
         // Check Capacity
         if (property.getAmenities().getNumBeds() < request.getNumPersons()) {
-            return new ApiErrorResponseDto(
-                "This property has insufficient capacity for the specified reservation."
-            );
+            return new ApiErrorResponseDto("INSUFFICIENT_CAPACITY");
         }
         
         // Check Minimum Reservation Days
@@ -172,11 +170,7 @@ public class PropertyService {
                     request.getDateFrom(), request.getDateTo()
                 ) < property.getRules().getMinReservationDays()
             )) {
-            return new ApiErrorResponseDto(
-                "This property can be reserved for " +
-                property.getRules().getMinReservationDays() +
-                " days minimum."
-            );
+            return new ApiErrorResponseDto("MIN_DURATION_UNSATISFIED");
         }
         
         // Find available slot for the reservation and modify accordingly
@@ -215,9 +209,7 @@ public class PropertyService {
             }
         }
         if (!slotFound) {
-            return new ApiErrorResponseDto(
-                "This property is not available during the specified date range."
-            );
+            return new ApiErrorResponseDto("UNAVAILABLE_DURING_DATE_RANGE");
         }
 
         // Ok, update property (slots) and create reservation

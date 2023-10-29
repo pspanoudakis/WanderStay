@@ -44,7 +44,7 @@ export function ChatContainer(props: ChatContainerProps){
                     content: () => (
                         <ModalActionResultTemplate
                             success={false}
-                            errorText="Σφάλμα ανάκτησης συνομιλίας."
+                            defaultErrorText="Σφάλμα ανάκτησης συνομιλίας."
                         />
                     )
                 });
@@ -78,7 +78,7 @@ export function ChatContainer(props: ChatContainerProps){
                         content: () => (
                             <ModalActionResultTemplate
                                 success={false}
-                                errorText="Σφάλμα αποστολής Μηνύματος."
+                                defaultErrorText="Σφάλμα αποστολής Μηνύματος."
                             />
                         )
                     });

@@ -80,16 +80,17 @@ export function UserDetails({
                         setUserImage?.(newImg)
                         setUploadingImg(false);
                     }}
-                    onError={() => 
+                    onError={() => {
                         openModal(ctx, {
                             content: () => (
                                 <ModalActionResultTemplate
                                     success={false}
-                                    errorText="Σφάλμα μεταφόρτωσης εικόνας"
+                                    defaultErrorText="Σφάλμα μεταφόρτωσης εικόνας."
                                 />
                             )
                         })
-                    }
+                        setUploadingImg(false);
+                    }}
                 />
                 </>
             }

@@ -45,7 +45,7 @@ export function SignInForm() {
                                 !response.ok ?
                                 <ModalActionResultTemplate
                                     success={false}
-                                    errorText="Σφάλμα κατά τη σύνδεση."
+                                    defaultErrorText="Σφάλμα κατά τη σύνδεση."
                                 />
                                 :
                                 <HostNotActiveModalWarning

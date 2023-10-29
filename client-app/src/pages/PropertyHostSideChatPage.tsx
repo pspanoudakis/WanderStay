@@ -25,8 +25,8 @@ export function PropertyHostSideChatPage() {
                 content: () => (
                     <ModalActionResultTemplate
                         success={response.ok}
-                        successText="Η Συνομιλία διεγράφη επιτυχώς"
-                        errorText="Σφάλμα διαγραφής συνομιλίας"
+                        successText="Η Συνομιλία διεγράφη επιτυχώς."
+                        defaultErrorText="Σφάλμα διαγραφής Συνομιλίας."
                     />
                 )
             })

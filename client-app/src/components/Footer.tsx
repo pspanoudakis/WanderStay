@@ -56,7 +56,7 @@ const socialLinks: {
 }[] = [
     { icon: faFacebook, url: 'https://www.facebook.com/' },
     { icon: faInstagram, url: 'https://www.instagram.com/' },
-    { icon: faGithub, url: 'https://github.com/pspanoudakis/AppBase' },
+    { icon: faGithub, url: 'https://github.com/pspanoudakis/WanderStay' },
     { icon: faXTwitter, url: 'https://twitter.com/' },
 ]
 

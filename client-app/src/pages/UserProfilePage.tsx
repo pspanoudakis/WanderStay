@@ -87,7 +87,7 @@ export function UserProfilePage(){
                     content: () => (
                         <ModalActionResultTemplate
                             success={false}
-                            errorText="Σφάλμα ενημέρωσης στοιχείων"
+                            defaultErrorText="Σφάλμα ενημέρωσης στοιχείων."
                         />
                     )
                 })
