@@ -4,7 +4,7 @@ import { Conversation } from "../api/entities/Conversation";
 import { sendMessageToConversation } from "../api/fetchRoutines/conversationAPI";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { FetchDataResponse } from "../api/fetchRoutines/fetchAPI";
+import { FetchDataResponse, SupportedAcceptType, createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "./ModalActionResultTemplate";
 import { PrimaryButton } from "./PrimaryButton";
@@ -13,6 +13,35 @@ import { faRefresh, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { ORDERED_BASE_ROLE_PATHS } from "../pages/pathConstants";
 import { useNavigateIfAuthenticationFailed } from "../hooks/useNavigateIfAuthenticationFailed";
+import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
+import { Message } from "../api/entities/Message";
+import { getJwt } from "../api/jwt/jwt";
+
+type ChatSocketResponse = {
+    ok: boolean,
+    message: Message
+};
+function ChatSocketSubscriber(props: {
+    subscriptionUrl: string,
+    onNewMessage: (response: ChatSocketResponse) => void,
+    onError?: (error: any) => void
+}) {
+    useSubscription(
+        props.subscriptionUrl,
+        response => {
+            let msg: ChatSocketResponse | undefined;
+            try {
+                msg = JSON.parse(response.body) as ChatSocketResponse;
+            } catch (error) {
+                console.error(`Error while parsing socket response as JSON: ${error}`);
+                props.onError?.(error);
+            }
+            if (msg) props.onNewMessage(msg);
+        },
+    );
+
+    return null;
+}
 
 interface ChatContainerProps {
     conversationFetcher: () => 
@@ -99,6 +128,23 @@ export function ChatContainer(props: ChatContainerProps){
             {
                 conversation &&
                 <div className="w-full flex justify-between items-center">
+                    <StompSessionProvider
+                        url={createEndPointUrl(`/ws-message`)}
+                    >
+                        <ChatSocketSubscriber
+                            subscriptionUrl={`/conversation/ws/${conversation.id}`}
+                            onNewMessage={res => {
+                                console.log(res);
+                                setConversation({
+                                    ...conversation,
+                                    messages: [
+                                        ...conversation.messages,
+                                        res.message
+                                    ]
+                                })
+                            }}
+                        />
+                    </StompSessionProvider>
                     <div className="flex flex-col items-start">
                         <Link 
                             to={(
@@ -139,7 +185,7 @@ export function ChatContainer(props: ChatContainerProps){
                             Διαγραφή Συνομιλίας
                         </button>                        
                     }
-                </div>
+                </div>                
             }
             <div className="w-full flex justify-center">
                 <PrimaryButton onClick={fetchConversation}>

@@ -9,6 +9,7 @@ import com.backend.server.controllers.requests.MessageDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.ConversationDto;
 import com.backend.server.controllers.responses.ConversationPreviewDto;
+import com.backend.server.controllers.responses.MessageResponseDto;
 import com.backend.server.entities.messages.Conversation;
 import com.backend.server.entities.messages.Message;
 import com.backend.server.entities.properties.Property;
@@ -50,19 +51,6 @@ class ConversationResponseDto extends ApiResponseDto {
                 .messages(c.getMessages())
             .build()
         );
-    }
-    
-}
-
-@Getter
-@Setter
-class MessageResponseDto extends ApiResponseDto {
-
-    private Message message;
-
-    public MessageResponseDto(Message m) {
-        super(true);
-        message = m;
     }
     
 }
@@ -147,7 +135,7 @@ public class ConversationService {
     }
 
     @Transactional
-    public ApiResponseDto sendMessage(
+    public MessageResponseDto sendMessage(
         User thisUser, Long conversationId, MessageDto request
     ) throws BadRequestException {
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);

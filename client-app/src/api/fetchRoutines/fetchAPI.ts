@@ -1,7 +1,7 @@
 import { getJwt } from "../jwt/jwt";
 
-const FETCH_DELAY_MS = 650
-const SERVER_DOMAIN_URL = "https://localhost:8080"
+const FETCH_DELAY_MS = 550;
+const SERVER_DOMAIN_URL = "https://localhost:8080";
 
 export enum SupportedAcceptType {
     APPLICATION_JSON = 'application/json',
@@ -56,7 +56,7 @@ function fetchWrapper({
             headers: {
                 'Accept': acceptType ?? SupportedAcceptType.APPLICATION_JSON,
                 'Authorization': useJwt ? `Bearer ${getJwt()}` : '',
-                ...(!omitContentType && {'Content-Type': 'application/json'}),
+                ...(!omitContentType && {'Content-Type': SupportedAcceptType.APPLICATION_JSON}),
             },
             body: (
                 method === "POST" ? 
@@ -70,6 +70,8 @@ function fetchWrapper({
 
 export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<unknown>> {
 
+    await wait(FETCH_DELAY_MS);
+
     let response: FetchDataResponse<unknown> = {
         content: {},
         ok: false,
@@ -79,14 +81,16 @@ export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<
     const returnAsText = (
         fetchWrapperArgs.acceptType &&
         fetchWrapperArgs.acceptType !== SupportedAcceptType.APPLICATION_JSON
-    );
-
-    await fetchWrapper(fetchWrapperArgs)
-    .then(res => {
+    );   
+    
+    try {
+        const res = await fetchWrapper(fetchWrapperArgs);
         response.statusCode = res.status;
         if (res.ok) {
-            (returnAsText ? res.text() : res.json())
-            .then(content => {
+            try {
+                const content = (
+                    returnAsText ? await res.text() : await res.json()
+                );
                 response = {
                     content,
                     ok: true,
@@ -94,24 +98,23 @@ export async function fetchData(args: FetchDataArgs): Promise<FetchDataResponse<
                     jwt: (extractJwt && res.headers.get('Authorization')) || undefined
                 }
                 console.log(response.content);
-            }).catch(err => {
+            } catch (err) {
                 console.error(`FETCH ERROR: Cannot parse response as ${returnAsText ? 'TEXT' : 'JSON'}.`);
                 console.error(err);
-            })
+            }
         }
         else {
             console.error('FETCH ERROR: Server returned error response.');
-            res.json().then(content => {
+            try {
+                const content = await res.json();
                 console.error(`HTTP ${res.status}: ${content.error}`)
                 response.error = content.error;
-            }).catch(() => {})
+            } catch (error) {}
         }
-    }).catch(err => {
+    } catch (err) {
         console.error('FETCH ERROR: Error while invoking `fetch`.');
         console.error(err);
-    });
-    
-    await wait(FETCH_DELAY_MS);
+    }
 
     return response;
 }

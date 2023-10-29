@@ -54,10 +54,9 @@ public class SecurityConfiguration {
                 "/auth/login",
                 "/location/**",
                 "/property/*",
-                // "/property/search",
-                // "/property/*/review*",
                 "/property/*/reviews*",
-                "/images/**"
+                "/images/**",
+                "/ws-message/**"
             )
             .permitAll()
 
