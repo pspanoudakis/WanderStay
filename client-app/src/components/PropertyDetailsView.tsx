@@ -139,8 +139,8 @@ export function PropertyDetailsView({ isEditable, propertyId }: PropertyDetailsP
                     content: () => (
                         <ModalActionResultTemplate
                             success={response.ok}
-                            successText="Επιτυχής ενημέρωση Καταλύματος"
-                            errorText="Σφάλμα ενημέρωσης Καταλύματος"
+                            successText="Επιτυχής ενημέρωση Καταλύματος."
+                            defaultErrorText="Σφάλμα ενημέρωσης Καταλύματος."
                         />
                     )
                 })

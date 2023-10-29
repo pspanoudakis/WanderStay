@@ -31,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final AdminService adminService;
-    private final AuthService authService;
     private final RoleService roleService;
     private final ImageService imageService;
     private final UserSpecification userSpecification;
@@ -47,47 +46,42 @@ public class UserService {
 
     @Transactional
     public UserResponseDto updateUserDetails(
-        String jwt, UpdatedUserDetailsDto request
+        User thisUser, UpdatedUserDetailsDto request
     ) throws BadRequestException {
-        User user = authService.getUserFromTokenOrElseThrow(jwt);
         
         if (request.getRoles().contains(RoleType.GUEST.toString()) &&
-            !user.getRoles().stream().anyMatch(
-                role -> role.equals(roleService.getGuestRole())
-            )) {
-            guestRepository.findByUser(user).orElseGet(
+            !thisUser.hasRole(roleService.getGuestRole())) {
+            guestRepository.findByUser(thisUser).orElseGet(
                 () -> guestRepository.save(
                     Guest.builder()
-                        .user(user)
+                        .user(thisUser)
                         .id(new RoleEntityId())
                         .build()
                 )                
             );
         }
         if (request.getRoles().contains(RoleType.HOST.toString()) &&
-            !user.getRoles().stream().anyMatch(
-                role -> role.equals(roleService.getHostRole())
-            )) {
-            hostRepository.findByUser(user).orElseGet(
+            !thisUser.hasRole(roleService.getHostRole())) {
+            hostRepository.findByUser(thisUser).orElseGet(
                 () -> hostRepository.save(
                     Host.builder()
-                        .user(user)
+                        .user(thisUser)
                         .id(new RoleEntityId())
                         .build()
                 )
             );
-            user.setActive(false);
+            thisUser.setActive(false);
         }
 
-        user.setEmail(request.getEmail());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setMobileNumber(request.getMobileNumber());
+        thisUser.setEmail(request.getEmail());
+        thisUser.setFirstName(request.getFirstName());
+        thisUser.setLastName(request.getLastName());
+        thisUser.setMobileNumber(request.getMobileNumber());
 
-        user.getRoles().clear();
-        user.setRoles(roleService.getRequestedRoles(request.getRoles()));
+        thisUser.getRoles().clear();
+        thisUser.setRoles(roleService.getRequestedRoles(request.getRoles()));
 
-        return new UserResponseDto(userRepository.save(user));
+        return new UserResponseDto(userRepository.save(thisUser));
     }
     
     @Transactional

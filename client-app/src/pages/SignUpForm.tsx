@@ -61,7 +61,7 @@ export function SignUpForm() {
                                             :
                                             '')
                                         }
-                                        errorText="Σφάλμα κατά τη δημιουργία λογαριασμού."
+                                        defaultErrorText="Σφάλμα κατά τη δημιουργία λογαριασμού."
                                     />
                                 )
                         }

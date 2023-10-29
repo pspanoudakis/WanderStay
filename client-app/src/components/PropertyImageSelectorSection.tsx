@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ImageEntity } from "../api/entities/ImageEntity";
 import { CheckboxWithLabel } from "./CheckboxWithLabel";
 import { Checklist } from "./Checklist";
@@ -6,6 +6,8 @@ import { Img } from "./Img";
 import { ImgUploadButton } from "./ImgUploadButton";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
+import { ModalActionResultTemplate } from "./ModalActionResultTemplate";
+import { AppContext, openModal } from "../AppContext";
 
 type ImgListItemProps = {
     img: ImageEntity,
@@ -46,6 +48,9 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
     images: ImageEntity[],
     setImages: (imgs: ImageEntity[]) => void
 }) {
+
+    const ctx = useContext(AppContext);
+
     const [loading, setLoading] = useState(false);
     const [selectedImgId, setSelectedImgId] = useState(
         images.length ? 
@@ -83,7 +88,17 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
             }
             </div>
             <ImgUploadButton
-                onError={() => {}}
+                onError={() => {
+                    openModal(ctx, {
+                        content: () => (
+                            <ModalActionResultTemplate
+                                success={false}
+                                defaultErrorText="Σφάλμα μεταφόρτωσης εικόνας."
+                            />
+                        )
+                    })
+                    setLoading(false);
+                }}
                 onStartUpload={() => {
                     setLoading(true)
                 }}
@@ -99,8 +114,8 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                 items={images}
                 setItems={setImages}
                 itemSerializer={img => img.imgId.toString()}
-                itemRenderer={(img) => {
-                    return <ImgListItem
+                itemRenderer={(img) => 
+                    <ImgListItem
                         img={img}
                         isSelected={selectedImgId === img.imgId}
                         onClick={(img) => setSelectedImgId(img.imgId)}
@@ -112,7 +127,7 @@ export function PropertyImageSelectorSection({propertyId, images, setImages}: {
                                 }))
                             )
                         }}
-                    />}
+                    />
                 }
                 title="Αποθηκευμένες Εικόνες"
                 placeholder="Δεν υπάρχουν αποθηκευμένες εικόνες."

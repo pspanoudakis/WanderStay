@@ -71,7 +71,6 @@ class MessageResponseDto extends ApiResponseDto {
 @RequiredArgsConstructor
 public class ConversationService {
     
-    private final AuthService authService;
     private final HostService hostService;
     private final GuestService guestService;
     private final PropertyService propertyService;
@@ -111,9 +110,9 @@ public class ConversationService {
 
     @Transactional
     public ConversationResponseDto getOrCreateGuestSideConversation(
-        String jwt, Long propertyId
+        User thisGuestUser, Long propertyId
     ) throws BadRequestException {
-        Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
+        Guest guest = guestService.getGuestOrElseThrow(thisGuestUser);
 
         return new ConversationResponseDto(
             conversationRepository.findOne(
@@ -133,9 +132,9 @@ public class ConversationService {
 
     @Transactional
     public ConversationResponseDto getHostSideConversation(
-        String jwt, Long conversationId
+        User thisHostUser, Long conversationId
     ) throws BadRequestException {
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);        
+        Host host = hostService.getHostOrElseThrow(thisHostUser);        
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
 
         if (!isConversationPropertyHost(host.getUser(), conversation)) {
@@ -149,16 +148,15 @@ public class ConversationService {
 
     @Transactional
     public ApiResponseDto sendMessage(
-        String jwt, Long conversationId, MessageDto request
+        User thisUser, Long conversationId, MessageDto request
     ) throws BadRequestException {
-        User user = authService.getUserFromTokenOrElseThrow(jwt);
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
-        ensureRelatedOrElseThrow(user, conversation);
+        ensureRelatedOrElseThrow(thisUser, conversation);
 
         Message message = (
             Message.builder()
                 .conversation(conversation)
-                .sentBy(user)
+                .sentBy(thisUser)
                 .sentOn(new Date())
                 .text(request.getText())
             .build()
@@ -172,9 +170,9 @@ public class ConversationService {
 
     @Transactional
     public ApiResponseDto markConversationAsDeletedByHost(
-        String jwt, Long conversationId
+        User thisHostUser, Long conversationId
     ) throws BadRequestException {
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Host host = hostService.getHostOrElseThrow(thisHostUser);
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
         if (!isConversationPropertyHost(host.getUser(), conversation)) {
             throw new BadRequestException(
@@ -190,10 +188,10 @@ public class ConversationService {
 
     @Transactional
     public Page<ConversationPreviewDto> getAllPropertyConversations(
-        String jwt, Long propertyId,
+        User thisHostUser, Long propertyId,
         Short numPage, Byte pageSize
     ) throws BadRequestException {
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Host host = hostService.getHostOrElseThrow(thisHostUser);
         Property property = propertyService.getPropertyFromIdOrElseThrow(propertyId);
         propertyService.throwIfNotOwner(host, property);
 

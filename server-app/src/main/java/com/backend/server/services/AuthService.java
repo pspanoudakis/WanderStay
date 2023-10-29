@@ -137,10 +137,7 @@ public class AuthService {
         return createAuthResponse(user);
     }
 
-    public AuthResponseDto loginWithToken(String token) throws BadRequestException {
-        return createAuthResponse(
-            getUserFromTokenOrElseThrow(token),
-            token
-        );
+    public AuthResponseDto loginWithToken(User thisUser, String token) {
+        return createAuthResponse(thisUser, token);
     }
 }

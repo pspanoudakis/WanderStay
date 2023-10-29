@@ -21,7 +21,7 @@ export function useNavigateIfAuthenticationFailed() {
                         content: () => (
                             <ModalActionResultTemplate
                                 success={false}
-                                errorText="Για να συνεχίσετε, πρέπει να συνδεθείτε."
+                                defaultErrorText="Για να συνεχίσετε, πρέπει να συνδεθείτε."
                             />
                         )
                     }

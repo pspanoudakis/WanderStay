@@ -75,7 +75,7 @@ export function UserProfileAdminViewPage(){
                         content: () => (
                             <ModalActionResultTemplate
                                 success={false}
-                                errorText="Σφάλμα Εξαγωγής Δεδομένων"
+                                defaultErrorText="Σφάλμα Εξαγωγής Δεδομένων."
                             />
                         )
                     });
@@ -100,7 +100,7 @@ export function UserProfileAdminViewPage(){
                         content: () => (
                             <ModalActionResultTemplate
                                 success={false}
-                                errorText="Σφάλμα Επεξεργασίας Λογαριασμού"
+                                defaultErrorText="Σφάλμα Επεξεργασίας Λογαριασμού."
                             />
                         )
                     });

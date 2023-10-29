@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HostService {
 
-    private final AuthService authService;
     private final UserService userService;
     private final AdminService adminService;
+    private final RoleService roleService;
     private final HostRepository hostRepository;
     private final PropertyRepository propertyRepository;
     private final ReviewRepository reviewRepository;
@@ -42,19 +42,6 @@ public class HostService {
         }
     }
 
-    public Host getHostFromTokenOrElseThrow(String token) throws BadRequestException {
-
-        Host host = hostRepository.findByUser(
-            authService.getUserFromTokenOrElseThrow(token)
-        ).orElseThrow(
-            () -> new BadRequestException(
-                    "The provided JWT is not associated with a Host."
-                )
-        );
-        throwIfHostNotActive(host);
-        return host;
-    }
-
     private Host findHostByUsernameOrElseThrow(String username) throws BadRequestException {
         Host host = hostRepository.findByUser(
             userService.getUserByUsernameOrElseThrow(username)
@@ -64,13 +51,28 @@ public class HostService {
         return host;
     }
 
+    public Host getHostOrElseThrow(User user) throws BadRequestException {
+        if (!user.hasRole(roleService.getHostRole())) {
+            throw new BadRequestException(
+                "User '" + user.getUsername() + "' must be Host."
+            );
+        }
+        Host host = hostRepository.findByUser(user).orElseThrow(
+            () -> new BadRequestException(
+                "User '" + user.getUsername() + "' must be Host."
+            )
+        );
+        throwIfHostNotActive(host);
+        return host;
+    }
+
     @Transactional
     public Page<PropertyReservationDto> getHostReservations(
-        String jwt, Short numPage, Byte pageSize
+        User thisHostUser, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return reservationRepository.findAll(
             reservationSpecification.getHostReservations(
-                getHostFromTokenOrElseThrow(jwt)
+                getHostOrElseThrow(thisHostUser)
             ),
             PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));
@@ -78,11 +80,11 @@ public class HostService {
     
     @Transactional
     public Page<PropertyReservationDto> getUpcomingHostReservations(
-        String jwt, Short numPage, Byte pageSize
+        User thisHostUser, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return reservationRepository.findAll(
             reservationSpecification.getUpcomingHostReservations(
-                getHostFromTokenOrElseThrow(jwt)
+                getHostOrElseThrow(thisHostUser)
             ),
             PaginationUtils.getPageable(numPage, pageSize)
         ).map(r -> PropertyReservationDto.fromReservation(r));

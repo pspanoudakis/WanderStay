@@ -33,6 +33,7 @@ import com.backend.server.entities.properties.Reservation;
 import com.backend.server.entities.properties.Review;
 import com.backend.server.entities.users.Guest;
 import com.backend.server.entities.users.Host;
+import com.backend.server.entities.users.User;
 import com.backend.server.exceptions.BadRequestException;
 import com.backend.server.pojos.PropertyReviewsSummary;
 import com.backend.server.repositories.PropertyRepository;
@@ -150,18 +151,16 @@ public class PropertyService {
 
     @Transactional
     public ApiResponseDto makePropertyReservation(
-        Long propertyId, String jwt,
+        Long propertyId, User thisGuestUser,
         PropertyReservationRequestDto request
     ) throws BadRequestException{
 
-        Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
+        Guest guest = guestService.getGuestOrElseThrow(thisGuestUser);
         Property property = getPropertyFromIdOrElseThrow(propertyId);
 
         // Check Capacity
         if (property.getAmenities().getNumBeds() < request.getNumPersons()) {
-            return new ApiErrorResponseDto(
-                "This property has insufficient capacity for the specified reservation."
-            );
+            return new ApiErrorResponseDto("INSUFFICIENT_CAPACITY");
         }
         
         // Check Minimum Reservation Days
@@ -171,11 +170,7 @@ public class PropertyService {
                     request.getDateFrom(), request.getDateTo()
                 ) < property.getRules().getMinReservationDays()
             )) {
-            return new ApiErrorResponseDto(
-                "This property can be reserved for " +
-                property.getRules().getMinReservationDays() +
-                " days minimum."
-            );
+            return new ApiErrorResponseDto("MIN_DURATION_UNSATISFIED");
         }
         
         // Find available slot for the reservation and modify accordingly
@@ -214,9 +209,7 @@ public class PropertyService {
             }
         }
         if (!slotFound) {
-            return new ApiErrorResponseDto(
-                "This property is not available during the specified date range."
-            );
+            return new ApiErrorResponseDto("UNAVAILABLE_DURING_DATE_RANGE");
         }
 
         // Ok, update property (slots) and create reservation
@@ -259,10 +252,10 @@ public class PropertyService {
 
     @Transactional
     public ApiResponseDto createOrUpdatePropertyReview(
-        Long propertyId, String jwt,
+        Long propertyId, User thisGuestUser,
         PropertyReviewRequestDto request
     ) throws BadRequestException {
-        Guest guest = guestService.getGuestFromTokenOrElseThrow(jwt);
+        Guest guest = guestService.getGuestOrElseThrow(thisGuestUser);
         Property property = getPropertyFromIdOrElseThrow(propertyId);
 
         if (reservationRepository.findOneByPropertyAndGuest(property, guest).size() == 0) {
@@ -284,10 +277,10 @@ public class PropertyService {
     }
 
     public ImageSelectionDto addPropertyImage(
-        Long propertyId, String jwt,
+        Long propertyId, User thisHostUser,
         MultipartFile file, boolean isMain
     ) throws BadRequestException, IOException{
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Host host = hostService.getHostOrElseThrow(thisHostUser);
 
         Property property = null;
         if (propertyId != null) {
@@ -330,9 +323,9 @@ public class PropertyService {
     }
 
     @Transactional
-    public PropertyDetailsResponseDto getOwnedPropertyDetails(String jwt, Long propertyId)
+    public PropertyDetailsResponseDto getOwnedPropertyDetails(User thisHostUser, Long propertyId)
     throws BadRequestException {
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Host host = hostService.getHostOrElseThrow(thisHostUser);
         Property property = getPropertyFromIdOrElseThrow(propertyId);
         throwIfNotOwner(host, property);
         return mapPropertyToDetailsDto(property);
@@ -377,10 +370,10 @@ public class PropertyService {
 
     @Transactional
     public PropertyDetailsResponseDto createOrUpdateProperty(
-        Long propertyId, String jwt,
+        Long propertyId, User thisHostUser,
         PropertyUpdatedDetailsDto request
     ) throws BadRequestException {
-        Host host = hostService.getHostFromTokenOrElseThrow(jwt);
+        Host host = hostService.getHostOrElseThrow(thisHostUser);
 
         Property property = propertyId != null ? (
             propertyRepository.findById(propertyId)
@@ -432,10 +425,10 @@ public class PropertyService {
 
     @Transactional
     public Page<PropertyHostSidePreviewDto> getHostProperties(
-        String jwt, Short numPage, Byte pageSize
+        User thisHostUser, Short numPage, Byte pageSize
     ) throws BadRequestException {
         return propertyRepository.findByHost(
-            hostService.getHostFromTokenOrElseThrow(jwt), 
+            hostService.getHostOrElseThrow(thisHostUser), 
             PaginationUtils.getPageable(numPage, pageSize)
         ).map(p -> (
             initBasicPropertyDtoBuilder(p, PropertyHostSidePreviewDto.builder())

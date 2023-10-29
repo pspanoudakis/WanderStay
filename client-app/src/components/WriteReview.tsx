@@ -38,12 +38,8 @@ export function WriteReview(props: WriteReviewProps){
                             <ModalActionResultTemplate
                                 success={response.ok}
                                 successText='Η υποβολή της κριτικής σας έγινε επιτυχώς.'
-                                errorText={
-                                    response.error === "NO_RESERVATION_HISTORY" ? 
-                                    'Πρέπει να έχετε κάνει κράτηση σε ένα κατάλυμα για να το βαθμολογήσετε.' 
-                                    :
-                                    'Δεν ήταν δυνατή η υποβολή της κριτικής σας.'
-                                }
+                                defaultErrorText='Δεν ήταν δυνατή η υποβολή της κριτικής σας.'
+                                errorCode={response.error}
                             />
                     });
                     setLoading(false);

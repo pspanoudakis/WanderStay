@@ -70,8 +70,9 @@ export function PropertyReservationModal({ property }: {
                     content: () => (
                         <ModalActionResultTemplate
                             success={response.ok}
-                            successText="H Κράτησή σας ολοκληρώθηκε επιτυχώς"
-                            errorText="Σφάλμα καταχώρησης Κράτησης"
+                            successText="H Κράτησή σας ολοκληρώθηκε επιτυχώς."
+                            defaultErrorText="Σφάλμα καταχώρησης Κράτησης."
+                            errorCode={response.error}
                         />
                     )
                 })
