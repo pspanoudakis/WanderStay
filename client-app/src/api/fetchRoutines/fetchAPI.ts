@@ -1,15 +1,16 @@
 import { getJwt } from "../jwt/jwt";
 
 const FETCH_DELAY_MS = 550;
-const SERVER_DOMAIN_URL = "https://localhost:8080";
+const SERVER_DOMAIN_URL = "localhost:8080";
 
 export enum SupportedAcceptType {
     APPLICATION_JSON = 'application/json',
     APPLICATION_XML = 'application/xml'
 }
 
-export function createEndPointUrl(postfix: string){
-    return SERVER_DOMAIN_URL + postfix;
+export function createEndPointUrl(postfix: string, options: {useSocket: boolean | undefined} | undefined){
+    const prefix = options?.useSocket ? 'wss://' : 'https://';
+    return prefix + SERVER_DOMAIN_URL + postfix;
 }
 
 export function wait(ms: number) {

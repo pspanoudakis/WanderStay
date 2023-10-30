@@ -29,7 +29,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
 
-    private Claims findAllClaims(String jwt) {
+    private Claims findAllClaims(String jwt) throws RuntimeException {
         return Jwts
             .parserBuilder()
             .setSigningKey(getSignInKey())
@@ -38,16 +38,19 @@ public class JwtService {
             .getBody();
     }
 
-    public <T> T findClaim(String jwt, Function<Claims, T> claimExtractor) {
+    public <T> T findClaim(
+        String jwt,
+        Function<Claims, T> claimExtractor
+    ) throws RuntimeException {
         Claims claims = findAllClaims(jwt);
         return claimExtractor.apply(claims);
     }
 
-    private boolean isJwtExpired(String jwt) {
+    public boolean isJwtExpired(String jwt) throws RuntimeException {
         return findClaim(jwt, Claims::getExpiration).before(new Date());
     }   
 
-    public String findUsername(String jwt) {
+    public String findUsername(String jwt) throws RuntimeException {
         return findClaim(jwt, Claims::getSubject);
     }
     

@@ -4,7 +4,7 @@ import { Conversation } from "../api/entities/Conversation";
 import { sendMessageToConversation } from "../api/fetchRoutines/conversationAPI";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { FetchDataResponse, SupportedAcceptType, createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
+import { FetchDataResponse, createEndPointUrl } from "../api/fetchRoutines/fetchAPI";
 import { AppContext, openModal } from "../AppContext";
 import { ModalActionResultTemplate } from "./ModalActionResultTemplate";
 import { PrimaryButton } from "./PrimaryButton";
@@ -38,6 +38,9 @@ function ChatSocketSubscriber(props: {
             }
             if (msg) props.onNewMessage(msg);
         },
+        {
+            'login': `${getJwt()}`
+        }
     );
 
     return null;
@@ -129,7 +132,7 @@ export function ChatContainer(props: ChatContainerProps){
                 conversation &&
                 <div className="w-full flex justify-between items-center">
                     <StompSessionProvider
-                        url={createEndPointUrl(`/ws-message`)}
+                        url={createEndPointUrl(`/ws-message`, { useSocket: true })}
                     >
                         <ChatSocketSubscriber
                             subscriptionUrl={`/conversation/ws/${conversation.id}`}
