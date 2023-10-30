@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.server.config.WebSocketConfiguration;
+import com.backend.server.config.ConversationSocketConfiguration;
 import com.backend.server.controllers.requests.MessageDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.utils.ControllerResponseUtils;
@@ -79,7 +79,7 @@ public class ConversationController {
             );
         if (response.getStatusCode() == HttpStatus.OK) {
             messagingTemplate.convertAndSend(
-                WebSocketConfiguration.CHAT_BROKER_PREFIX + conversationId.toString(), 
+                ConversationSocketConfiguration.CHAT_BROKER_PREFIX + conversationId.toString(), 
                 response.getBody()
             );
         }

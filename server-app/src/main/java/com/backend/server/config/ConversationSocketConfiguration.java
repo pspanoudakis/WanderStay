@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
-public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+public class ConversationSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
     public static final String CHAT_BROKER_PREFIX = "/conversation/ws/";
 
