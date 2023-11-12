@@ -9,6 +9,7 @@ import com.backend.server.controllers.requests.MessageDto;
 import com.backend.server.controllers.responses.ApiResponseDto;
 import com.backend.server.controllers.responses.ConversationDto;
 import com.backend.server.controllers.responses.ConversationPreviewDto;
+import com.backend.server.controllers.responses.MessageResponseDto;
 import com.backend.server.entities.messages.Conversation;
 import com.backend.server.entities.messages.Message;
 import com.backend.server.entities.properties.Property;
@@ -54,19 +55,6 @@ class ConversationResponseDto extends ApiResponseDto {
     
 }
 
-@Getter
-@Setter
-class MessageResponseDto extends ApiResponseDto {
-
-    private Message message;
-
-    public MessageResponseDto(Message m) {
-        super(true);
-        message = m;
-    }
-    
-}
-
 @Service
 @RequiredArgsConstructor
 public class ConversationService {
@@ -86,26 +74,30 @@ public class ConversationService {
         );
     }
 
-    private boolean isConversationPropertyHost(User user, Conversation conversation) {
+    private boolean isConversationPropertyHost(String username, Conversation conversation) {
         return (
-            conversation.getProperty().getHost().getUser().getUsername().equals(
-                user.getUsername()
-            )
+            conversation.getProperty().getHost().getUser().getUsername().equals(username)
         );
     }
 
-    private void ensureRelatedOrElseThrow(User user, Conversation conversation)
+    private void ensureRelatedOrElseThrow(String username, Conversation conversation)
     throws BadRequestException {
         if (
-            !isConversationPropertyHost(user, conversation) &&
-            !conversation.getGuestUser().getUser().getUsername().equals(
-                user.getUsername()
-            )
+            !isConversationPropertyHost(username, conversation) &&
+            !conversation.getGuestUser().getUser().getUsername().equals(username)
         ) {
             throw new BadRequestException(
                 "The specified User is not related to the specified Conversation."
             );
         }
+    }
+    
+    public void ensureRelatedOrElseThrow(String username, Long conversationId)
+    throws BadRequestException {
+        ensureRelatedOrElseThrow(
+            username,
+            getConversationByIdOrElseThrow(conversationId)
+        );
     }
 
     @Transactional
@@ -137,7 +129,7 @@ public class ConversationService {
         Host host = hostService.getHostOrElseThrow(thisHostUser);        
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
 
-        if (!isConversationPropertyHost(host.getUser(), conversation)) {
+        if (!isConversationPropertyHost(host.getUser().getUsername(), conversation)) {
             throw new BadRequestException(
                 "The specified Host is not related to the specified Conversation."
             );
@@ -147,11 +139,11 @@ public class ConversationService {
     }
 
     @Transactional
-    public ApiResponseDto sendMessage(
+    public MessageResponseDto sendMessage(
         User thisUser, Long conversationId, MessageDto request
     ) throws BadRequestException {
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
-        ensureRelatedOrElseThrow(thisUser, conversation);
+        ensureRelatedOrElseThrow(thisUser.getUsername(), conversation);
 
         Message message = (
             Message.builder()
@@ -174,7 +166,7 @@ public class ConversationService {
     ) throws BadRequestException {
         Host host = hostService.getHostOrElseThrow(thisHostUser);
         Conversation conversation = getConversationByIdOrElseThrow(conversationId);
-        if (!isConversationPropertyHost(host.getUser(), conversation)) {
+        if (!isConversationPropertyHost(host.getUser().getUsername(), conversation)) {
             throw new BadRequestException(
                 "The specified Host is not related to the specified Conversation."
             );

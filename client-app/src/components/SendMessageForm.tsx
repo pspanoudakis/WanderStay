@@ -24,7 +24,7 @@ export function SendMessageForm(props:SendMessageProps){
                 maxRows={4} 
                 placeholder="Γράψτε ένα μήνυμα..." 
                 className='flex w-full border-2 rounded-sm p-2 max-h-16 min-h-16 outline-none resize-none'
-                onChange={(e) => {e.target.value === "" ? "Γράψτε ένα μήνυμα..." : setMessageText(e.target.value)}}
+                onChange={e => setMessageText(e.target.value)}
                 value={messageText}
             />
             <button
