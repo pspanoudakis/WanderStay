@@ -34,16 +34,14 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:8080/admin/host/host1/properties?numPage=0&pageSize=4",
+					"raw": "https://localhost:8080/host/properties?numPage=0&pageSize=4",
 					"protocol": "https",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"admin",
 						"host",
-						"host1",
 						"properties"
 					],
 					"query": [
@@ -171,7 +169,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://localhost:8080/host/reservations?numPage=0&pageSize=4",
+					"raw": "https://localhost:8080/host/upcomingReservations?numPage=0&pageSize=4",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -179,7 +177,7 @@
 					"port": "8080",
 					"path": [
 						"host",
-						"reservations"
+						"upcomingReservations"
 					],
 					"query": [
 						{
